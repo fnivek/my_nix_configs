@@ -8,7 +8,6 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      <home-manager/nixos>
     ];
 
   # Bootloader.
@@ -97,26 +96,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       google-chrome
-    #  thunderbird
     ];
-  };
-  home-manager.users.kdfrench = { pkgs, ... }: {
-    home.packages = [ pkgs.obsidian pkgs.vim ];
-    programs.bash.enable = true;
-    programs.vscode = {
-      enable = true;
-      extensions = with pkgs.vscode-extensions; [
-        vscodevim.vim
-        bbenoist.nix
-      ];
-    };
-    
-    nixpkgs.config.allowUnfree = true;
-    nixpkgs.config.permittedInsecurePackages = [
-      "electron-25.9.0"
-    ];
-
-    home.stateVersion = "23.11";
   };
 
   # Allow unfree packages
