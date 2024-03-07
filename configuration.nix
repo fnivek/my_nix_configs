@@ -96,6 +96,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       google-chrome
+      git
     ];
   };
 
