@@ -94,6 +94,18 @@
     usbutils # lsusb
   ];
 
+  programs.helix = {
+    enable = true;
+    defaultEditor = true;
+    settings = {
+      theme = "catppuccin_mocha";
+      editor = {
+        line-number = "relative";
+        lsp.display-messages = true;
+      };
+    };
+  };
+
   # basic configuration of git, please change to your own
   programs.git = {
     enable = true;
