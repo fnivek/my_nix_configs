@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, unstable, ... }:
 {
   # TODO please change the username & home directory to your own
   home.username = "kdfrench";
@@ -27,6 +27,9 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
+    # Notes
+    unstable.pkgs.obsidian
+
     # here is some command line tools I use frequently
     # feel free to add your own or remove some of them
 
