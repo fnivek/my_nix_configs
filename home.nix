@@ -1,4 +1,4 @@
-{ config, pkgs, unstable, ... }:
+{ config, pkgs, inputs, unstable, ... }:
 {
   # TODO please change the username & home directory to your own
   home.username = "kdfrench";
@@ -151,19 +151,8 @@
     };
   };
 
-  # alacritty - a cross-platform, GPU-accelerated terminal emulator
-  programs.alacritty = {
+  programs.kitty = {
     enable = true;
-    # custom settings
-    settings = {
-      env.TERM = "xterm-256color";
-      font = {
-        size = 12;
-        draw_bold_text_with_bright_colors = true;
-      };
-      scrolling.multiplier = 5;
-      selection.save_to_clipboard = true;
-    };
   };
 
   programs.bash = {
@@ -189,6 +178,50 @@
   programs.zoxide = {
     enable = true;
     enableNushellIntegration = true;
+  };
+
+  wayland.windowManager.hyprland = {
+    enable = true;
+    # package = pkgs.hyprland;
+    # package = inputs.hyprland.packages.hyprland;
+    # xwayland.enable = true;
+    # systemd.enable = true;
+    enableNvidiaPatches = true;
+    # plugins = [
+    #   inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
+    # ];
+
+    settings = {
+      "$mod" = "SUPER";
+      bind = [
+        # Launch programs
+        "$mod, Return, exec, kitty"
+        # Change window focus
+        "$mod, j, movefocus, d"
+        "$mod, k, movefocus, u"
+        "$mod, h, movefocus, l"
+        "$mod, l, movefocus, r"
+        # Move window
+        "$mod SHIFT, j, movewindow, d"
+        "$mod SHIFT, k, movewindow, u"
+        "$mod SHIFT, h, movewindow, l"
+        "$mod SHIFT, l, movewindow, r"
+      ]
+      ++ (
+        # Workspace motion
+        builtins.concatLists (builtins.genList (
+          x: let
+            ws = let
+              c = (x + 1) / 10;
+            in
+              builtins.toString (x + 1 - (c * 10));
+            in [
+              "$mod, ${ws}, workspace, ${toString (x + 1)}"
+              "$mod SHIFT, ${ws}, movetoworkspacesilent, ${toString (x + 1)}"
+            ]
+        ) 10)
+      );
+    };
   };
 
   # This value determines the home Manager release that your

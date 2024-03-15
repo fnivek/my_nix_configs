@@ -6,6 +6,11 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
   outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, ... }:
@@ -21,6 +26,7 @@
     nixosConfigurations = {
       hagrid = nixpkgs.lib.nixosSystem {
         inherit system;
+        specialArgs = {inherit inputs; };
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
@@ -31,7 +37,7 @@
 
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix
-            home-manager.extraSpecialArgs = { inherit unstable; };
+            home-manager.extraSpecialArgs = { inherit unstable; inherit inputs; };
           }
         ];
       };
