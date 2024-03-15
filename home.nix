@@ -196,16 +196,14 @@
       bind = [
         # Launch programs
         "$mod, Return, exec, kitty"
-        # Change window focus
-        "$mod, j, movefocus, d"
-        "$mod, k, movefocus, u"
-        "$mod, h, movefocus, l"
-        "$mod, l, movefocus, r"
-        # Move window
-        "$mod SHIFT, j, movewindow, d"
-        "$mod SHIFT, k, movewindow, u"
-        "$mod SHIFT, h, movewindow, l"
-        "$mod SHIFT, l, movewindow, r"
+        # Fullscreen
+        "$mod, f, fullscreen, 1"
+        "$mod SHIFT, f, fullscreen, 0"
+        # Float
+        "$mod, Space, togglefloating"
+        # Kill
+        "$mod, Q, killactive"
+        #
       ]
       ++ (
         # Workspace motion
@@ -220,6 +218,25 @@
               "$mod SHIFT, ${ws}, movetoworkspacesilent, ${toString (x + 1)}"
             ]
         ) 10)
+      )
+      ++ (
+        # Motions
+        builtins.concatMap (x:
+          [
+            "$mod, ${x.key}, movefocus, ${x.dir}"
+            "$mod SHIFT, ${x.key}, movewindow, ${x.dir}"
+          ]
+        )
+        [
+          { key = "j"; dir = "d"; }
+          { key = "k"; dir = "u"; }
+          { key = "h"; dir = "l"; }
+          { key = "l"; dir = "r"; }
+          { key = "down"; dir = "d"; }
+          { key = "up"; dir = "u"; }
+          { key = "left"; dir = "l"; }
+          { key = "right"; dir = "r"; }
+        ]
       );
     };
   };
