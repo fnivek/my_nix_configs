@@ -158,6 +158,7 @@
 
   programs.kitty = {
     enable = true;
+    theme = "Dark Pastel";
   };
 
   programs.bash = {
