@@ -1,18 +1,28 @@
-{ ... }:
+{ inputs, ... }:
 {
   wayland.windowManager.hyprland = {
     enable = true;
-    # package = pkgs.hyprland;
+    package = inputs.hyprland.packages.x86_64-linux.hyprland;
     # package = inputs.hyprland.packages.hyprland;
     # xwayland.enable = true;
     # systemd.enable = true;
-    enableNvidiaPatches = true;
-    # plugins = [
-    #   inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
-    # ];
+    # enableNvidiaPatches = true;
+    plugins = [
+      # inputs.hyprland-plugins.packages."${pkgs.system}".borders-plus-plus
+      inputs.hy3.packages.x86_64-linux.hy3
+    ];
 
     settings = {
+      # Variables.
       "$mod" = "SUPER";
+
+      # General settings.
+      general = {
+        layout = "hy3";
+        resize_on_border = true;
+      };
+
+      # Regular bind.
       bind = [
         # Launch programs
         "$mod, Return, exec, kitty"
@@ -22,9 +32,15 @@
         # Float
         "$mod, Space, togglefloating"
         # Kill
-        "$mod, Q, killactive"
+        "$mod, Q, hy3:killactive"
         # Launcher
         "$mod, D, exec, pkill wofi || wofi --show drun"
+        # Layout
+        "$mod, v, hy3:makegroup, v"
+        "$mod, e, hy3:changegroup, opposite"
+        "$mod, w, hy3:makegroup, tab"
+        "$mod, a, hy3:changefocus, raise"
+        "$mod, c, hy3:changefocus, lower"
       ]
       ++ (
         # Workspace motion
@@ -44,8 +60,8 @@
         # Motions
         builtins.concatMap (x:
           [
-            "$mod, ${x.key}, movefocus, ${x.dir}"
-            "$mod SHIFT, ${x.key}, movewindow, ${x.dir}"
+            "$mod, ${x.key}, hy3:movefocus, ${x.dir}"
+            "$mod SHIFT, ${x.key}, hy3:movewindow, ${x.dir}"
           ]
         )
         [

@@ -11,9 +11,13 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     };
+    hy3 = {
+      url = "github:outfoxxed/hy3";
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
-  outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, ... }:
+  outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, hy3, ... }:
   let
     system = "x86_64-linux";
     nixpkgsConfig = {
