@@ -15,6 +15,8 @@
     settings = {
       # Variables.
       "$mod" = "SUPER";
+      "$hresize" = "20";
+      "$vresize" = "20";
 
       # General settings.
       general = {
@@ -65,16 +67,29 @@
           ]
         )
         [
-          { key = "j"; dir = "d"; }
-          { key = "k"; dir = "u"; }
-          { key = "h"; dir = "l"; }
-          { key = "l"; dir = "r"; }
-          { key = "down"; dir = "d"; }
-          { key = "up"; dir = "u"; }
-          { key = "left"; dir = "l"; }
+          { key = "j";     dir = "d"; }
+          { key = "k";     dir = "u"; }
+          { key = "h";     dir = "l"; }
+          { key = "l";     dir = "r"; }
+          { key = "down";  dir = "d"; }
+          { key = "up";    dir = "u"; }
+          { key = "left";  dir = "l"; }
           { key = "right"; dir = "r"; }
         ]
       );
+
+      # Repeatable binds
+      binde = [
+        # Resize
+        "$mod CTRL, j, resizeactive, 0 -$vresize"
+        "$mod CTRL, k, resizeactive, 0 $vresize"
+        "$mod CTRL, h, resizeactive, -$hresize 0"
+        "$mod CTRL, l, resizeactive, $hresize 0"
+        "$mod CTRL, down, resizeactive, 0 -$vresize"
+        "$mod CTRL, up, resizeactive, 0 $vresize"
+        "$mod CTRL, left, resizeactive, -$hresize 0"
+        "$mod CTRL, right, resizeactive, $hresize 0"
+      ];
     };
   };
 }
