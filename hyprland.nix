@@ -90,6 +90,20 @@
         "$mod CTRL, left, resizeactive, -$hresize 0"
         "$mod CTRL, right, resizeactive, $hresize 0"
       ];
+
+      # Repeatable and works on lockscreen
+      # TODO(Kevin): Figure out why e flag isn't working.
+      #              Note: Does not work as just binde either.
+      bindle = [
+        # Sound
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+      ];
+
+      # Works on lockscreen
+      bindl = [
+        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+      ];
     };
   };
 }
