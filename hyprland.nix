@@ -43,6 +43,8 @@
         "$mod, w, hy3:makegroup, tab"
         "$mod, a, hy3:changefocus, raise"
         "$mod, c, hy3:changefocus, lower"
+        # System control
+        "$mod, z, exec, hyprlock"
       ]
       ++ (
         # Workspace motion
