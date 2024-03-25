@@ -15,9 +15,12 @@
       url = "github:outfoxxed/hy3";
       inputs.hyprland.follows = "hyprland";
     };
+    hyprlock = {
+      url = "github:hyprwm/hyprlock";
+    };
   };
 
-  outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, hy3, ... }:
+  outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, hy3, hyprlock, ... }:
   let
     system = "x86_64-linux";
     nixpkgsConfig = {
@@ -37,7 +40,12 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.kdfrench = import ./home.nix;
+            home-manager.users.kdfrench = {
+              imports = [
+                ./home.nix
+                hyprlock.homeManagerModules.hyprlock
+              ];
+            };
 
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix
