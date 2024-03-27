@@ -74,6 +74,7 @@
     gawk
     zstd
     gnupg
+    bat
 
     # nix related
     #
