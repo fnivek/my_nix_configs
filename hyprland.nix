@@ -45,6 +45,7 @@
         "$mod, c, hy3:changefocus, lower"
         # System control
         "$mod, z, exec, hyprlock"
+        "$mod SHIFT, z, exec, systemctl suspend"
       ]
       ++ (
         # Workspace motion
