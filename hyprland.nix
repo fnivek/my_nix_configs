@@ -111,6 +111,13 @@
       bindl = [
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
       ];
+
+      # Mouse bind
+      bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:272, movewindow"
+      ];
+
     };
   };
 }
