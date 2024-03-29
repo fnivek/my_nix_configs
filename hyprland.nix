@@ -46,6 +46,10 @@
         # System control
         "$mod, z, exec, hyprlock"
         "$mod SHIFT, z, exec, systemctl suspend"
+        # Special workspaces (scratchpads)
+        "$mod, MINUS, togglespecialworkspace, todo"
+        "$mod SHIFT, MINUS, movetoworkspace, special:todo"
+        "$mod SHIFT, Space, movetoworkspace, e+0"
       ]
       ++ (
         # Workspace motion
