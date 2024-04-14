@@ -1,6 +1,9 @@
 { config, pkgs, inputs, unstable, ... }:
 {
-  imports = [ ./hyprland.nix ];
+  imports = [
+    ./hyprland.nix
+    ./i3.nix
+  ];
 
   # TODO please change the username & home directory to your own
   home.username = "kdfrench";
