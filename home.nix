@@ -3,6 +3,7 @@
   imports = [
     ./hyprland.nix
     ./i3.nix
+    ./i3status-rust.nix
   ];
 
   # TODO please change the username & home directory to your own
@@ -32,6 +33,9 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
+    # Terminal.
+    terminator
+
     # Notes
     unstable.pkgs.obsidian
 
@@ -104,6 +108,9 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
+
+    # Screen capture.
+    shutter
   ];
 
   programs.helix = {
