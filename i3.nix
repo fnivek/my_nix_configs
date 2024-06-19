@@ -38,6 +38,8 @@ let
   base      = "#1e1e2e";
   mantle    = "#181825";
   crust     = "#11111b";
+  # Modes
+  mode_scratchpad = "Tasks (-) term (Return) comms (c) music (m) teams (t) notes (n)";
 in {
   xsession.windowManager.i3 = {
     enable = true;
@@ -103,7 +105,6 @@ in {
         "${mod}+c" = "focus child";
 
         "${mod}+Shift+minus" = "move scratchpad";
-        "${mod}+minus" = "scratchpad show";
 
         "${mod}+1" = "workspace number 1";
         "${mod}+2" = "workspace number 2";
@@ -177,5 +178,18 @@ in {
         }
       ];
     };
+    extraConfig = ''
+      mode "${mode_scratchpad}" {
+        bindsym minus exec --no-startup-id i3-msg 'workspace 1:1:<span color="#a6e3a1">Com</span>', mode default
+        bindsym c exec --no-startup-id i3-msg 'workspace 2:2:<span color="#a6e3a1">Com</span>', mode default
+        bindsym t exec --no-startup-id i3-msg 'workspace 3:3:<span color="#a6e3a1">Com</span>', mode default
+        bindsym m exec --no-startup-id i3-msg 'workspace 4:4:<span color="#a6e3a1">Com</span>', mode default
+        bindsym Return [instance="terminator"] scratchpad show, mode default
+        bindsym n [instance="obsidian"] scratchpad show, mode default
+        bindsym Escape mode "default"
+      }
+      bindsym ${mod}+minus mode "${mode_scratchpad}"
+      bindsym ${mod}+n [instance="obsidian"] scratchpad show
+      '';
   };
 }
