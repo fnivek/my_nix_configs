@@ -18,6 +18,9 @@
     hyprlock = {
       url = "github:hyprwm/hyprlock";
     };
+    i3_scripts = {
+      url = "./i3_scripts";
+    };
   };
 
   outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, hy3, hyprlock, ... }:

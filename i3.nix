@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 let
   mod = "Mod4";
   dirs = [
@@ -38,6 +38,9 @@ let
   base      = "#1e1e2e";
   mantle    = "#181825";
   crust     = "#11111b";
+  # Scripts
+  # TODO(Kevin): Is this really the best way to get this?
+  workspace_script = inputs.i3_scripts.packages.x86_64-linux.default.out + "/bin/workspace";
   # Modes
   mode_scratchpad = "Tasks (-) term (Return) comms (c) music (m) teams (t) notes (n)";
 in {
@@ -106,38 +109,6 @@ in {
 
         "${mod}+Shift+minus" = "move scratchpad";
 
-        "${mod}+1" = "workspace number 1";
-        "${mod}+2" = "workspace number 2";
-        "${mod}+3" = "workspace number 3";
-        "${mod}+4" = "workspace number 4";
-        "${mod}+5" = "workspace number 5";
-        "${mod}+6" = "workspace number 6";
-        "${mod}+7" = "workspace number 7";
-        "${mod}+8" = "workspace number 8";
-        "${mod}+9" = "workspace number 9";
-        "${mod}+0" = "workspace number 10";
-
-        "${mod}+Shift+1" =
-          "move container to workspace number 1";
-        "${mod}+Shift+2" =
-          "move container to workspace number 2";
-        "${mod}+Shift+3" =
-          "move container to workspace number 3";
-        "${mod}+Shift+4" =
-          "move container to workspace number 4";
-        "${mod}+Shift+5" =
-          "move container to workspace number 5";
-        "${mod}+Shift+6" =
-          "move container to workspace number 6";
-        "${mod}+Shift+7" =
-          "move container to workspace number 7";
-        "${mod}+Shift+8" =
-          "move container to workspace number 8";
-        "${mod}+Shift+9" =
-          "move container to workspace number 9";
-        "${mod}+Shift+0" =
-          "move container to workspace number 10";
-
         "${mod}+Shift+c" = "reload";
         "${mod}+Shift+r" = "restart";
         "${mod}+Shift+e" =
@@ -167,11 +138,11 @@ in {
             separator = "${peach}";
             focusedStatusline = "${text}";
             focusedSeparator  = "${base}";
-            activeWorkspace   = {border = "${surface0}"; background = "${surface1}"; text = "${blue}";};
-            focusedWorkspace  = {border = "${surface0}"; background = "${surface1}"; text = "${green}";};
+            activeWorkspace   = {border = "${surface0}"; background = "${surface1}"; text = "${green}";};
+            focusedWorkspace  = {border = "${surface0}"; background = "${surface1}"; text = "${blue}";};
             inactiveWorkspace = {border = "${surface0}"; background = "${base}"; text = "${surface1}";};
             urgentWorkspace   = {border = "${red}"; background = "${peach}"; text = "${surface0}";};
-            bindingMode       = {border = "${surface0}"; background = "${surface1}"; text = "${blue}";};
+            bindingMode       = {border = "${surface0}"; background = "${surface1}"; text = "${green}";};
           };
           position = "top";
           statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ${./i3status-rust.toml}";
@@ -182,16 +153,53 @@ in {
     };
     extraConfig = ''
       mode "${mode_scratchpad}" {
-        bindsym minus exec --no-startup-id i3-msg 'workspace 1:1:<span color="#a6e3a1">Com</span>', mode default
-        bindsym c exec --no-startup-id i3-msg 'workspace 2:2:<span color="#a6e3a1">Com</span>', mode default
-        bindsym t exec --no-startup-id i3-msg 'workspace 3:3:<span color="#a6e3a1">Com</span>', mode default
-        bindsym m exec --no-startup-id i3-msg 'workspace 4:4:<span color="#a6e3a1">Com</span>', mode default
+        bindsym minus exec --no-startup-id i3-msg 'workspace 1:1:Com', mode default
+        bindsym c exec --no-startup-id i3-msg 'workspace 2:2:Com', mode default
+        bindsym t exec --no-startup-id i3-msg 'workspace 3:3:Com', mode default
+        bindsym m exec --no-startup-id i3-msg 'workspace 4:4:Com', mode default
         bindsym Return [instance="terminator"] scratchpad show, mode default
         bindsym n [instance="obsidian"] scratchpad show, mode default
         bindsym Escape mode "default"
       }
       bindsym ${mod}+minus mode "${mode_scratchpad}"
       bindsym ${mod}+n [instance="obsidian"] scratchpad show
+      bindsym ${mod}+1 exec --no-startup-id "${workspace_script} 1"
+      bindsym ${mod}+2 exec --no-startup-id "${workspace_script} 2"
+      bindsym ${mod}+3 exec --no-startup-id "${workspace_script} 3"
+      bindsym ${mod}+4 exec --no-startup-id "${workspace_script} 4"
+      bindsym ${mod}+5 exec --no-startup-id "${workspace_script} 5"
+      bindsym ${mod}+6 exec --no-startup-id "${workspace_script} 6"
+      bindsym ${mod}+7 exec --no-startup-id "${workspace_script} 7"
+      bindsym ${mod}+8 exec --no-startup-id "${workspace_script} 8"
+      bindsym ${mod}+9 exec --no-startup-id "${workspace_script} 9"
+      bindsym ${mod}+0 exec --no-startup-id "${workspace_script} 10"
+      bindsym Control+Mod1+Left exec --no-startup-id "${workspace_script} prev"
+      bindsym Control+Mod1+Right exec --no-startup-id "${workspace_script} next"
+      bindsym Control+Mod1+Shift+Left exec --no-startup-id "${workspace_script} -m -f prev"
+      bindsym Control+Mod1+Shift+Right exec --no-startup-id "${workspace_script} -m -f next"
+      bindsym Control+Mod1+Up exec --no-startup-id "${workspace_script} up"
+      bindsym Control+Mod1+Down exec --no-startup-id "${workspace_script} down"
+      bindsym Control+Mod1+Shift+Up exec --no-startup-id "${workspace_script} -m -f up"
+      bindsym Control+Mod1+Shift+Down exec --no-startup-id "${workspace_script} -m -f down"
+      bindsym Control+Mod1+h exec --no-startup-id "${workspace_script} prev"
+      bindsym Control+Mod1+l exec --no-startup-id "${workspace_script} next"
+      bindsym Control+Mod1+Shift+h exec --no-startup-id "${workspace_script} -m -f prev"
+      bindsym Control+Mod1+Shift+l exec --no-startup-id "${workspace_script} -m -f next"
+      bindsym Control+Mod1+k exec --no-startup-id "${workspace_script} up"
+      bindsym Control+Mod1+j exec --no-startup-id "${workspace_script} down"
+      bindsym Control+Mod1+Shift+k exec --no-startup-id "${workspace_script} -m -f up"
+      bindsym Control+Mod1+Shift+j exec --no-startup-id "${workspace_script} -m -f down"
+
+      bindsym ${mod}+Shift+1 exec --no-startup-id "${workspace_script} -m 1"
+      bindsym ${mod}+Shift+2 exec --no-startup-id "${workspace_script} -m 2"
+      bindsym ${mod}+Shift+3 exec --no-startup-id "${workspace_script} -m 3"
+      bindsym ${mod}+Shift+4 exec --no-startup-id "${workspace_script} -m 4"
+      bindsym ${mod}+Shift+5 exec --no-startup-id "${workspace_script} -m 5"
+      bindsym ${mod}+Shift+6 exec --no-startup-id "${workspace_script} -m 6"
+      bindsym ${mod}+Shift+7 exec --no-startup-id "${workspace_script} -m 7"
+      bindsym ${mod}+Shift+8 exec --no-startup-id "${workspace_script} -m 8"
+      bindsym ${mod}+Shift+9 exec --no-startup-id "${workspace_script} -m 9"
+      bindsym ${mod}+Shift+0 exec --no-startup-id "${workspace_script} -m 10"
       '';
   };
 }
