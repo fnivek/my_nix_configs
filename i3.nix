@@ -43,6 +43,9 @@ let
   workspace_script = inputs.i3_scripts.packages.x86_64-linux.default.out + "/bin/workspace";
   # Modes
   mode_scratchpad = "Tasks (-) term (Return) comms (c) music (m) teams (t) notes (n)";
+  mode_system = "System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown";
+  # Lock
+  lock_cmd = "${pkgs.i3lock}/bin/i3lock -c 222222";
 in {
   xsession.windowManager.i3 = {
     enable = true;
@@ -128,7 +131,7 @@ in {
       {
         "${mod}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run";
         "${mod}+x" = "exec sh -c '${pkgs.maim}/bin/maim -s | xclip -selection clipboard -t image/png'";
-        "${mod}+Shift+x" = "exec sh -c '${pkgs.i3lock}/bin/i3lock -c 222222 & sleep 5 && xset dpms force of'";
+        "${mod}+Shift+x" = "exec sh -c '${lock_cmd}'";
       });
 
       bars = [
@@ -164,6 +167,21 @@ in {
         bindsym Escape mode "default"
       }
       bindsym ${mod}+minus mode "${mode_scratchpad}"
+
+      mode "${mode_system}" {
+          bindsym l exec --no-startup-id sh -c '${lock_cmd}', mode "default";
+          bindsym e exec --no-startup-id i3-msg exit, mode "default"
+          bindsym s exec --no-startup-id sh -c '${lock_cmd} && systemctl suspend', mode "default"
+          bindsym h exec --no-startup-id sh -c '${lock_cmd} && systemctl hibernate', mode "default"
+          bindsym r exec --no-startup-id systemctl reboot, mode "default"
+          bindsym Shift+s exec --no-startup-id systemctl poweroff, mode "default"
+
+          # Back to normal: Enter or Escape
+          bindsym Return mode "default"
+          bindsym Escape mode "default"
+      }
+      bindsym ${mod}+z mode "${mode_system}"
+
       bindsym ${mod}+n [instance="obsidian"] scratchpad show
       bindsym ${mod}+1 exec --no-startup-id "${workspace_script} 1"
       bindsym ${mod}+2 exec --no-startup-id "${workspace_script} 2"
