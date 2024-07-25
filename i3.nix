@@ -220,6 +220,9 @@ in {
       bindsym ${mod}+Shift+8 exec --no-startup-id "${workspace_script} -m 8"
       bindsym ${mod}+Shift+9 exec --no-startup-id "${workspace_script} -m 9"
       bindsym ${mod}+Shift+0 exec --no-startup-id "${workspace_script} -m 10"
+
+      gaps inner 5
+      smart_gaps on
       '';
   };
 }
