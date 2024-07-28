@@ -6,24 +6,10 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    hyprland.url = "github:hyprwm/Hyprland";
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    };
-    hy3 = {
-      url = "github:outfoxxed/hy3";
-      inputs.hyprland.follows = "hyprland";
-    };
-    hyprlock = {
-      url = "github:hyprwm/hyprlock";
-    };
-    i3_scripts = {
-      url = "./i3_scripts";
-    };
+    i3_scripts.url = "./i3_scripts";
   };
 
-  outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, hy3, hyprlock, ... }:
+  outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, i3_scripts, ... }:
   let
     system = "x86_64-linux";
     nixpkgsConfig = {
@@ -46,7 +32,6 @@
             home-manager.users.kdfrench = {
               imports = [
                 ./home.nix
-                hyprlock.homeManagerModules.hyprlock
               ];
             };
 

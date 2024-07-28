@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, i3_scripts, inputs, ... }:
 let
   mod = "Mod4";
   dirs = [

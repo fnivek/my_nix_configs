@@ -193,8 +193,6 @@
   #   # Add missing dynamic libs for unpacked progs here not in environment.systemPackages
   # ];
 
-  programs.hyprland.enable = true;
-  programs.hyprland.package = inputs.hyprland.packages."${pkgs.system}".hyprland;
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSORS = "1";
     NIXOS_OZONE_WL = "1";

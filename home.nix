@@ -1,7 +1,6 @@
-{ config, pkgs, inputs, unstable, ... }:
+{ config, pkgs, inputs, unstable, i3_scripts, ... }:
 {
   imports = [
-    ./hyprland.nix
     ./i3.nix
   ];
 
@@ -191,10 +190,6 @@
   programs.zoxide = {
     enable = true;
     enableNushellIntegration = true;
-  };
-
-  programs.hyprlock = {
-    enable = true;
   };
 
   # This value determines the home Manager release that your
