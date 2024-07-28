@@ -1,26 +1,11 @@
 #!/usr/bin/env python3
 
-import argparse
+import click
 import i3ipc
 
 # TODO(Kevin): Get these files from nix or make in /var /etc somewhere.
 workspace_file = "/home/kdfrench/.config/i3/resources/workspaces.txt"
 last_pose_in_workspace_file = "/home/kdfrench/.config/i3/resources/last_pose_in_workspace.txt"
-
-
-def parse_args():
-    """
-    Parse input arguments
-    """
-    parser = argparse.ArgumentParser(description='Change the workspace')
-
-    # Main arguments, used for paper's experiments
-    parser.add_argument('workspace', type=str, help='name of the workspace to goto')
-    parser.add_argument('-m', '--move', action='store_true', help='move the focus window')
-    parser.add_argument('-f', '--follow', action='store_true',
-                        help='if moving then follow the moved window')
-
-    return parser.parse_args()
 
 
 def get_ws_second_key(ws):
@@ -51,8 +36,19 @@ def write_last_workspace(last_workspace):
         for key, value in last_workspace.items():
             file.write(f'{key}:{value}\n')
 
+@click.command()
+@click.argument('workspace', type=str)
+@click.option('-m', '--move', is_flag=True, help='Move the focus window')
+@click.option('-f', '--follow', is_flag=True,
+                        help='If moving then follow the moved window')
+def main(workspace, move, follow):
+    """WORKSPACE to go to.
+    
+    WORKSPACE [up, down - move to the next/prev workspace set |
+    next, prev - move to the next/prev number in current workspace set |
+    #]
+    """
 
-if __name__ == '__main__':
     # I3 interface
     i3 = i3ipc.Connection()
 
@@ -75,18 +71,15 @@ if __name__ == '__main__':
     current_named_workspaces = list(filter(lambda ws: get_ws_third_key(ws) == current_ws_name, workspaces))
     index = current_named_workspaces.index(current_workspace)
 
-    # Pars args
-    args = parse_args()
-
     # Handle previous
     to_name = current_workspace.name
-    if args.workspace == 'prev':
+    if workspace == 'prev':
         to_name = current_named_workspaces[index - 1].name
     # Handle next
-    elif args.workspace == 'next':
+    elif workspace == 'next':
         to_name = current_named_workspaces[(index + 1) % len(current_named_workspaces)].name
     # Handle up
-    if args.workspace == 'up':
+    if workspace == 'up':
         index = (name_index - 1) % len(named_workspaces)
         name = named_workspaces[index]
         try:
@@ -95,7 +88,7 @@ if __name__ == '__main__':
             key2 = get_ws_second_key(current_workspace)
         to_name = '{}:{}:{}'.format(index * offset + key2, key2, name)
     # Handle down
-    if args.workspace == 'down':
+    if workspace == 'down':
         index = (name_index + 1) % len(named_workspaces)
         name = named_workspaces[index]
         try:
@@ -106,7 +99,7 @@ if __name__ == '__main__':
     # Handle number
     else:
         try:
-            num = int(args.workspace)
+            num = int(workspace)
             to_name = '{}:{}:{}'.format(name_index * offset + num,
                                         num,
                                         current_ws_name)
@@ -119,10 +112,14 @@ if __name__ == '__main__':
     write_last_workspace(last_workspace)
 
     # Move
-    if args.move:
+    if move:
         i3.command('move container to workspace {}'.format(to_name))
-        if args.follow:
+        if follow:
             i3.command('workspace {}'.format(to_name))
     else:
         # Switch workspace
         i3.command('workspace {}'.format(to_name))
+
+
+if __name__ == '__main__':
+    main()
