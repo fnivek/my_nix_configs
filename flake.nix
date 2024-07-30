@@ -6,7 +6,7 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    i3_scripts.url = "./i3_scripts";
+    i3_scripts.url = "github:fnivek/i3_scripts";
   };
 
   outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, i3_scripts, ... }:
