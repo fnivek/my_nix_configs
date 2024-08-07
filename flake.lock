@@ -45,11 +45,11 @@
         "poetry2nix": "poetry2nix"
       },
       "locked": {
-        "lastModified": 1722311684,
-        "narHash": "sha256-qsFt3ukRyIHIrS1TNxP0elvPSaHQDiWGm4XEd/h3hz8=",
+        "lastModified": 1723002343,
+        "narHash": "sha256-i4AuQVEduswfpT1fiol8J6DrPxdQGpv0di0j920YL38=",
         "owner": "fnivek",
         "repo": "i3_scripts",
-        "rev": "b623aee7be08e9fbb8e703d2716f3c74b2f3090e",
+        "rev": "39afdad9c6d2d586408a94544dd7530ff48960bd",
         "type": "github"
       },
       "original": {

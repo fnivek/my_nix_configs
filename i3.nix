@@ -41,6 +41,10 @@ let
   # Scripts
   # TODO(Kevin): Is this really the best way to get this?
   workspace_script = inputs.i3_scripts.packages.x86_64-linux.default.out + "/bin/workspace";
+  focus_next = inputs.i3_scripts.packages.x86_64-linux.default.out + "/bin/focus_next";
+  focus_last = inputs.i3_scripts.packages.x86_64-linux.default.out + "/bin/focus_last";
+  focus_window = inputs.i3_scripts.packages.x86_64-linux.default.out + "/bin/focus_window";
+  focus_history_server_launch = inputs.i3_scripts.packages.x86_64-linux.focus_history_server_launch.out + "/bin/focus_history_server_launch";
   # Modes
   mode_scratchpad = "Tasks (-) term (Return) comms (c) music (m) teams (t) notes (n)";
   mode_system = "System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown";
@@ -120,6 +124,12 @@ in {
         "${mod}+r" = "mode resize";
 
         "${mod}+Return" = "exec terminator";
+
+        # vim style workspace history
+        "${mod}+i" = "exec ${focus_next}";
+        "${mod}+o" = "exec ${focus_last}";
+        # Jump to any window
+        "${mod}+p" = "exec ${focus_window}";
       }
       //
       (builtins.listToAttrs (
@@ -242,6 +252,8 @@ in {
 
       gaps inner 5
       smart_gaps on
+
+      exec_always --no-startup-id "${focus_history_server_launch}"
       '';
   };
 }
