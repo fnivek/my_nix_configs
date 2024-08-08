@@ -45,6 +45,7 @@ let
   focus_last = inputs.i3_scripts.packages.x86_64-linux.default.out + "/bin/focus_last";
   focus_window = inputs.i3_scripts.packages.x86_64-linux.default.out + "/bin/focus_window";
   focus_history_server_launch = inputs.i3_scripts.packages.x86_64-linux.focus_history_server_launch.out + "/bin/focus_history_server_launch";
+  toggle_touchpad = inputs.i3_scripts.packages.x86_64-linux.toggleTouchpad.out + "/bin/toggle-touchpad";
   # Modes
   mode_scratchpad = "Tasks (-) term (Return) comms (c) music (m) teams (t) notes (n)";
   mode_system = "System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown";
@@ -130,6 +131,10 @@ in {
         "${mod}+o" = "exec ${focus_last}";
         # Jump to any window
         "${mod}+p" = "exec ${focus_window}";
+
+        # Touchpad controls
+        "XF86TouchpadToggle" = "exec ${toggle_touchpad}";
+        "${mod}+t" = "exec --no-startup-id ${toggle_touchpad}";
       }
       //
       (builtins.listToAttrs (
@@ -254,6 +259,7 @@ in {
       smart_gaps on
 
       exec_always --no-startup-id "${focus_history_server_launch}"
+      exec --no-startup-id "${toggle_touchpad}"
       '';
   };
 }
