@@ -2,6 +2,7 @@
 {
   imports = [
     ./i3.nix
+    ./i3status-rust.nix
   ];
 
   # TODO please change the username & home directory to your own

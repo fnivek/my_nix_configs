@@ -184,7 +184,7 @@ in {
             bindingMode       = {border = "${surface0}"; background = "${surface1}"; text = "${green}";};
           };
           position = "top";
-          statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ${./i3status-rust.toml}";
+          statusCommand = "i3status-rs config-top.toml";
           trayOutput = "primary";
           workspaceNumbers = false;
         }
