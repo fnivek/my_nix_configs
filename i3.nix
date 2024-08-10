@@ -46,9 +46,11 @@ let
   focus_window = inputs.i3_scripts.packages.x86_64-linux.default.out + "/bin/focus_window";
   focus_history_server_launch = inputs.i3_scripts.packages.x86_64-linux.focus_history_server_launch.out + "/bin/focus_history_server_launch";
   toggle_touchpad = inputs.i3_scripts.packages.x86_64-linux.toggleTouchpad.out + "/bin/toggle-touchpad";
+  display_script = inputs.i3_scripts.packages.x86_64-linux.toggleDisplays.out + "/bin/toggle-displays";
   # Modes
   mode_scratchpad = "Tasks (-) term (Return) comms (c) music (m) teams (t) notes (n)";
   mode_system = "System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown";
+  mode_display = "Display (t) toggle (a) all (c) clones (i) internal (e) external";
   # Lock
   lock_cmd = "${pkgs.i3lock}/bin/i3lock -c 222222";
 in {
@@ -217,6 +219,20 @@ in {
           bindsym Escape mode "default"
       }
       bindsym ${mod}+z mode "${mode_system}"
+
+      # Toggle display mode
+      mode "${mode_display}" {
+          bindsym t exec --no-startup-id "${display_script} toggle", mode default
+          bindsym a exec --no-startup-id "${display_script} all", mode default
+          bindsym c exec --no-startup-id "${display_script} clones", mode default
+          bindsym i exec --no-startup-id "${display_script} internal", mode default
+          bindsym e exec --no-startup-id "${display_script} external", mode default
+
+          # Back to normal: Enter or Escape
+          bindsym Return mode "default"
+          bindsym Escape mode "default"
+      }
+      bindsym ${mod}+Shift+P mode "${mode_display}"
 
       bindsym ${mod}+n [instance="obsidian"] scratchpad show
       bindsym ${mod}+1 exec --no-startup-id "${workspace_script} 1"
