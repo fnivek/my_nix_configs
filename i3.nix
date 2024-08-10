@@ -135,6 +135,8 @@ in {
         # Touchpad controls
         "XF86TouchpadToggle" = "exec ${toggle_touchpad}";
         "${mod}+t" = "exec --no-startup-id ${toggle_touchpad}";
+
+        "Print" = "exec --no-startup-id shutter";
       }
       //
       (builtins.listToAttrs (

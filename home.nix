@@ -107,6 +107,9 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
+
+    # Screen capture.
+    shutter
   ];
 
   programs.helix = {
