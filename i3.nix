@@ -141,6 +141,11 @@ in {
         # Move workspace to left monitor (loops)
         "${mod}+m" = "move workspace to output left";
 
+        # Audio controls
+        "XF86AudioRaiseVolume" = "exec amixer -q -D pipewire sset Master 5%+";
+        "XF86AudioLowerVolume" = "exec amixer -q -D pipewire sset Master 5%-";
+        "XF86AudioMute" = "exec amixer -q -D pipewire sset Master toggle";
+
         "Print" = "exec --no-startup-id shutter";
       }
       //
