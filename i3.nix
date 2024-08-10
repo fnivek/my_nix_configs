@@ -138,6 +138,9 @@ in {
         "XF86TouchpadToggle" = "exec ${toggle_touchpad}";
         "${mod}+t" = "exec --no-startup-id ${toggle_touchpad}";
 
+        # Move workspace to left monitor (loops)
+        "${mod}+m" = "move workspace to output left";
+
         "Print" = "exec --no-startup-id shutter";
       }
       //
