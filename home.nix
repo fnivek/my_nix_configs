@@ -45,15 +45,6 @@
     # Notes
     obsidian
 
-    # Launcher
-    wofi
-
-    # here is some command line tools I use frequently
-    # feel free to add your own or remove some of them
-
-    neofetch
-    nnn # terminal file manager
-
     # archives
     zip
     xz
@@ -68,18 +59,11 @@
     fzf # A command-line fuzzy finder
 
     # networking tools
-    mtr # A network diagnostic tool
-    iperf3
-    dnsutils # `dig` + `nslookup`
-    ldns # replacement of `dig`, it provide the command `drill`
-    aria2 # A lightweight multi-protocol & multi-source command-line download utility
     socat # replacement of openbsd-netcat
     nmap # A utility for network discovery and security auditing
-    ipcalc # it is a calculator for the IPv4/v6 addresses
 
     # misc
     cowsay
-    file
     which
     tree
     gnused
@@ -94,6 +78,7 @@
     # it provides the command `nom` works just like `nix`
     # with more details log output
     nix-output-monitor
+    nixfmt-rfc-style
 
     # productivity
     hugo # static site generator
@@ -190,15 +175,8 @@
 
     # set some aliases, feel free to add more or remove some
     shellAliases = {
-      k = "kubectl";
-      urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
-      urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
       ls = "eza";
     };
-  };
-
-  programs.nushell = {
-    enable = true;
   };
 
   # This value determines the home Manager release that your
