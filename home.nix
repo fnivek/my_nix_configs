@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, unstable, i3_scripts, ... }:
+{ config, pkgs, inputs, i3_scripts, ... }:
 {
   imports = [
     ./i3.nix
@@ -36,7 +36,7 @@
     terminator
 
     # Notes
-    unstable.pkgs.obsidian
+    obsidian
 
     # Launcher
     wofi

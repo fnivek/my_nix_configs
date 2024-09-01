@@ -99,7 +99,9 @@ in {
 
       modifier = mod;
 
-      fonts = ["DejaVu Sans Mono, FontAwesome 6"];
+      fonts = {
+        names = ["DejaVu Sans Mono" "FontAwesome"];
+      };
 
       keybindings = lib.mkDefault ({
         "${mod}+Shift+q" = "kill";
