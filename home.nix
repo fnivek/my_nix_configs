@@ -26,10 +26,10 @@
   # '';
 
   # set cursor size and dpi for 4k monitor
-  xresources.properties = {
-    "Xcursor.size" = 16;
-    "Xft.dpi" = 172;
-  };
+  # xresources.properties = {
+  #   "Xcursor.size" = 16;
+  #   "Xft.dpi" = 172;
+  # };
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
