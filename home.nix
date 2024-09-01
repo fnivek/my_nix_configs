@@ -9,6 +9,7 @@
   imports = [
     ./i3.nix
     ./i3status-rust.nix
+    ./zoxide.nix
   ];
 
   # TODO please change the username & home directory to your own
@@ -183,6 +184,8 @@
     # TODO add your cusotm bashrc here
     bashrcExtra = ''
       export PATH="$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin"
+      source "$(fzf-share)/key-bindings.bash"
+      source "$(fzf-share)/completion.bash"
     '';
 
     # set some aliases, feel free to add more or remove some
@@ -190,16 +193,12 @@
       k = "kubectl";
       urldecode = "python3 -c 'import sys, urllib.parse as ul; print(ul.unquote_plus(sys.stdin.read()))'";
       urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
+      ls = "eza";
     };
   };
 
   programs.nushell = {
     enable = true;
-  };
-
-  programs.zoxide = {
-    enable = true;
-    enableNushellIntegration = true;
   };
 
   # This value determines the home Manager release that your
