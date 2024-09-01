@@ -1,4 +1,10 @@
-{ config, pkgs, inputs, i3_scripts, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  i3_scripts,
+  ...
+}:
 {
   imports = [
     ./i3.nix
@@ -63,12 +69,12 @@
     # networking tools
     mtr # A network diagnostic tool
     iperf3
-    dnsutils  # `dig` + `nslookup`
+    dnsutils # `dig` + `nslookup`
     ldns # replacement of `dig`, it provide the command `drill`
     aria2 # A lightweight multi-protocol & multi-source command-line download utility
     socat # replacement of openbsd-netcat
     nmap # A utility for network discovery and security auditing
-    ipcalc  # it is a calculator for the IPv4/v6 addresses
+    ipcalc # it is a calculator for the IPv4/v6 addresses
 
     # misc
     cowsay
@@ -92,7 +98,7 @@
     hugo # static site generator
     glow # markdown previewer in terminal
 
-    btop  # replacement of htop/nmon
+    btop # replacement of htop/nmon
     iotop # io monitoring
     iftop # network monitoring
 
@@ -130,18 +136,18 @@
     userName = "Kevin French";
     userEmail = "fnivek@gmail.com";
     aliases = {
-        la = "!git config -l | grep alias | cut -c 7-";
+      la = "!git config -l | grep alias | cut -c 7-";
 
-        lg = "!git lg1";
-        lg1-all = "!git lg1 --all";
-        lg2-all = "!git lg2 --all";
-        lg3-all = "!git lg3 --all";
+      lg = "!git lg1";
+      lg1-all = "!git lg1 --all";
+      lg2-all = "!git lg2 --all";
+      lg3-all = "!git lg3 --all";
 
-        lg1 = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
-        lg2 = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'";
-        lg3 = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'";
+      lg1 = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
+      lg2 = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'";
+      lg3 = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'";
 
-        last = "!git lg3-specific -1 HEAD --numstat";
+      last = "!git lg3-specific -1 HEAD --numstat";
     };
     lfs.enable = true;
     extraConfig = {
@@ -160,8 +166,8 @@
       aws.disabled = true;
       gcloud.disabled = true;
       character = {
-         success_symbol = "[➜](bold green)";
-         error_symbol = "[➜](bold red)";
+        success_symbol = "[➜](bold green)";
+        error_symbol = "[➜](bold red)";
       };
     };
   };

@@ -2,14 +2,19 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./fonts.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./fonts.nix
+  ];
 
   # Bootloader.
   boot.loader.grub.enable = true;
@@ -77,8 +82,8 @@
     driSupport32Bit = true;
   };
 
-    # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"]; # or "nvidiaLegacy470 etc.
+  # Load nvidia driver for Xorg and Wayland
+  services.xserver.videoDrivers = [ "nvidia" ]; # or "nvidiaLegacy470 etc.
 
   hardware.nvidia = {
 
@@ -135,7 +140,10 @@
   users.users.kdfrench = {
     isNormalUser = true;
     description = "Kevin French";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
       google-chrome
       git
@@ -196,5 +204,8 @@
     NIXOS_OZONE_WL = "1";
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 }

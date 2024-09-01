@@ -1,59 +1,95 @@
-{ config, lib, pkgs, i3_scripts, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  i3_scripts,
+  inputs,
+  ...
+}:
 let
   mod = "Mod4";
   dirs = [
-    { key = "j";     dir = "down"; }
-    { key = "k";     dir = "up"; }
-    { key = "h";     dir = "left"; }
-    { key = "l";     dir = "right"; }
-    { key = "Down";  dir = "down"; }
-    { key = "Up";    dir = "up"; }
-    { key = "Left";  dir = "left"; }
-    { key = "Right"; dir = "right"; }
+    {
+      key = "j";
+      dir = "down";
+    }
+    {
+      key = "k";
+      dir = "up";
+    }
+    {
+      key = "h";
+      dir = "left";
+    }
+    {
+      key = "l";
+      dir = "right";
+    }
+    {
+      key = "Down";
+      dir = "down";
+    }
+    {
+      key = "Up";
+      dir = "up";
+    }
+    {
+      key = "Left";
+      dir = "left";
+    }
+    {
+      key = "Right";
+      dir = "right";
+    }
   ];
-# Colors (https://github.com/catppuccin/i3/blob/main/themes/catppuccin-mocha)
+  # Colors (https://github.com/catppuccin/i3/blob/main/themes/catppuccin-mocha)
   rosewater = "#f5e0dc";
-  flamingo  = "#f2cdcd";
-  pink      = "#f5c2e7";
-  mauve     = "#cba6f7";
-  red       = "#f38ba8";
-  maroon    = "#eba0ac";
-  peach     = "#fab387";
-  yellow    = "#f9e2af";
-  green     = "#a6e3a1";
-  teal      = "#94e2d5";
-  sky       = "#89dceb";
-  sapphire  = "#74c7ec";
-  blue      = "#89b4fa";
-  lavender  = "#b4befe";
-  text      = "#cdd6f4";
-  subtext1  = "#bac2de";
-  subtext0  = "#a6adc8";
-  overlay2  = "#9399b2";
-  overlay1  = "#7f849c";
-  overlay0  = "#6c7086";
-  surface2  = "#585b70";
-  surface1  = "#45475a";
-  surface0  = "#313244";
-  base      = "#1e1e2e";
-  mantle    = "#181825";
-  crust     = "#11111b";
+  flamingo = "#f2cdcd";
+  pink = "#f5c2e7";
+  mauve = "#cba6f7";
+  red = "#f38ba8";
+  maroon = "#eba0ac";
+  peach = "#fab387";
+  yellow = "#f9e2af";
+  green = "#a6e3a1";
+  teal = "#94e2d5";
+  sky = "#89dceb";
+  sapphire = "#74c7ec";
+  blue = "#89b4fa";
+  lavender = "#b4befe";
+  text = "#cdd6f4";
+  subtext1 = "#bac2de";
+  subtext0 = "#a6adc8";
+  overlay2 = "#9399b2";
+  overlay1 = "#7f849c";
+  overlay0 = "#6c7086";
+  surface2 = "#585b70";
+  surface1 = "#45475a";
+  surface0 = "#313244";
+  base = "#1e1e2e";
+  mantle = "#181825";
+  crust = "#11111b";
   # Scripts
   # TODO(Kevin): Is this really the best way to get this?
   workspace_script = inputs.i3_scripts.packages.x86_64-linux.default.out + "/bin/workspace";
   focus_next = inputs.i3_scripts.packages.x86_64-linux.default.out + "/bin/focus_next";
   focus_last = inputs.i3_scripts.packages.x86_64-linux.default.out + "/bin/focus_last";
   focus_window = inputs.i3_scripts.packages.x86_64-linux.default.out + "/bin/focus_window";
-  focus_history_server_launch = inputs.i3_scripts.packages.x86_64-linux.focus_history_server_launch.out + "/bin/focus_history_server_launch";
-  toggle_touchpad = inputs.i3_scripts.packages.x86_64-linux.toggleTouchpad.out + "/bin/toggle-touchpad";
-  display_script = inputs.i3_scripts.packages.x86_64-linux.toggleDisplays.out + "/bin/toggle-displays";
+  focus_history_server_launch =
+    inputs.i3_scripts.packages.x86_64-linux.focus_history_server_launch.out
+    + "/bin/focus_history_server_launch";
+  toggle_touchpad =
+    inputs.i3_scripts.packages.x86_64-linux.toggleTouchpad.out + "/bin/toggle-touchpad";
+  display_script =
+    inputs.i3_scripts.packages.x86_64-linux.toggleDisplays.out + "/bin/toggle-displays";
   # Modes
   mode_scratchpad = "Tasks (-) term (Return) comms (c) music (m) teams (t) notes (n)";
   mode_system = "System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown";
   mode_display = "Display (t) toggle (a) all (c) clones (i) internal (e) external";
   # Lock
   lock_cmd = "${pkgs.i3lock}/bin/i3lock -c 222222";
-in {
+in
+{
   xsession.windowManager.i3 = {
     enable = true;
     config = {
@@ -100,84 +136,101 @@ in {
       modifier = mod;
 
       fonts = {
-        names = ["DejaVu Sans Mono" "FontAwesome"];
+        names = [
+          "DejaVu Sans Mono"
+          "FontAwesome"
+        ];
       };
 
-      keybindings = lib.mkDefault ({
-        "${mod}+Shift+q" = "kill";
+      keybindings = lib.mkDefault (
+        {
+          "${mod}+Shift+q" = "kill";
 
-        "${mod}+v" = "split v";
-        "${mod}+f" = "fullscreen toggle";
+          "${mod}+v" = "split v";
+          "${mod}+f" = "fullscreen toggle";
 
-        "${mod}+s" = "layout stacking";
-        "${mod}+w" = "layout tabbed";
-        "${mod}+e" = "layout toggle split";
+          "${mod}+s" = "layout stacking";
+          "${mod}+w" = "layout tabbed";
+          "${mod}+e" = "layout toggle split";
 
-        "${mod}+Shift+space" = "floating toggle";
-        "${mod}+space" = "focus mode_toggle";
+          "${mod}+Shift+space" = "floating toggle";
+          "${mod}+space" = "focus mode_toggle";
 
-        "${mod}+a" = "focus parent";
-        "${mod}+c" = "focus child";
+          "${mod}+a" = "focus parent";
+          "${mod}+c" = "focus child";
 
-        "${mod}+Shift+minus" = "move scratchpad";
+          "${mod}+Shift+minus" = "move scratchpad";
 
-        "${mod}+Shift+c" = "reload";
-        "${mod}+Shift+r" = "restart";
-        "${mod}+Shift+e" =
-          "exec i3-nagbar -t warning -m 'Do you want to exit i3?' -b 'Yes' 'i3-msg exit'";
+          "${mod}+Shift+c" = "reload";
+          "${mod}+Shift+r" = "restart";
+          "${mod}+Shift+e" = "exec i3-nagbar -t warning -m 'Do you want to exit i3?' -b 'Yes' 'i3-msg exit'";
 
-        "${mod}+r" = "mode resize";
+          "${mod}+r" = "mode resize";
 
-        "${mod}+Return" = "exec terminator";
+          "${mod}+Return" = "exec terminator";
 
-        # vim style workspace history
-        "${mod}+i" = "exec ${focus_next}";
-        "${mod}+o" = "exec ${focus_last}";
-        # Jump to any window
-        "${mod}+p" = "exec ${focus_window}";
+          # vim style workspace history
+          "${mod}+i" = "exec ${focus_next}";
+          "${mod}+o" = "exec ${focus_last}";
+          # Jump to any window
+          "${mod}+p" = "exec ${focus_window}";
 
-        # Touchpad controls
-        "XF86TouchpadToggle" = "exec ${toggle_touchpad}";
-        "${mod}+t" = "exec --no-startup-id ${toggle_touchpad}";
+          # Touchpad controls
+          "XF86TouchpadToggle" = "exec ${toggle_touchpad}";
+          "${mod}+t" = "exec --no-startup-id ${toggle_touchpad}";
 
-        # Move workspace to left monitor (loops)
-        "${mod}+m" = "move workspace to output left";
+          # Move workspace to left monitor (loops)
+          "${mod}+m" = "move workspace to output left";
 
-        # Audio controls
-        "XF86AudioRaiseVolume" = "exec amixer -q -D pipewire sset Master 5%+";
-        "XF86AudioLowerVolume" = "exec amixer -q -D pipewire sset Master 5%-";
-        "XF86AudioMute" = "exec amixer -q -D pipewire sset Master toggle";
+          # Audio controls
+          "XF86AudioRaiseVolume" = "exec amixer -q -D pipewire sset Master 5%+";
+          "XF86AudioLowerVolume" = "exec amixer -q -D pipewire sset Master 5%-";
+          "XF86AudioMute" = "exec amixer -q -D pipewire sset Master toggle";
 
-        "Print" = "exec --no-startup-id shutter";
-      }
-      //
-      (builtins.listToAttrs (
-        map (dir: {name = "${mod}+${dir.key}"; value = "focus ${dir.dir}"; }) dirs ))
-      //
-      (builtins.listToAttrs (
-        map (dir: {name = "${mod}+Shift+${dir.key}"; value = "move ${dir.dir}"; }) dirs ))
-      //
-      {
-        "${mod}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run";
-        "${mod}+x" = "exec sh -c '${pkgs.maim}/bin/maim -s | xclip -selection clipboard -t image/png'";
-        "${mod}+Shift+x" = "exec sh -c '${lock_cmd}'";
-      });
+          "Print" = "exec --no-startup-id shutter";
+        }
+        // (builtins.listToAttrs (
+          map (dir: {
+            name = "${mod}+${dir.key}";
+            value = "focus ${dir.dir}";
+          }) dirs
+        ))
+        // (builtins.listToAttrs (
+          map (dir: {
+            name = "${mod}+Shift+${dir.key}";
+            value = "move ${dir.dir}";
+          }) dirs
+        ))
+        // {
+          "${mod}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run";
+          "${mod}+x" = "exec sh -c '${pkgs.maim}/bin/maim -s | xclip -selection clipboard -t image/png'";
+          "${mod}+Shift+x" = "exec sh -c '${lock_cmd}'";
+        }
+      );
 
       window.commands = [
         {
-          criteria = { title = "Todoist"; };
+          criteria = {
+            title = "Todoist";
+          };
           command = "move workspace 1:1:Com";
         }
         {
-          criteria = { title = "Gmail"; };
+          criteria = {
+            title = "Gmail";
+          };
           command = "move workspace 2:2:Com";
         }
         {
-          criteria = { title = "Calendar"; };
+          criteria = {
+            title = "Calendar";
+          };
           command = "move workspace 3:3:Com";
         }
         {
-          criteria = { title = "Music"; };
+          criteria = {
+            title = "Music";
+          };
           command = "move workspace 4:4:Com";
         }
       ];
@@ -185,17 +238,37 @@ in {
       bars = [
         {
           colors = {
-            background         = "${base}";
-            focusedBackground         = "${base}";
-            statusline         = "${text}";
+            background = "${base}";
+            focusedBackground = "${base}";
+            statusline = "${text}";
             separator = "${peach}";
             focusedStatusline = "${text}";
-            focusedSeparator  = "${base}";
-            activeWorkspace   = {border = "${surface0}"; background = "${surface1}"; text = "${green}";};
-            focusedWorkspace  = {border = "${surface0}"; background = "${surface1}"; text = "${blue}";};
-            inactiveWorkspace = {border = "${surface0}"; background = "${base}"; text = "${surface1}";};
-            urgentWorkspace   = {border = "${red}"; background = "${peach}"; text = "${surface0}";};
-            bindingMode       = {border = "${surface0}"; background = "${surface1}"; text = "${green}";};
+            focusedSeparator = "${base}";
+            activeWorkspace = {
+              border = "${surface0}";
+              background = "${surface1}";
+              text = "${green}";
+            };
+            focusedWorkspace = {
+              border = "${surface0}";
+              background = "${surface1}";
+              text = "${blue}";
+            };
+            inactiveWorkspace = {
+              border = "${surface0}";
+              background = "${base}";
+              text = "${surface1}";
+            };
+            urgentWorkspace = {
+              border = "${red}";
+              background = "${peach}";
+              text = "${surface0}";
+            };
+            bindingMode = {
+              border = "${surface0}";
+              background = "${surface1}";
+              text = "${green}";
+            };
           };
           position = "top";
           statusCommand = "i3status-rs config-top.toml";
@@ -288,6 +361,6 @@ in {
 
       exec_always --no-startup-id "${focus_history_server_launch}"
       exec --no-startup-id "${toggle_touchpad}"
-      '';
+    '';
   };
 }

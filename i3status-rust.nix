@@ -1,4 +1,4 @@
-{...} @ inputs :
+{ ... }@inputs:
 {
   programs.i3status-rust = {
     enable = true;
@@ -16,10 +16,12 @@
           }
           {
             block = "sound";
-            click = [{
-              button = "left";
-              cmd = "pavucontrol";
-            }];
+            click = [
+              {
+                button = "left";
+                cmd = "pavucontrol";
+              }
+            ];
           }
           {
             block = "time";
