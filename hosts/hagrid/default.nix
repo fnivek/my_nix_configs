@@ -13,7 +13,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./fonts.nix
+    ../../fonts.nix
   ];
 
   # Bootloader.
@@ -76,7 +76,7 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable nvidia (TODO: Kevin Split this out into its own file to only include on nvidia systems)
+  # Enable nvidia
   hardware.opengl = {
     enable = true;
     driSupport32Bit = true;
