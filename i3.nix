@@ -276,6 +276,9 @@ in
       ];
     };
     extraConfig = ''
+      exec xrandr --setprovideroutputsource modesetting NVIDIA-0
+      exec xrandr --auto
+
       mode "${mode_scratchpad}" {
         bindsym minus exec --no-startup-id i3-msg 'workspace 1:1:Com', mode default
         bindsym c exec --no-startup-id i3-msg 'workspace 2:2:Com', mode default
