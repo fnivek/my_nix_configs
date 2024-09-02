@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.10.7/.schema/devbox.schema.json",
+  "packages": [
+    "nil@latest",
+    "nixfmt-rfc-style@latest",
+    "statix@latest",
+    "go-task@latest"
+  ],
+  "shell": {
+    "init_hook": [
+      "echo 'Dev shell for my nixos configs.' > /dev/null"
+    ],
+    "scripts": {
+      "example": [
+        "echo \"Example\" && exit 1"
+      ]
+    }
+  }
+}

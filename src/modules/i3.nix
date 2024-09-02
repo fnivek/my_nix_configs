@@ -1,8 +1,6 @@
 {
-  config,
   lib,
   pkgs,
-  i3_scripts,
   inputs,
   ...
 }:
@@ -94,7 +92,7 @@ in
     enable = true;
     config = {
       # Set colors
-      colors = lib.mkDefault ({
+      colors = lib.mkDefault {
         focused = {
           border = "${lavender}";
           background = "${base}";
@@ -131,7 +129,7 @@ in
           childBorder = "${overlay0}";
         };
         background = "${base}";
-      });
+      };
 
       modifier = mod;
 

@@ -27,37 +27,52 @@
       ...
     }:
     let
-      system = "x86_64-linux";
-      nixpkgsConfig = {
-        inherit system;
-        config.allowUnfree = true;
-      };
+      mkHost =
+        hostname:
+        let
+          system = "x86_64-linux";
+        in
+        {
+          name = hostname;
+          value = nixpkgs.lib.nixosSystem {
+            inherit system;
+            specialArgs = {
+              inherit inputs;
+            };
+            modules = [
+              # System level
+              ./src/hosts/${hostname}
+
+              # User level
+              home-manager.nixosModules.home-manager
+              {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  users.kdfrench = {
+                    imports = [
+                      ./src/hosts/${hostname}/settings.nix
+                      ./src/modules/home.nix
+                    ];
+                  };
+                  # Optionally, use home-manager.extraSpecialArgs to pass
+                  # arguments to home.nix
+                  extraSpecialArgs = {
+                    inherit inputs;
+                  };
+                };
+              }
+            ];
+          };
+        };
     in
     {
-      nixosConfigurations = {
-        hagrid = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs;
-          };
-          modules = [
-            ./configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.kdfrench = {
-                imports = [ ./home.nix ];
-              };
-
-              # Optionally, use home-manager.extraSpecialArgs to pass
-              # arguments to home.nix
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-              };
-            }
-          ];
-        };
-      };
+      nixosConfigurations = builtins.listToAttrs (
+        builtins.map mkHost [
+          "hagrid"
+          "luna"
+          "hedwig"
+        ]
+      );
     };
 }
