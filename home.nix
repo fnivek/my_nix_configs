@@ -102,6 +102,10 @@
 
     # Screen capture.
     shutter
+
+    # Dev tools
+    devbox
+    go-task
   ];
 
   programs.helix = {
