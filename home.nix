@@ -106,6 +106,9 @@
     # Dev tools
     devbox
     go-task
+
+    # Gaming
+    steam
   ];
 
   programs.helix = {
