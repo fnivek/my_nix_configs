@@ -1,0 +1,67 @@
+{ lib, ... }@inputs:
+{
+  # starship - an customizable prompt for any shell
+  programs.starship = {
+    enable = true;
+    # custom settings
+    # Using https://starship.rs/presets/pure-preset.
+    settings = {
+      add_newline = true;
+      aws.disabled = true;
+      gcloud.disabled = true;
+      format = lib.concatStrings [
+        "$username"
+        "$hostname"
+        "$directory"
+        "$git_branch"
+        "$git_state"
+        "$git_status"
+        "$cmd_duration"
+        "$line_break"
+        "$python"
+        "$character"
+      ];
+
+      directory = lib.mkForce { style = "blue"; };
+
+      character = lib.mkForce {
+        success_symbol = "[❯](purple)";
+        error_symbol = "[❯](red)";
+        vimcmd_symbol = "[❮](green)";
+      };
+
+      git_branch = lib.mkForce {
+        format = "[$branch]($style)";
+        style = "bright-black";
+      };
+
+      # TODO(Kevin): Figure out what the invisible symbols are.
+      git_status = lib.mkForce {
+        format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)";
+        style = "cyan";
+        conflicted = "​";
+        untracked = "​";
+        modified = "​";
+        staged = "​";
+        renamed = "​";
+        deleted = "​";
+        stashed = "≡";
+      };
+
+      git_state = lib.mkForce {
+        format = ''\([$state( $progress_current/$progress_total)]($style)\) '';
+        style = "bright-black";
+      };
+
+      cmd_duration = lib.mkForce {
+        format = "[$duration]($style) ";
+        style = "yellow";
+      };
+
+      python = lib.mkForce {
+        format = "[$virtualenv]($style) ";
+        style = "bright-black";
+      };
+    };
+  };
+}

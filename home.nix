@@ -11,6 +11,7 @@
     ./i3status-rust.nix
     ./zoxide.nix
     ./zsh.nix
+    ./starship.nix
   ];
 
   # TODO please change the username & home directory to your own
