@@ -10,6 +10,7 @@
     ./i3.nix
     ./i3status-rust.nix
     ./zoxide.nix
+    ./zsh.nix
   ];
 
   # TODO please change the username & home directory to your own
@@ -179,30 +180,6 @@
     shellAliases = {
       ls = "eza";
     };
-  };
-
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-
-    shellAliases = {
-      ls = "eza";
-      update = "sudo nixos-rebuild switch";
-      taskg = "task -g";
-    };
-    initExtra = ''
-      if [ -n "''${commands[fzf-share]}" ]; then
-        source "$(fzf-share)/key-bindings.zsh"
-        source "$(fzf-share)/completion.zsh"
-      fi
-    '';
-    history = {
-      size = 10000;
-      path = "${config.xdg.dataHome}/zsh/history";
-    };
-
   };
 
   # This value determines the home Manager release that your
