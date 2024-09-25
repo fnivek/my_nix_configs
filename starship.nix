@@ -35,10 +35,10 @@
         style = "bright-black";
       };
 
-      # TODO(Kevin): Figure out what the invisible symbols are.
       git_status = lib.mkForce {
         format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)";
         style = "cyan";
+        # Note the chars in the quotes are zero width spaces for marking word breaks.
         conflicted = "​";
         untracked = "​";
         modified = "​";
