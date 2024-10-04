@@ -1,0 +1,26 @@
+version: '3'
+
+tasks:
+  watch:
+    desc: Run all checks whenever a change occurs.
+    cmds:
+      - clear
+      - task lint
+    sources:
+      - ./**/*.nix
+    watch: true
+    interval: 1s
+
+  format:
+    desc: Format all nix files.
+    cmds:
+      - nixfmt ./
+    sources:
+      - ./**/*.nix
+
+  lint:
+    desc: Check if all files meet standards.
+    cmds:
+      - nixfmt -c ./
+    sources:
+      - ./**/*.nix
