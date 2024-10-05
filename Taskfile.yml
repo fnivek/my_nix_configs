@@ -12,6 +12,11 @@ tasks:
     watch: true
     interval: 1s
 
+  switch:
+    desc: Rebuild and switch nixos configurations.
+    cmds:
+      - sudo nixos-rebuild switch
+
   format:
     desc: Format all nix files.
     cmds:
