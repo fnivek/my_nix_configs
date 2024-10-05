@@ -17,6 +17,16 @@ tasks:
     cmds:
       - sudo nixos-rebuild switch
 
+  update:
+    desc: Updates all flake inputs.
+    cmds:
+      - nix flake update
+
+  garbage-collect:
+    desc: Removes unused nix/store paths.
+    cmds:
+      - nix-collect-garbage
+
   format:
     desc: Format all nix files.
     cmds:
