@@ -1,8 +1,5 @@
 {
-  config,
   pkgs,
-  inputs,
-  i3_scripts,
   ...
 }:
 {
@@ -11,176 +8,88 @@
     ./i3status-rust.nix
     ./zoxide.nix
     ./zsh.nix
+    ./bash.nix
     ./starship.nix
+    ./helix.nix
+    ./git.nix
   ];
 
   # TODO please change the username & home directory to your own
-  home.username = "kdfrench";
-  home.homeDirectory = "/home/kdfrench";
+  home = {
+    username = "kdfrench";
+    homeDirectory = "/home/kdfrench";
+    packages = with pkgs; [
+      # Terminal.
+      terminator
 
-  # link the configuration file in current directory to the specified location in home directory
-  # home.file.".config/i3/wallpaper.jpg".source = ./wallpaper.jpg;
+      # Notes
+      obsidian
 
-  # link all files in `./scripts` to `~/.config/i3/scripts`
-  # home.file.".config/i3/scripts" = {
-  #   source = ./scripts;
-  #   recursive = true;   # link recursively
-  #   executable = true;  # make all files executable
-  # };
+      # archives
+      zip
+      xz
+      unzip
+      p7zip
 
-  # encode the file content in nix configuration file directly
-  # home.file.".xxx".text = ''
-  #     xxx
-  # '';
+      # utils
+      ripgrep # recursively searches directories for a regex pattern
+      jq # A lightweight and flexible command-line JSON processor
+      yq-go # yaml processer https://github.com/mikefarah/yq
+      eza # A modern replacement for ‘ls’
+      fzf # A command-line fuzzy finder
 
-  # set cursor size and dpi for 4k monitor
-  # xresources.properties = {
-  #   "Xcursor.size" = 16;
-  #   "Xft.dpi" = 172;
-  # };
+      # networking tools
+      socat # replacement of openbsd-netcat
+      nmap # A utility for network discovery and security auditing
 
-  # Packages that should be installed to the user profile.
-  home.packages = with pkgs; [
-    # Terminal.
-    terminator
+      # misc
+      cowsay
+      which
+      tree
+      gnused
+      gnutar
+      gawk
+      zstd
+      gnupg
+      bat
 
-    # Notes
-    obsidian
+      # nix related
+      #
+      # it provides the command `nom` works just like `nix`
+      # with more details log output
+      nix-output-monitor
+      nixfmt-rfc-style
 
-    # archives
-    zip
-    xz
-    unzip
-    p7zip
+      # productivity
+      hugo # static site generator
+      glow # markdown previewer in terminal
 
-    # utils
-    ripgrep # recursively searches directories for a regex pattern
-    jq # A lightweight and flexible command-line JSON processor
-    yq-go # yaml processer https://github.com/mikefarah/yq
-    eza # A modern replacement for ‘ls’
-    fzf # A command-line fuzzy finder
+      btop # replacement of htop/nmon
+      iotop # io monitoring
+      iftop # network monitoring
 
-    # networking tools
-    socat # replacement of openbsd-netcat
-    nmap # A utility for network discovery and security auditing
+      # system call monitoring
+      strace # system call monitoring
+      ltrace # library call monitoring
+      lsof # list open files
 
-    # misc
-    cowsay
-    which
-    tree
-    gnused
-    gnutar
-    gawk
-    zstd
-    gnupg
-    bat
+      # system tools
+      sysstat
+      lm_sensors # for `sensors` command
+      ethtool
+      pciutils # lspci
+      usbutils # lsusb
 
-    # nix related
-    #
-    # it provides the command `nom` works just like `nix`
-    # with more details log output
-    nix-output-monitor
-    nixfmt-rfc-style
+      # Screen capture.
+      shutter
 
-    # productivity
-    hugo # static site generator
-    glow # markdown previewer in terminal
+      # Dev tools
+      devbox
+      go-task
 
-    btop # replacement of htop/nmon
-    iotop # io monitoring
-    iftop # network monitoring
-
-    # system call monitoring
-    strace # system call monitoring
-    ltrace # library call monitoring
-    lsof # list open files
-
-    # system tools
-    sysstat
-    lm_sensors # for `sensors` command
-    ethtool
-    pciutils # lspci
-    usbutils # lsusb
-
-    # Screen capture.
-    shutter
-
-    # Dev tools
-    devbox
-    go-task
-
-    # Gaming
-    steam
-  ];
-
-  programs.helix = {
-    enable = true;
-    defaultEditor = true;
-    settings = {
-      theme = "catppuccin_mocha";
-      editor = {
-        line-number = "relative";
-        lsp.display-messages = true;
-      };
-    };
-  };
-
-  # basic configuration of git, please change to your own
-  programs.git = {
-    enable = true;
-    userName = "Kevin French";
-    userEmail = "fnivek@gmail.com";
-    aliases = {
-      la = "!git config -l | grep alias | cut -c 7-";
-
-      lg = "!git lg1";
-      lg1-all = "!git lg1 --all";
-      lg2-all = "!git lg2 --all";
-      lg3-all = "!git lg3 --all";
-
-      lg1 = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
-      lg2 = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'";
-      lg3 = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'";
-
-      last = "!git lg3-specific -1 HEAD --numstat";
-    };
-    lfs.enable = true;
-    extraConfig = {
-      init.defaultBranch = "main";
-      core.editor = "hx";
-      core.autocrlf = "input";
-    };
-  };
-
-  # starship - an customizable prompt for any shell
-  programs.starship = {
-    enable = true;
-    # custom settings
-    settings = {
-      add_newline = true;
-      aws.disabled = true;
-      gcloud.disabled = true;
-      character = {
-        success_symbol = "[➜](bold green)";
-        error_symbol = "[➜](bold red)";
-      };
-    };
-  };
-
-  programs.bash = {
-    enable = true;
-    enableCompletion = true;
-    # TODO add your cusotm bashrc here
-    bashrcExtra = ''
-      export PATH="$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin"
-      source "$(fzf-share)/key-bindings.bash"
-      source "$(fzf-share)/completion.bash"
-    '';
-
-    # set some aliases, feel free to add more or remove some
-    shellAliases = {
-      ls = "eza";
-    };
+      # Gaming
+      steam
+    ];
   };
 
   # This value determines the home Manager release that your

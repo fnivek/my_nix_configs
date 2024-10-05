@@ -96,6 +96,54 @@
           "store_path": "/nix/store/3bk42pp785ck5b8f0cnj4g5hfmd69rml-nixfmt-unstable-2024-08-16"
         }
       }
+    },
+    "statix@latest": {
+      "last_modified": "2024-09-10T15:01:03Z",
+      "resolved": "github:NixOS/nixpkgs/5ed627539ac84809c78b2dd6d26a5cebeb5ae269#statix",
+      "source": "devbox-search",
+      "version": "0.5.8",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/7vl6g9hb48ffdqkyx0dqmxzh1smng7yd-statix-0.5.8",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/7vl6g9hb48ffdqkyx0dqmxzh1smng7yd-statix-0.5.8"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/8vw80lxh92sdscgngypvffij1a1vhx3l-statix-0.5.8",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/8vw80lxh92sdscgngypvffij1a1vhx3l-statix-0.5.8"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/24k1jxvcyw6ynvy35xh02576gzfy08dr-statix-0.5.8",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/24k1jxvcyw6ynvy35xh02576gzfy08dr-statix-0.5.8"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/q8822s3pwc8sqjv7iajs09cgn70hrb2k-statix-0.5.8",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/q8822s3pwc8sqjv7iajs09cgn70hrb2k-statix-0.5.8"
+        }
+      }
     }
   }
 }

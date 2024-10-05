@@ -5,22 +5,51 @@ tasks:
     desc: Run all checks whenever a change occurs.
     cmds:
       - clear
-      - task lint
+      - task: lint
     sources:
       - ./**/*.nix
+      - exclude: ./.devbox/**/*.nix
     watch: true
     interval: 1s
 
   format:
     desc: Format all nix files.
     cmds:
-      - nixfmt ./
+      - for: sources
+        cmd: nixfmt {{ .ITEM }}
     sources:
       - ./**/*.nix
+      - exclude: ./.devbox/**/*.nix
 
   lint:
     desc: Check if all files meet standards.
     cmds:
-      - nixfmt -c ./
+      - task: nixfmt-check
+      - task: static-analysis
     sources:
       - ./**/*.nix
+      - exclude: ./.devbox/**/*.nix
+
+  nixfmt-check:
+    desc: Check if all files are formatted correctly.
+    cmds:
+      - for: sources
+        cmd: nixfmt -c {{ .ITEM }}
+    sources:
+      - ./**/*.nix
+      - exclude: ./.devbox/**/*.nix
+
+  static-analysis:
+    desc: Check if all files meet statix analysis.
+    cmds:
+      - for: sources
+        cmd: statix check {{ .ITEM }}
+    sources:
+      - ./**/*.nix
+      - exclude: ./.devbox/**/*.nix
+
+  dev-zshell:
+    desc: Drop into a zsh with all dev dependencies.
+    cmds:
+      - devbox run zsh
+    interactive: true

@@ -45,16 +45,17 @@
               # User level
               home-manager.nixosModules.home-manager
               {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.users.kdfrench = {
-                  imports = [ ./home.nix ];
-                };
-
-                # Optionally, use home-manager.extraSpecialArgs to pass
-                # arguments to home.nix
-                home-manager.extraSpecialArgs = {
-                  inherit inputs;
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  users.kdfrench = {
+                    imports = [ ./home.nix ];
+                  };
+                  # Optionally, use home-manager.extraSpecialArgs to pass
+                  # arguments to home.nix
+                  extraSpecialArgs = {
+                    inherit inputs;
+                  };
                 };
               }
             ];
@@ -76,16 +77,18 @@
               # User level
               home-manager.nixosModules.home-manager
               {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.users.kdfrench = {
-                  imports = [ ./home.nix ];
-                };
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  users.kdfrench = {
+                    imports = [ ./home.nix ];
+                  };
 
-                # Optionally, use home-manager.extraSpecialArgs to pass
-                # arguments to home.nix
-                home-manager.extraSpecialArgs = {
-                  inherit inputs;
+                  # Optionally, use home-manager.extraSpecialArgs to pass
+                  # arguments to home.nix
+                  extraSpecialArgs = {
+                    inherit inputs;
+                  };
                 };
               }
             ];

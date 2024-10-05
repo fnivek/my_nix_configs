@@ -4,7 +4,6 @@
 {
   config,
   lib,
-  pkgs,
   modulesPath,
   ...
 }:
@@ -12,23 +11,26 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = [
-    "xhci_pci"
-    "thunderbolt"
-    "nvme"
-    "usb_storage"
-    "sd_mod"
-  ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ ];
-  boot.extraModulePackages = [ ];
+  boot = {
+    initrd = {
+      availableKernelModules = [
+        "xhci_pci"
+        "thunderbolt"
+        "nvme"
+        "usb_storage"
+        "sd_mod"
+      ];
+      kernelModules = [ ];
+      luks.devices."luks-6cfd1cff-9c18-474b-979b-f1bc7e79d515".device = "/dev/disk/by-uuid/6cfd1cff-9c18-474b-979b-f1bc7e79d515";
+    };
+    kernelModules = [ ];
+    extraModulePackages = [ ];
+  };
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/b2c06a0d-c8ae-4663-a72e-4ccd3203ec58";
     fsType = "ext4";
   };
-
-  boot.initrd.luks.devices."luks-6cfd1cff-9c18-474b-979b-f1bc7e79d515".device = "/dev/disk/by-uuid/6cfd1cff-9c18-474b-979b-f1bc7e79d515";
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/E4B2-411D";
