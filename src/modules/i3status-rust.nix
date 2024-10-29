@@ -6,9 +6,10 @@
       top = {
         theme = "ctp-mocha";
         blocks =
-          [
-            # { block = "docker"; }
-            { block = "nvidia_gpu"; }
+          lib.optional config.hostSettings.hasNvidiaGpu {
+            block = "nvidia_gpu";
+          }
+          ++ [
             { block = "cpu"; }
             {
               block = "memory";

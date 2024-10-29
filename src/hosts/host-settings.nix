@@ -6,6 +6,10 @@ let
         type = lib.types.bool;
         default = true;
       };
+      hasNvidiaGpu = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+      };
     };
   };
 in

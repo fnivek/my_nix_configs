@@ -3,6 +3,7 @@ _: {
   config = {
     hostSettings = {
       hasBattery = true;
+      hasNvidiaGpu = false;
     };
   };
 }
