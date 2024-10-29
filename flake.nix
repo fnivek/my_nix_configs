@@ -71,6 +71,7 @@
         builtins.map mkHost [
           "hagrid"
           "luna"
+          "hedwig"
         ]
       );
     };
