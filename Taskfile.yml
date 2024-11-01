@@ -1,14 +1,19 @@
 version: '3'
 
+vars:
+  HOSTS: hagrid luna
+
 tasks:
   watch:
     desc: Run all checks whenever a change occurs.
     cmds:
       - clear
       - task: lint
+      - for: {var: HOSTS}
+        task: build-{{.ITEM}}
     sources:
-      - ./**/*.nix
-      - exclude: ./.devbox/**/*.nix
+      - "flake.nix"
+      - "src/**/*.nix"
     watch: true
     interval: 1s
 
@@ -16,6 +21,21 @@ tasks:
     desc: Rebuild and switch nixos configurations.
     cmds:
       - sudo nixos-rebuild switch
+
+  build:
+    desc: Build the your host configuration but don't activate or add to boot.
+    vars:
+      HOST:
+        sh: hostname
+    cmds:
+      - task: build-{{.HOST}}
+
+  build-*:
+    vars:
+      HOST: '{{index .MATCH 0}}'
+    desc: Build the host configuration but don't activate or add to boot.
+    cmds:
+      - nixos-rebuild build --flake .#{{.HOST}}
 
   update:
     desc: Updates all flake inputs.
@@ -33,8 +53,8 @@ tasks:
       - for: sources
         cmd: nixfmt {{ .ITEM }}
     sources:
-      - ./**/*.nix
-      - exclude: ./.devbox/**/*.nix
+      - "flake.nix"
+      - "src/**/*.nix"
 
   lint:
     desc: Check if all files meet standards.
@@ -42,8 +62,8 @@ tasks:
       - task: nixfmt-check
       - task: static-analysis
     sources:
-      - ./**/*.nix
-      - exclude: ./.devbox/**/*.nix
+      - "flake.nix"
+      - "src/**/*.nix"
 
   nixfmt-check:
     desc: Check if all files are formatted correctly.
@@ -51,8 +71,8 @@ tasks:
       - for: sources
         cmd: nixfmt -c {{ .ITEM }}
     sources:
-      - ./**/*.nix
-      - exclude: ./.devbox/**/*.nix
+      - "flake.nix"
+      - "src/**/*.nix"
 
   static-analysis:
     desc: Check if all files meet statix analysis.
@@ -60,8 +80,8 @@ tasks:
       - for: sources
         cmd: statix check {{ .ITEM }}
     sources:
-      - ./**/*.nix
-      - exclude: ./.devbox/**/*.nix
+      - "flake.nix"
+      - "src/**/*.nix"
 
   dev-zshell:
     desc: Drop into a zsh with all dev dependencies.
