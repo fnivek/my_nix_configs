@@ -40,7 +40,7 @@
             };
             modules = [
               # System level
-              ./hosts/${hostname}
+              ./src/hosts/${hostname}
 
               # User level
               home-manager.nixosModules.home-manager
@@ -49,7 +49,7 @@
                   useGlobalPkgs = true;
                   useUserPackages = true;
                   users.kdfrench = {
-                    imports = [ ./home.nix ];
+                    imports = [ ./src/modules/home.nix ];
                   };
                   # Optionally, use home-manager.extraSpecialArgs to pass
                   # arguments to home.nix
@@ -72,7 +72,7 @@
             };
             modules = [
               # System level
-              ./hosts/${hostname}
+              ./src/hosts/${hostname}
 
               # User level
               home-manager.nixosModules.home-manager
@@ -81,7 +81,7 @@
                   useGlobalPkgs = true;
                   useUserPackages = true;
                   users.kdfrench = {
-                    imports = [ ./home.nix ];
+                    imports = [ ./src/modules/home.nix ];
                   };
 
                   # Optionally, use home-manager.extraSpecialArgs to pass
