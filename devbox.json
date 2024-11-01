@@ -3,7 +3,8 @@
   "packages": [
     "nil@latest",
     "nixfmt-rfc-style@latest",
-    "statix@latest"
+    "statix@latest",
+    "go-task@latest"
   ],
   "shell": {
     "init_hook": [
