@@ -9,8 +9,7 @@ tasks:
     cmds:
       - clear
       - task: lint
-      - for: {var: HOSTS}
-        task: build-{{.ITEM}}
+      - task: build-all
     sources:
       - "flake.nix"
       - "src/**/*.nix"
@@ -29,6 +28,10 @@ tasks:
         sh: hostname
     cmds:
       - task: build-{{.HOST}}
+
+  build-all:
+      - for: {var: HOSTS}
+        task: build-{{.ITEM}}
 
   build-*:
     vars:
