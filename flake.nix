@@ -26,73 +26,52 @@
       i3_scripts,
       ...
     }:
+    let
+      mkHost =
+        hostname:
+        let
+          system = "x86_64-linux";
+        in
+        {
+          name = hostname;
+          value = nixpkgs.lib.nixosSystem {
+            inherit system;
+            specialArgs = {
+              inherit inputs;
+            };
+            modules = [
+              # System level
+              ./src/hosts/${hostname}
+
+              # User level
+              home-manager.nixosModules.home-manager
+              {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  users.kdfrench = {
+                    imports = [
+                      ./src/hosts/${hostname}/settings.nix
+                      ./src/modules/home.nix
+                    ];
+                  };
+                  # Optionally, use home-manager.extraSpecialArgs to pass
+                  # arguments to home.nix
+                  extraSpecialArgs = {
+                    inherit inputs;
+                  };
+                };
+              }
+            ];
+          };
+        };
+    in
     {
-      nixosConfigurations = {
-        hagrid =
-          let
-            system = "x86_64-linux";
-            hostname = "hagrid";
-          in
-          nixpkgs.lib.nixosSystem {
-            inherit system;
-            specialArgs = {
-              inherit inputs;
-            };
-            modules = [
-              # System level
-              ./src/hosts/${hostname}
-
-              # User level
-              home-manager.nixosModules.home-manager
-              {
-                home-manager = {
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  users.kdfrench = {
-                    imports = [ ./src/modules/home.nix ];
-                  };
-                  # Optionally, use home-manager.extraSpecialArgs to pass
-                  # arguments to home.nix
-                  extraSpecialArgs = {
-                    inherit inputs;
-                  };
-                };
-              }
-            ];
-          };
-        luna =
-          let
-            system = "x86_64-linux";
-            hostname = "luna";
-          in
-          nixpkgs.lib.nixosSystem {
-            inherit system;
-            specialArgs = {
-              inherit inputs;
-            };
-            modules = [
-              # System level
-              ./src/hosts/${hostname}
-
-              # User level
-              home-manager.nixosModules.home-manager
-              {
-                home-manager = {
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  users.kdfrench = {
-                    imports = [ ./src/modules/home.nix ];
-                  };
-
-                  # Optionally, use home-manager.extraSpecialArgs to pass
-                  # arguments to home.nix
-                  extraSpecialArgs = {
-                    inherit inputs;
-                  };
-                };
-              }
-            ];
-          };
-      };
+      nixosConfigurations = builtins.listToAttrs (
+        builtins.map mkHost [
+          "hagrid"
+          "luna"
+        ]
+      );
     };
 }

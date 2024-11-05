@@ -1,0 +1,18 @@
+{ lib, ... }:
+let
+  hostSettingsType = lib.types.submodule {
+    options = {
+      hasBattery = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+      };
+    };
+  };
+in
+{
+  options = {
+    hostSettings = lib.mkOption {
+      type = hostSettingsType;
+    };
+  };
+}
