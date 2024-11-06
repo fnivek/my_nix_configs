@@ -1,17 +1,18 @@
 name: ci
-on:
-  push:
+on: push
 
 jobs:
   ci:
     runs-on: ubuntu-latest
-    container:
-      image: jetpackio/devbox
-      options: --user root
 
     steps:
       - uses: actions/checkout@v4
-      - name: lint and build
-        run: |
-          devbox run -- task lint
-          devbox run -- task build-all
+
+      - name: Install devbox
+        uses: jetify-com/devbox-install-action@v0.11.0
+
+      - name: lint
+        run: devbox run -- task lint
+
+      - name: build-all
+        run: devbox run -- task build-all
