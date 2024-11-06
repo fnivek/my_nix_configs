@@ -4,7 +4,8 @@
     "nil@latest",
     "nixfmt-rfc-style@latest",
     "statix@latest",
-    "go-task@latest"
+    "go-task@latest",
+    "nixos-rebuild"
   ],
   "shell": {
     "init_hook": [
