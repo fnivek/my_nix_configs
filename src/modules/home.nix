@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 {
   imports = [
     ./i3.nix
@@ -15,78 +20,78 @@
   home = {
     username = "kdfrench";
     homeDirectory = "/home/kdfrench";
-    packages = with pkgs; [
-      # Terminal.
-      terminator
+    packages =
+      with pkgs;
+      [
+        # Terminal.
+        terminator
 
-      # Notes
-      obsidian
+        # Notes
+        obsidian
 
-      # archives
-      zip
-      xz
-      unzip
-      p7zip
+        # archives
+        zip
+        xz
+        unzip
+        p7zip
 
-      # utils
-      ripgrep # recursively searches directories for a regex pattern
-      jq # A lightweight and flexible command-line JSON processor
-      yq-go # yaml processer https://github.com/mikefarah/yq
-      eza # A modern replacement for ‘ls’
-      fzf # A command-line fuzzy finder
+        # utils
+        ripgrep # recursively searches directories for a regex pattern
+        jq # A lightweight and flexible command-line JSON processor
+        yq-go # yaml processer https://github.com/mikefarah/yq
+        eza # A modern replacement for ‘ls’
+        fzf # A command-line fuzzy finder
 
-      # networking tools
-      socat # replacement of openbsd-netcat
-      nmap # A utility for network discovery and security auditing
+        # networking tools
+        socat # replacement of openbsd-netcat
+        nmap # A utility for network discovery and security auditing
 
-      # misc
-      cowsay
-      which
-      tree
-      gnused
-      gnutar
-      gawk
-      zstd
-      gnupg
-      bat
+        # misc
+        cowsay
+        which
+        tree
+        gnused
+        gnutar
+        gawk
+        zstd
+        gnupg
+        bat
 
-      # nix related
-      #
-      # it provides the command `nom` works just like `nix`
-      # with more details log output
-      nix-output-monitor
-      nixfmt-rfc-style
+        # nix related
+        #
+        # it provides the command `nom` works just like `nix`
+        # with more details log output
+        nix-output-monitor
+        nixfmt-rfc-style
 
-      # productivity
-      hugo # static site generator
-      glow # markdown previewer in terminal
+        # productivity
+        hugo # static site generator
+        glow # markdown previewer in terminal
 
-      btop # replacement of htop/nmon
-      iotop # io monitoring
-      iftop # network monitoring
+        btop # replacement of htop/nmon
+        iotop # io monitoring
+        iftop # network monitoring
 
-      # system call monitoring
-      strace # system call monitoring
-      ltrace # library call monitoring
-      lsof # list open files
+        # system call monitoring
+        strace # system call monitoring
+        ltrace # library call monitoring
+        lsof # list open files
 
-      # system tools
-      sysstat
-      lm_sensors # for `sensors` command
-      ethtool
-      pciutils # lspci
-      usbutils # lsusb
+        # system tools
+        sysstat
+        lm_sensors # for `sensors` command
+        ethtool
+        pciutils # lspci
+        usbutils # lsusb
 
-      # Screen capture.
-      shutter
+        # Screen capture.
+        shutter
 
-      # Dev tools
-      devbox
-      go-task
-
-      # Gaming
-      steam
-    ];
+        # Dev tools
+        devbox
+        go-task
+      ]
+      ++ lib.optional config.hostSettings.isPersonal pkgs.steam;
   };
 
   # This value determines the home Manager release that your

@@ -10,6 +10,10 @@ let
         type = lib.types.bool;
         default = true;
       };
+      isPersonal = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+      };
     };
   };
 in
