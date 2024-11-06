@@ -1,0 +1,12 @@
+name: ci
+on:
+  push:
+
+jobs:
+  ci:
+    runs-on: jetpackio/devbox
+
+    setps:
+      - uses: actions/checkout@v4
+      run: devbox run -- task lint
+      run: devbox run -- task build-all
