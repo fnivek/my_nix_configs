@@ -4,7 +4,8 @@ on:
 
 jobs:
   ci:
-    runs-on: jetpackio/devbox
+    runs-on: ubuntu-latest
+    container: jetpackio/devbox
 
     steps:
       - uses: actions/checkout@v4
