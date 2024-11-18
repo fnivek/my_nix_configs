@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-unstable,
   lib,
   config,
   ...
@@ -88,7 +89,7 @@
         shutter
 
         # Dev tools
-        devbox
+        pkgs-unstable.devbox
         go-task
       ]
       ++ lib.optional config.hostSettings.isPersonal pkgs.steam;
