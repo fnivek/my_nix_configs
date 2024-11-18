@@ -8,6 +8,7 @@ _: {
       editor = {
         line-number = "relative";
         lsp.display-messages = true;
+        rulers = [ 101 ];
       };
     };
   };
