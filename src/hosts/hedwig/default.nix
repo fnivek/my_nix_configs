@@ -104,8 +104,9 @@
     ];
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
+  # Default shell.
+  users.defaultUserShell = pkgs.zsh;
+  programs.zsh.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
