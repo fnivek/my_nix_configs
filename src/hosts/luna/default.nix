@@ -54,7 +54,13 @@
       # Enable the GNOME Desktop Environment.
       displayManager.gdm.enable = true;
       # displayManager.lightdm.enable = true;
-      desktopManager.gnome.enable = true;
+      desktopManager = {
+        xfce = {
+          enable = true;
+          noDesktop = true;
+          enableXfwm = false;
+        };
+      };
       windowManager.i3 = {
         enable = true;
         extraPackages = with pkgs; [
@@ -72,7 +78,7 @@
       # Enable touchpad support (enabled default in most desktopManager).
       # libinput.enable = true;
     };
-    displayManager.defaultSession = "none+i3";
+    displayManager.defaultSession = "xfce+i3";
     # Enable CUPS to print documents.
     printing.enable = true;
 
