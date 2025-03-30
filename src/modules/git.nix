@@ -6,7 +6,7 @@ _: {
     aliases = {
       la = "!git config -l | grep alias | cut -c 7-";
 
-      lg = "!git lg1";
+      lg = "!git lg1-all";
       lg1-all = "!git lg1 --all";
       lg2-all = "!git lg2 --all";
       lg3-all = "!git lg3 --all";
