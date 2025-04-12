@@ -6,7 +6,7 @@
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "https://flakehub.com/f/nix-community/home-manager/*";
       inputs = {
         nixpkgs.follows = "nixpkgs";
       };
