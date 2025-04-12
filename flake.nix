@@ -3,9 +3,10 @@
 
   inputs = {
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs = {
         nixpkgs.follows = "nixpkgs";
       };
@@ -22,6 +23,7 @@
     inputs@{
       nixpkgs,
       nixpkgs-unstable,
+      determinate,
       home-manager,
       i3_scripts,
       ...
@@ -48,6 +50,8 @@
               inherit inputs;
             };
             modules = [
+              # Load Determinate
+              determinate.nixosModules.default
               # System level
               ./src/hosts/${hostname}
 

@@ -245,9 +245,9 @@
 
   # Enable nvidia
   hardware = {
-    opengl = {
+    graphics = {
       enable = true;
-      driSupport32Bit = true;
+      enable32Bit = true;
     };
     nvidia = {
 
@@ -364,7 +364,7 @@
           util-linux
           xz
           systemd
-          openssl_3_2
+          # openssl_3_2
           openssl_3_3
         ]
       );
