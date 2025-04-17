@@ -45,6 +45,8 @@
             bash-language-server
             # Go task
             go-task
+            # Misc
+            bat
           ];
         };
       });
