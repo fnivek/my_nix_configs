@@ -43,6 +43,8 @@
             ansible-language-server
             taplo
             bash-language-server
+            clang
+            clang-tools
             # Go task
             go-task
             # Misc
