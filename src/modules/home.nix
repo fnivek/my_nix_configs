@@ -15,6 +15,7 @@
     ./starship.nix
     ./helix.nix
     ./git.nix
+    ./direnv.nix
   ];
 
   # TODO please change the username & home directory to your own
