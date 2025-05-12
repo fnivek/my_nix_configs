@@ -19,8 +19,6 @@ let
 in
 {
   options = {
-    hostSettings = lib.mkOption {
-      type = hostSettingsType;
-    };
+    hostSettings = lib.mkOption { type = hostSettingsType; };
   };
 }

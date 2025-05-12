@@ -6,9 +6,7 @@
       top = {
         theme = "ctp-mocha";
         blocks =
-          lib.optional config.hostSettings.hasNvidiaGpu {
-            block = "nvidia_gpu";
-          }
+          lib.optional config.hostSettings.hasNvidiaGpu { block = "nvidia_gpu"; }
           ++ [
             { block = "cpu"; }
             {
@@ -26,9 +24,7 @@
               ];
             }
           ]
-          ++ lib.optional config.hostSettings.hasBattery {
-            block = "battery";
-          }
+          ++ lib.optional config.hostSettings.hasBattery { block = "battery"; }
           ++ [
             {
               block = "time";

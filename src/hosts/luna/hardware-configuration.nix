@@ -21,7 +21,8 @@
         "sd_mod"
       ];
       kernelModules = [ ];
-      luks.devices."luks-6cfd1cff-9c18-474b-979b-f1bc7e79d515".device = "/dev/disk/by-uuid/6cfd1cff-9c18-474b-979b-f1bc7e79d515";
+      luks.devices."luks-6cfd1cff-9c18-474b-979b-f1bc7e79d515".device =
+        "/dev/disk/by-uuid/6cfd1cff-9c18-474b-979b-f1bc7e79d515";
     };
     kernelModules = [ ];
     extraModulePackages = [ ];
