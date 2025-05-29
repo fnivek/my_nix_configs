@@ -50,6 +50,25 @@ tasks:
     cmds:
       - nix-collect-garbage
 
+  list-generations:
+    desc: List nix-os generations.
+    cmds:
+      - sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
+
+  delete-generations-older-than-*:
+    desc: Delete nix-os generations older than argument.
+    vars:
+      BEFORE: "{{index .MATCH 0}}"
+    cmds:
+      - sudo nix-env --delete-generations --profile /nix/var/nix/profiles/system {{.BEFORE}}
+
+  make-boot-space:
+    desc: Removes old generations garbage collects and switches to clear out boot.
+    cmds:
+      - task: delete-generations-older-than-30d
+      - task: garbage-collect
+      - task: switch
+
   format:
     desc: Format all nix files.
     cmds:
