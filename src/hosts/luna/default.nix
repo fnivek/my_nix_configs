@@ -105,14 +105,17 @@
       GROUP="dialout", MODE="0666", \
       SYMLINK+="gobus%n", RUN+="${pkgs.bash}/bin/bash -c 'echo 1 > %S$devpath/device/latency_timer'"
     '';
+
+    # Enable sound with pipewire.
+    pulseaudio.enable = false;
   };
 
   # Enable nvidia (TODO: Kevin Split this out into its own file to only include on nvidia systems)
   hardware = {
-    opengl = {
+    graphics = {
       enable = true;
-      driSupport32Bit = true;
-      package = pkgs.mesa_drivers;
+      enable32Bit = true;
+      package = pkgs.mesa;
     };
     nvidia = {
 
@@ -151,9 +154,6 @@
         nvidiaBusId = "PCI:3:0:0";
       };
     };
-    # Enable sound with pipewire.
-    pulseaudio.enable = false;
-
   };
 
   security.rtkit.enable = true;

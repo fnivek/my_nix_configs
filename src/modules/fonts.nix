@@ -15,7 +15,7 @@
       # If this happens , keep noto-fonts-emoji and try disabling others (nerdfonts, etc.)
       noto-fonts-emoji
 
-      nerdfonts
+      # nerd-fonts.
     ];
   };
 }

@@ -35,7 +35,7 @@
         update = "sudo nixos-rebuild switch";
         taskg = "task -g";
       };
-      initExtra = fzfKeybindings + historySearchKeybindings + completionStyle + fzfTab;
+      initContent = fzfKeybindings + historySearchKeybindings + completionStyle + fzfTab;
       history = {
         size = 10000;
         save = 10000;

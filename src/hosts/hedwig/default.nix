@@ -85,10 +85,11 @@
       # no need to redefine it in your config for now)
       #media-session.enable = true;
     };
+
+    # Disable sound with pipewire.
+    pulseaudio.enable = false;
   };
 
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.

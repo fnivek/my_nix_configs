@@ -241,6 +241,9 @@
 
       LABEL="probe_rs_rules_end"
     '';
+
+    # Enable sound with pipewire.
+    pulseaudio.enable = false;
   };
 
   # Enable nvidia
@@ -280,9 +283,6 @@
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
-
-    # Enable sound with pipewire.
-    pulseaudio.enable = false;
   };
 
   security.rtkit.enable = true;
@@ -347,27 +347,24 @@
     zsh.enable = true;
     nix-ld = {
       enable = true;
-      libraries = (
-        with pkgs;
-        [
-          zlib
-          zstd
-          stdenv.cc.cc
-          curl
-          openssl
-          attr
-          libssh
-          bzip2
-          libxml2
-          acl
-          libsodium
-          util-linux
-          xz
-          systemd
-          # openssl_3_2
-          openssl_3_3
-        ]
-      );
+      libraries = with pkgs; [
+        zlib
+        zstd
+        stdenv.cc.cc
+        curl
+        openssl
+        attr
+        libssh
+        bzip2
+        libxml2
+        acl
+        libsodium
+        util-linux
+        xz
+        systemd
+        # openssl_3_2
+        # openssl_3_3
+      ];
     };
   };
 
