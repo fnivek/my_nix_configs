@@ -18,15 +18,19 @@
     useOSProber = true;
   };
 
-  networking.hostName = "hagrid"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "hagrid"; # Define your hostname.
+    # Enable networking
+    networkmanager = {
+      enable = true;
+      dns = "systemd-resolved";
+    };
+    # Use cloudflair and Quad9 DNS servers.
+    nameservers = [
+      "1.1.1.1"
+      "9.9.9.9"
+    ];
+  };
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
@@ -96,6 +100,8 @@
 
     # Enable sound with pipewire.
     pulseaudio.enable = false;
+
+    resolved.enable = true;
   };
 
   # Enable nvidia
