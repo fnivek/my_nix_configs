@@ -21,6 +21,8 @@
         default = pkgs.mkShell {
           # So I know I'm in a KevDev shell.
           shellHook = ''
+            export HELIX_RUNTIME=${pkgs.helix}/lib/runtime
+            export HELIX_DISABLE_AUTO_GRAMMAR_BUILD=1
             printf "\e[38;2;0;255;000m▗▖ ▗▖▗▞▀▚▖▄   ▄ ▗▄▄▄  ▗▞▀▚▖▄   ▄\e[0m\n"
             printf "\e[38;2;0;170;085m▐▌▗▞▘▐▛▀▀▘█   █ ▐▌  █ ▐▛▀▀▘█   █\e[0m\n"
             printf "\e[38;2;0;085;170m▐▛▚▖ ▝▚▄▄▖ ▀▄▀  ▐▌  █ ▝▚▄▄▖ ▀▄▀ \e[0m\n"
@@ -40,7 +42,8 @@
             nixd
             vscode-langservers-extracted
             yaml-language-server
-            ansible-language-server
+            # Ansible is broken see https://github.com/ansible/vscode-ansible/issues/1144
+            # ansible-language-server
             taplo
             bash-language-server
             clang
