@@ -31,6 +31,13 @@
     {
       schemas = flake-schemas.schemas;
 
+      packages = forEachSupportedSystem (
+        { pkgs }:
+        {
+          kevdev-refresh = pkgs.callPackage ./pkgs/kevdev-refresh { };
+        }
+      );
+
       devShells = forEachSupportedSystem (
         { pkgs }:
         {
@@ -68,6 +75,11 @@
               go-task
               # Misc
               bat
+              # environment control
+              direnv
+              nix-direnv
+              # kevdev cli tools
+              self.packages.${pkgs.stdenv.hostPlatform.system}.kevdev-refresh
             ];
           };
         }
