@@ -23,6 +23,7 @@ in
     ./starship.nix
     ./helix.nix
     ./git.nix
+    ./gh.nix
     ./direnv.nix
     ./terminator.nix
     nix-colors.homeManagerModules.default
