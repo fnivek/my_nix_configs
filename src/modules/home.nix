@@ -3,6 +3,7 @@
   pkgs-unstable,
   lib,
   config,
+  username,
   ...
 }:
 {
@@ -20,8 +21,8 @@
 
   # TODO please change the username & home directory to your own
   home = {
-    username = "kdfrench";
-    homeDirectory = "/home/kdfrench";
+    inherit username;
+    homeDirectory = "/home/${username}";
     packages =
       with pkgs;
       [

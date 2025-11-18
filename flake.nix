@@ -27,51 +27,70 @@
       ...
     }:
     let
-      mkHost =
-        hostname:
-        let
-          system = "x86_64-linux";
-          pkgs = import nixpkgs {
-            inherit system;
-            config.allowUnfree = true;
-          };
-          pkgs-unstable = import nixpkgs-unstable {
-            inherit system;
-            config.allowUnfree = true;
-          };
-        in
-        {
-          name = hostname;
-          value = nixpkgs.lib.nixosSystem {
-            inherit system;
-            specialArgs = {
-              inherit inputs;
-            };
-            modules = [
-              # System level
-              ./src/hosts/${hostname}
+      system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+      pkgs-unstable = import nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
 
-              # User level
-              home-manager.nixosModules.home-manager
-              {
-                home-manager = {
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  users.kdfrench = {
-                    imports = [
-                      ./src/hosts/${hostname}/settings.nix
-                      ./src/modules/home.nix
-                    ];
-                  };
-                  # Optionally, use home-manager.extraSpecialArgs to pass
-                  # arguments to home.nix
-                  extraSpecialArgs = {
-                    inherit inputs;
-                    inherit pkgs-unstable;
-                  };
+      # NixOS systems.
+      mkHost = hostname: {
+        name = hostname;
+        value = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs;
+          };
+          modules = [
+            # System level
+            ./src/hosts/${hostname}
+
+            # User level
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.kdfrench = {
+                  imports = [
+                    ./src/hosts/${hostname}/settings.nix
+                    ./src/modules/home.nix
+                  ];
                 };
-              }
-            ];
+                # Optionally, use home-manager.extraSpecialArgs to pass
+                # arguments to home.nix
+                extraSpecialArgs = {
+                  inherit inputs;
+                  inherit pkgs-unstable;
+                  username = "kdfrench";
+                };
+              };
+            }
+          ];
+        };
+      };
+      mkHome =
+        { hostname, username }:
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+
+          modules = [
+            ./src/hosts/${hostname}/settings.nix
+            ./src/modules/home.nix
+            {
+              home.username = "${username}";
+              home.homeDirectory = "/home/${username}";
+            }
+          ];
+
+          extraSpecialArgs = {
+            inherit inputs;
+            inherit pkgs-unstable;
+            inherit username;
           };
         };
     in
@@ -83,5 +102,11 @@
           "hedwig"
         ]
       );
+      homeConfigurations = {
+        "kevinfrench@MSS01-T4" = mkHome {
+          hostname = "MSS01-T4";
+          username = "kevinfrench";
+        };
+      };
     };
 }

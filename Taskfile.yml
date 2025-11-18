@@ -21,6 +21,16 @@ tasks:
     cmds:
       - sudo nixos-rebuild switch
 
+  switch-home-manager:
+    desc: Rebuild and switch home manager configuration.
+    vars:
+      HOST:
+        sh: hostname
+      USER:
+        sh: whoami
+    cmds:
+      - home-manager switch --flake .#{{.USER}}@{{.HOST}}
+
   build:
     desc: Build the your host configuration but don't activate or add to boot.
     vars:
