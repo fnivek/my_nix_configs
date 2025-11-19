@@ -4,6 +4,7 @@
   lib,
   config,
   username,
+  nix-colors,
   ...
 }:
 {
@@ -17,17 +18,23 @@
     ./helix.nix
     ./git.nix
     ./direnv.nix
+    ./terminator.nix
+    nix-colors.homeManagerModules.default
   ];
 
-  # TODO please change the username & home directory to your own
+  # Dark mode.
+  colorScheme = nix-colors.colorSchemes.catppuccin-mocha;
+  # Light mode.
+  # colorScheme = nix-colors.colorSchemes.catppuccin-latte;
+
   home = {
     inherit username;
     homeDirectory = "/home/${username}";
     packages =
       with pkgs;
       [
-        # Terminal.
-        terminator
+        # Web
+        google-chrome
 
         # Notes
         obsidian
@@ -93,6 +100,10 @@
         # Dev tools
         pkgs-unstable.devbox
         go-task
+
+        # Fonts
+        noto-fonts-emoji
+        nerdfonts
       ]
       ++ lib.optional config.hostSettings.isPersonal pkgs.steam;
   };

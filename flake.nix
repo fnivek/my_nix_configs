@@ -16,6 +16,9 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+    nix-colors = {
+      url = "github:misterio77/nix-colors";
+    };
   };
 
   outputs =
@@ -24,6 +27,7 @@
       nixpkgs-unstable,
       home-manager,
       i3_scripts,
+      nix-colors,
       ...
     }:
     let
@@ -67,6 +71,7 @@
                   inherit inputs;
                   inherit pkgs-unstable;
                   username = "kdfrench";
+                  inherit nix-colors;
                 };
               };
             }
@@ -91,6 +96,7 @@
             inherit inputs;
             inherit pkgs-unstable;
             inherit username;
+            inherit nix-colors;
           };
         };
     in
