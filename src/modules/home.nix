@@ -5,8 +5,14 @@
   config,
   username,
   nix-colors,
+  pam-shim,
   ...
 }:
+let
+  # Check if we are nixos.
+  # TODO(Kevin): Make this work for ci and building all configurations from any machine.
+  isNixOs = builtins.pathExists /etc/NIXOS;
+in
 {
   imports = [
     ./i3.nix
@@ -20,7 +26,10 @@
     ./direnv.nix
     ./terminator.nix
     nix-colors.homeManagerModules.default
+    pam-shim.homeModules.default
   ];
+  # See https://github.com/nix-community/home-manager/issues/7027 for details.
+  pamShim.enable = if isNixOs then false else true;
 
   # Dark mode.
   colorScheme = nix-colors.colorSchemes.catppuccin-mocha;

@@ -19,6 +19,15 @@
     nix-colors = {
       url = "github:misterio77/nix-colors";
     };
+    # Privileged access management (PAM) shim enables using PAMs on non-nixos systems.
+    # i3lock, swaylock, etc all need access to standard PAMs but nix builds them to use nixos PAM.
+    # See https://github.com/nix-community/home-manager/issues/7027 for details.
+    pam-shim = {
+      url = "github:Cu3PO42/pam_shim/next";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
   };
 
   outputs =
@@ -28,6 +37,7 @@
       home-manager,
       i3_scripts,
       nix-colors,
+      pam-shim,
       ...
     }:
     let
@@ -97,6 +107,7 @@
             inherit pkgs-unstable;
             inherit username;
             inherit nix-colors;
+            inherit pam-shim;
           };
         };
     in

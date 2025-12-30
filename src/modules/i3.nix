@@ -1,10 +1,25 @@
 {
   lib,
   pkgs,
+  config,
   inputs,
   ...
 }:
 let
+  # All packages used by i3 config file and there invocations.
+  pkg_tools = rec {
+    # Packages for i3 config and user space.
+    user_pkgs = {
+      lock = config.lib.pamShim.replacePam pkgs.i3lock;
+      bar_menu = pkgs.dmenu;
+      clipboard = pkgs.xclip;
+      screenshot = pkgs.maim;
+    };
+    lock_cmd = "${lib.getExe' user_pkgs.lock "i3lock"} -c 222222";
+    # lock_cmd = "i3lock -c 222222";
+    bar_menu_cmd = "${lib.getExe' user_pkgs.bar_menu "dmenu_run"}";
+    screenshot_cmd = "${lib.getExe' user_pkgs.screenshot "maim"} -s | ${lib.getExe' user_pkgs.clipboard "xclip"} -selection clipboard -t image/png";
+  };
   mod = "Mod4";
   dirs = [
     {
@@ -84,10 +99,12 @@ let
   mode_scratchpad = "Tasks (-) term (Return) comms (c) music (m) teams (t) notes (n)";
   mode_system = "System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown";
   mode_display = "Display (t) toggle (a) all (c) clones (i) internal (e) external";
-  # Lock
-  lock_cmd = "${pkgs.i3lock}/bin/i3lock -c 222222";
 in
 {
+  # Install all packages used by i3 config in the user path.
+  # This ensures that any configuration files that home-manager manages get generated.
+  home.packages = builtins.attrValues pkg_tools.user_pkgs;
+
   xsession = {
     enable = true;
     windowManager.i3 = {
@@ -202,9 +219,9 @@ in
             }) dirs
           ))
           // {
-            "${mod}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run";
-            "${mod}+x" = "exec sh -c '${pkgs.maim}/bin/maim -s | xclip -selection clipboard -t image/png'";
-            "${mod}+Shift+x" = "exec sh -c '${lock_cmd}'";
+            "${mod}+d" = "exec ${pkg_tools.bar_menu_cmd}";
+            "${mod}+x" = "exec sh -c '${pkg_tools.screenshot_cmd}'";
+            "${mod}+Shift+x" = "exec sh -c '${pkg_tools.lock_cmd}'";
           }
         );
 
@@ -290,10 +307,10 @@ in
         bindsym ${mod}+minus mode "${mode_scratchpad}"
 
         mode "${mode_system}" {
-            bindsym l exec --no-startup-id sh -c '${lock_cmd}', mode "default";
+            bindsym l exec --no-startup-id sh -c '${pkg_tools.lock_cmd}', mode "default";
             bindsym e exec --no-startup-id i3-msg exit, mode "default"
-            bindsym s exec --no-startup-id sh -c '${lock_cmd} && systemctl suspend', mode "default"
-            bindsym h exec --no-startup-id sh -c '${lock_cmd} && systemctl hibernate', mode "default"
+            bindsym s exec --no-startup-id sh -c '${pkg_tools.lock_cmd} && systemctl suspend', mode "default"
+            bindsym h exec --no-startup-id sh -c '${pkg_tools.lock_cmd} && systemctl hibernate', mode "default"
             bindsym r exec --no-startup-id systemctl reboot, mode "default"
             bindsym Shift+s exec --no-startup-id systemctl poweroff, mode "default"
 
