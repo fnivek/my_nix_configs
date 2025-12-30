@@ -102,8 +102,9 @@
         go-task
 
         # Fonts
-        noto-fonts-emoji
-        nerdfonts
+        noto-fonts-color-emoji
+        font-awesome
+        nerd-fonts.ubuntu
       ]
       ++ lib.optional config.hostSettings.isPersonal pkgs.steam;
   };
