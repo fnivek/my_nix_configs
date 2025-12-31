@@ -1,8 +1,5 @@
 version: '3'
 
-vars:
-  HOSTS: hagrid luna hedwig
-
 tasks:
   watch:
     desc: Run all checks whenever a change occurs.
@@ -16,14 +13,29 @@ tasks:
     watch: true
     interval: 1s
 
+  # Build and change to the current configuration.
+  # This task uses the systems current username and hostname to determine if it is a
+  # home manager or nixos.
   switch:
-    desc: Rebuild and switch nixos configurations.
-    cmds:
-      - sudo nixos-rebuild switch
-
-  switch-home-manager:
-    desc: Rebuild and switch home manager configuration.
+    desc: Rebuild and switch your configurations.
     vars:
+      HOST:
+        sh: hostname
+      USER:
+        sh: whoami
+    cmds:
+      - task: switch-{{.USER}}-{{.HOST}}
+
+  # Hidden tasks to dispatch the specific user system combo to switch-hm or switch-nixos.
+  switch-kevinfrench-MSS01-T4: {cmds: [task: switch-hm]}
+  switch-kdfrench-hagrid: {cmds: [task: switch-nixos]}
+  switch-kdfrench-hedwig: {cmds: [task: switch-nixos]}
+
+  # Build and change the home manager configuration.
+  switch-hm:
+    vars:
+      # It only makes sense to run this command for the current running system so
+      # the vars get the current system information.
       HOST:
         sh: hostname
       USER:
@@ -31,24 +43,51 @@ tasks:
     cmds:
       - home-manager switch --flake .#{{.USER}}@{{.HOST}}
 
+  # Build and change the nixos configuration.
+  switch-nixos:
+    cmds:
+      - sudo nixos-rebuild switch
+
+  # Build but don't change your configuration.
+  # This task uses the systems current username and hostname to determine if it is a
+  # home manager or nixos.
   build:
     desc: Build the your host configuration but don't activate or add to boot.
     vars:
       HOST:
         sh: hostname
+      USER:
+        sh: whoami
     cmds:
-      - task: build-{{.HOST}}
+      - task: build-{{.USER}}-{{.HOST}}
 
+  # Hidden tasks to dispatch the specific user system combo to build-hm or build-nixos.
+  build-kevinfrench-MSS01-T4: {cmds: [{task: build-hm, vars: {HOST: MSS01-T4, USER: kevinfrench}}]}
+  build-kdfrench-hagrid: {cmds: [{task: build-nixos, vars: {HOST: hagrid}}]}
+  build-kdfrench-hedwig: {cmds: [{task: build-nixos, vars: {HOST: hedwig}}]}
+
+  # Build for every system user combo.
   build-all:
-      - for: {var: HOSTS}
-        task: build-{{.ITEM}}
-
-  build-*:
-    vars:
-      HOST: '{{index .MATCH 0}}'
-    desc: Build the host configuration but don't activate or add to boot.
+    desc: Build all configurations.
     cmds:
-      - nixos-rebuild build --flake .#{{.HOST}}
+      - task: build-kevinfrench-MSS01-T4
+      - task: build-kdfrench-hagrid
+      - task: build-kdfrench-hedwig
+
+  # Builds a nixos configuration.
+  # var HOST - required, the host to build.
+  build-nixos:
+    cmds:
+      # Using nix build instead of nixos-rebuild command enables us to build in ci and on
+      # non-nixos systems.
+      - nix build .#nixosConfigurations.{{.HOST}}.config.system.build.toplevel
+
+  # Builds a hm configuration.
+  # var HOST - required, the host to build.
+  # var USER - required, the user to build.
+  build-hm:
+    cmds:
+      - home-manager build --flake .#{{.USER}}@{{.HOST}}
 
   update:
     desc: Updates all flake inputs.
