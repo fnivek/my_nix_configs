@@ -25,94 +25,93 @@
       };
 
       # Regular bind.
-      bind =
-        [
-          # Launch programs
-          "$mod, Return, exec, kitty"
-          # Fullscreen
-          "$mod, f, fullscreen, 1"
-          "$mod SHIFT, f, fullscreen, 0"
-          # Float
-          "$mod, Space, togglefloating"
-          # Kill
-          "$mod, Q, hy3:killactive"
-          # Launcher
-          "$mod, D, exec, pkill wofi || wofi --show drun"
-          # Layout
-          "$mod, v, hy3:makegroup, v"
-          "$mod, e, hy3:changegroup, opposite"
-          "$mod, w, hy3:makegroup, tab"
-          "$mod, a, hy3:changefocus, raise"
-          "$mod, c, hy3:changefocus, lower"
-          # System control
-          "$mod, z, exec, hyprlock"
-          "$mod SHIFT, z, exec, systemctl suspend"
-          # Special workspaces (scratchpads)
-          "$mod, MINUS, togglespecialworkspace, todo"
-          "$mod SHIFT, MINUS, movetoworkspace, special:todo"
-          "$mod SHIFT, Space, movetoworkspace, e+0"
-        ]
-        ++ (
-          # Workspace motion
-          builtins.concatLists (
-            builtins.genList (
-              x:
-              let
-                ws =
-                  let
-                    c = (x + 1) / 10;
-                  in
-                  builtins.toString (x + 1 - (c * 10));
-              in
-              [
-                "$mod, ${ws}, workspace, ${toString (x + 1)}"
-                "$mod SHIFT, ${ws}, movetoworkspacesilent, ${toString (x + 1)}"
-              ]
-            ) 10
-          )
-        )
-        ++ (
-          # Motions
-          builtins.concatMap
-            (x: [
-              "$mod, ${x.key}, hy3:movefocus, ${x.dir}"
-              "$mod SHIFT, ${x.key}, hy3:movewindow, ${x.dir}"
-            ])
+      bind = [
+        # Launch programs
+        "$mod, Return, exec, kitty"
+        # Fullscreen
+        "$mod, f, fullscreen, 1"
+        "$mod SHIFT, f, fullscreen, 0"
+        # Float
+        "$mod, Space, togglefloating"
+        # Kill
+        "$mod, Q, hy3:killactive"
+        # Launcher
+        "$mod, D, exec, pkill wofi || wofi --show drun"
+        # Layout
+        "$mod, v, hy3:makegroup, v"
+        "$mod, e, hy3:changegroup, opposite"
+        "$mod, w, hy3:makegroup, tab"
+        "$mod, a, hy3:changefocus, raise"
+        "$mod, c, hy3:changefocus, lower"
+        # System control
+        "$mod, z, exec, hyprlock"
+        "$mod SHIFT, z, exec, systemctl suspend"
+        # Special workspaces (scratchpads)
+        "$mod, MINUS, togglespecialworkspace, todo"
+        "$mod SHIFT, MINUS, movetoworkspace, special:todo"
+        "$mod SHIFT, Space, movetoworkspace, e+0"
+      ]
+      ++ (
+        # Workspace motion
+        builtins.concatLists (
+          builtins.genList (
+            x:
+            let
+              ws =
+                let
+                  c = (x + 1) / 10;
+                in
+                builtins.toString (x + 1 - (c * 10));
+            in
             [
-              {
-                key = "j";
-                dir = "d";
-              }
-              {
-                key = "k";
-                dir = "u";
-              }
-              {
-                key = "h";
-                dir = "l";
-              }
-              {
-                key = "l";
-                dir = "r";
-              }
-              {
-                key = "down";
-                dir = "d";
-              }
-              {
-                key = "up";
-                dir = "u";
-              }
-              {
-                key = "left";
-                dir = "l";
-              }
-              {
-                key = "right";
-                dir = "r";
-              }
+              "$mod, ${ws}, workspace, ${toString (x + 1)}"
+              "$mod SHIFT, ${ws}, movetoworkspacesilent, ${toString (x + 1)}"
             ]
-        );
+          ) 10
+        )
+      )
+      ++ (
+        # Motions
+        builtins.concatMap
+          (x: [
+            "$mod, ${x.key}, hy3:movefocus, ${x.dir}"
+            "$mod SHIFT, ${x.key}, hy3:movewindow, ${x.dir}"
+          ])
+          [
+            {
+              key = "j";
+              dir = "d";
+            }
+            {
+              key = "k";
+              dir = "u";
+            }
+            {
+              key = "h";
+              dir = "l";
+            }
+            {
+              key = "l";
+              dir = "r";
+            }
+            {
+              key = "down";
+              dir = "d";
+            }
+            {
+              key = "up";
+              dir = "u";
+            }
+            {
+              key = "left";
+              dir = "l";
+            }
+            {
+              key = "right";
+              dir = "r";
+            }
+          ]
+      );
 
       # Repeatable binds
       binde = [
