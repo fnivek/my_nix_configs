@@ -69,11 +69,12 @@
     # Enable the OpenSSH daemon.
     # openssh.enable = true;
 
+    displayManager.gdm.enable = true;
+    # Enable the GNOME Desktop Environment.
+    desktopManager.gnome.enable = true;
+
     xserver = {
       enable = true;
-      displayManager.gdm.enable = true;
-      # Enable the GNOME Desktop Environment.
-      desktopManager.gnome.enable = true;
       windowManager.i3 = {
         enable = true;
         extraPackages = with pkgs; [
@@ -92,13 +93,16 @@
       # Enable touchpad support (enabled default in most desktopManager).
       # libinput.enable = true;
     };
+
+    # Enable sound with pipewire.
+    pulseaudio.enable = false;
   };
 
   # Enable nvidia
   hardware = {
-    opengl = {
+    graphics = {
       enable = true;
-      driSupport32Bit = true;
+      enable32Bit = true;
     };
     nvidia = {
 
@@ -131,9 +135,6 @@
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
-
-    # Enable sound with pipewire.
-    pulseaudio.enable = false;
   };
 
   security.rtkit.enable = true;

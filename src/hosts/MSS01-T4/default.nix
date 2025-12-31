@@ -109,9 +109,13 @@
 
   # Enable nvidia (TODO: Kevin Split this out into its own file to only include on nvidia systems)
   hardware = {
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+      package = pkgs.mesa_drivers;
+    };
     opengl = {
       enable = true;
-      driSupport32Bit = true;
       package = pkgs.mesa_drivers;
     };
     nvidia = {

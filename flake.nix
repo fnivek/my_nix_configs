@@ -82,6 +82,7 @@
                   inherit pkgs-unstable;
                   username = "kdfrench";
                   inherit nix-colors;
+                  inherit pam-shim;
                 };
               };
             }
