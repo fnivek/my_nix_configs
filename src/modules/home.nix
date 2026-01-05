@@ -37,6 +37,8 @@ in
   # Light mode.
   # colorScheme = nix-colors.colorSchemes.catppuccin-latte;
 
+  targets.genericLinux.enable = true;
+
   home = {
     inherit username;
     homeDirectory = "/home/${username}";
