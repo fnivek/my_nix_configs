@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -29,14 +30,23 @@ let
       p.base07
     ]
   );
+  font = {
+    name = "ZedMono Nerd Font Ultra-Bold Expanded";
+    size = 10;
+    package = pkgs.nerd-fonts.zed-mono;
+  };
 in
 {
+  home.packages = [
+    font.package
+  ];
+
   programs.terminator = {
     enable = true;
     config = {
       profiles.default = {
         use_system_font = false;
-        font = "JetBrainsMono Nerd Font Mono 12";
+        font = "${font.name} ${toString font.size}";
         background_color = hex p.base00;
         foreground_color = hex p.base05;
         cursor_color = hex p.base06;
