@@ -1,8 +1,48 @@
 # Kevin's System Config
 This repo contains all of my configurations for all of the things I do.
 
+## TODO
+* [ ] Check that `targets.genericLinux.enable = true;` for homeManager configurations, does not break anything that isn't generic linux such as NixOS.
+* [ ] Make a script for one time setup
+* [ ] Setup dev shells and use nix develop --commmand for tasks and ci for locked versions of the tools
+* [ ] Setup dev shell templates for python, cpp, c, shell, nix, and other dev environments
+* [ ] Merge i3 scripts into this repo
+* [ ] Consider using std
+* [ ] Setup a ci/cd pipeline
+  * [ ] Setup weekly auto updates
+* [ ] Figure out why i3 status bar has sigmas instead of my pretty format on WKS62
+* [ ] Consolidate the apparmour chatgpt section of the readme
+* [ ] Switch to flake parts
+* [ ] Allow systems to use custom home.nix files
 
-## Apparmour blocks my electron apps
+## One time setup
+### Standalone Home Manager
+* Install nix and git
+* Clone the configuration repository
+* task switch
+* run the setup for gpu script in the warning message (comes from `targets.genericLinux.enable = true;`)
+* Add a .Desktop file in `/usr/share/xsessions/home-manager-i3.desktop`
+```
+[Desktop Entry]
+Name=Home Manager i3
+Comment=i3 session managed by Home Manager
+Exec=/etc/X11/Xsession
+TryExec=/etc/X11/Xsession
+Type=Application
+DesktopNames=i3
+```
+* Set zsh as the default shell
+```bash
+export zp=$(which zsh)
+echo $zp | sudo tee -a /etc/shells
+sudo chsh -s "$zp" "$USER"
+```
+* reboot
+
+## Potential future issues
+
+## Apparmour chatgpt
+### Apparmour blocks my electron apps
 Yeah, this one’s not really a “home-manager on Ubuntu” bug, it’s **Ubuntu 24.04 being extra paranoid** and your Nix binaries tripping over it.
 
 Short version:
@@ -16,7 +56,7 @@ You’ve basically got three realistic options. I’ll show you the clean ones a
 
 ---
 
-## Option A – Easiest: turn off the new restriction globally
+### Option A – Easiest: turn off the new restriction globally
 
 This makes Ubuntu behave like pre-24.04 for user namespaces. Good for a **dev laptop you control**, less ideal for high-paranoia environments.
 
@@ -58,7 +98,7 @@ No changes to your flake/home-manager setup needed; your Nix Chrome/Obsidian sho
 
 ---
 
-## Option B – More targeted: AppArmor profile per Nix app
+### Option B – More targeted: AppArmor profile per Nix app
 
 If you want to **keep** Ubuntu’s stricter defaults but still run specific Nix apps (like Nix-Obsidian, Nix-Chrome), you can add an AppArmor profile that:
 
@@ -126,7 +166,7 @@ Again, this is all **outside** home-manager; HM can’t write `/etc/apparmor.d` 
 
 ---
 
-## Option C – Use distro Chrome/Obsidian, Nix for everything else
+### Option C – Use distro Chrome/Obsidian, Nix for everything else
 
 One very pragmatic split:
 
@@ -139,7 +179,7 @@ You *can* still keep Nix versions of some apps if you really want, and just appl
 
 ---
 
-## Where home-manager fits in (and where it doesn’t)
+### Where home-manager fits in (and where it doesn’t)
 
 Home-manager on Ubuntu **cannot**:
 
