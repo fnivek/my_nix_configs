@@ -87,7 +87,7 @@ tasks:
   # var USER - required, the user to build.
   build-hm:
     cmds:
-      - home-manager build --flake .#{{.USER}}@{{.HOST}}
+      - nix run nixpkgs#home-manager -- build --flake .#{{.USER}}@{{.HOST}}
 
   update:
     desc: Updates all flake inputs.
@@ -140,7 +140,7 @@ tasks:
     desc: Check if all files are formatted correctly.
     cmds:
       - for: sources
-        cmd: nixfmt -c {{ .ITEM }}
+        cmd: nix run nixpkgs#nixfmt -- -c {{ .ITEM }}
     sources:
       - "flake.nix"
       - "src/**/*.nix"
@@ -149,7 +149,7 @@ tasks:
     desc: Check if all files meet statix analysis.
     cmds:
       - for: sources
-        cmd: statix check {{ .ITEM }}
+        cmd: nix run nixpkgs#statix check {{ .ITEM }}
     sources:
       - "flake.nix"
       - "src/**/*.nix"
