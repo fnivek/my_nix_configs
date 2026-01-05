@@ -152,6 +152,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "docker"
     ];
     packages = with pkgs; [
       google-chrome
@@ -206,6 +207,14 @@
   # programs.libraries = with pkgs; [
   #   # Add missing dynamic libs for unpacked progs here not in environment.systemPackages
   # ];
+
+  virtualisation.docker = {
+    enable = true;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
+  };
 
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSORS = "1";
