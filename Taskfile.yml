@@ -28,6 +28,7 @@ tasks:
 
   # Hidden tasks to dispatch the specific user system combo to switch-hm or switch-nixos.
   switch-kevinfrench-MSS01-T4: {cmds: [task: switch-hm]}
+  switch-kdfrench-MSS01-WKS62.motivss.local: {cmds: [task: switch-hm]}
   switch-kdfrench-hagrid: {cmds: [task: switch-nixos]}
   switch-kdfrench-hedwig: {cmds: [task: switch-nixos]}
 
@@ -63,6 +64,7 @@ tasks:
 
   # Hidden tasks to dispatch the specific user system combo to build-hm or build-nixos.
   build-kevinfrench-MSS01-T4: {cmds: [{task: build-hm, vars: {HOST: MSS01-T4, USER: kevinfrench}}]}
+  build-kdfrench-MSS01-WKS62.motivss.local: {cmds: [{task: build-hm, vars: {HOST: MSS01-WKS62.motivss.local, USER: kdfrench}}]}
   build-kdfrench-hagrid: {cmds: [{task: build-nixos, vars: {HOST: hagrid}}]}
   build-kdfrench-hedwig: {cmds: [{task: build-nixos, vars: {HOST: hedwig}}]}
 
@@ -71,6 +73,7 @@ tasks:
     desc: Build all configurations.
     cmds:
       - task: build-kevinfrench-MSS01-T4
+      - task: build-kdfrench-MSS01-WKS62.motivss.local
       - task: build-kdfrench-hagrid
       - task: build-kdfrench-hedwig
 

@@ -125,6 +125,10 @@
           hostname = "MSS01-T4";
           username = "kevinfrench";
         };
+        "kdfrench@MSS01-WKS62.motivss.local" = mkHome {
+          hostname = "MSS01-WKS62.motivss.local";
+          username = "kdfrench";
+        };
       };
     };
 }
