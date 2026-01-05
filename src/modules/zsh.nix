@@ -23,6 +23,12 @@
         zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --color $realpath'
         zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -1 --color=always $realpath'
       '';
+      moveWordKeybindings = ''
+        # ctrl-left arrow
+        bindkey "^[[1;5D" backward-word
+        # ctrl-right arrow
+        bindkey "^[[1;5C" forward-word
+      '';
     in
     {
       enable = true;
@@ -32,10 +38,10 @@
 
       shellAliases = {
         ls = "eza";
-        update = "sudo nixos-rebuild switch";
         taskg = "task -g";
       };
-      initContent = fzfKeybindings + historySearchKeybindings + completionStyle + fzfTab;
+      initContent =
+        fzfKeybindings + historySearchKeybindings + completionStyle + fzfTab + moveWordKeybindings;
       history = {
         size = 10000;
         save = 10000;
