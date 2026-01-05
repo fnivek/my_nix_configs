@@ -63,6 +63,7 @@ in
         yq-go # yaml processer https://github.com/mikefarah/yq
         eza # A modern replacement for ‘ls’
         fzf # A command-line fuzzy finder
+        arandr
 
         # networking tools
         socat # replacement of openbsd-netcat
