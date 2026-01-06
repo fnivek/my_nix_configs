@@ -162,3 +162,13 @@ tasks:
     cmds:
       - devbox run zsh
     interactive: true
+
+  hm-news:
+    desc: Read home managers news items.
+    vars:
+      HOST:
+        sh: hostname
+      USER:
+        sh: whoami
+    cmds:
+      - nix run nixpkgs#home-manager -- news --flake .#{{.USER}}@{{.HOST}}
