@@ -6,7 +6,7 @@ _: {
         name = "Kevin French";
         email = "fnivek@gmail.com";
       };
-      aliases = {
+      alias = {
         la = "!git config -l | grep alias | cut -c 7-";
 
         lg = "!git lg1-all";
