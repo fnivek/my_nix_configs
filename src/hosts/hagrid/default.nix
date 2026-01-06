@@ -154,10 +154,7 @@
       "wheel"
       "docker"
     ];
-    packages = with pkgs; [
-      google-chrome
-      git
-    ];
+    packages = [ ];
   };
 
   # Default shell.
