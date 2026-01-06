@@ -15,12 +15,18 @@ let
       bar_menu = dmenu;
       clipboard = xclip;
       screenshot = maim;
+      font = nerd-fonts.zed-mono;
     };
     lock_cmd = "${lib.getExe' user_pkgs.lock "i3lock"} -c 222222";
     auto_lock_cmd = "${lib.getExe' user_pkgs.xss-lock "xss-lock"} --transfer-sleep-lock -- ${lock_cmd}";
     # lock_cmd = "i3lock -c 222222";
     bar_menu_cmd = "${lib.getExe' user_pkgs.bar_menu "dmenu_run"}";
     screenshot_cmd = "${lib.getExe' user_pkgs.screenshot "maim"} -s | ${lib.getExe' user_pkgs.clipboard "xclip"} -selection clipboard -t image/png";
+    font = {
+      name = "ZedMono Nerd Font";
+      style = "ExtraBold";
+      size = 10;
+    };
   };
   mod = "Mod4";
   dirs = [
@@ -156,9 +162,10 @@ in
 
         fonts = {
           names = [
-            "DejaVu Sans Mono"
-            "FontAwesome"
+            "${pkg_tools.font.name}"
           ];
+          style = "${pkg_tools.font.style}";
+          size = "${toString pkg_tools.font.size}";
         };
 
         keybindings = lib.mkDefault (
@@ -293,6 +300,13 @@ in
             statusCommand = "i3status-rs config-top.toml";
             trayOutput = "primary";
             workspaceNumbers = false;
+            fonts = {
+              names = [
+                "${pkg_tools.font.name}"
+              ];
+              style = "${pkg_tools.font.style}";
+              size = "${toString pkg_tools.font.size}";
+            };
           }
         ];
       };

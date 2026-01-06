@@ -14,8 +14,12 @@
               format = " $icon $mem_total_used_percents.eng(w:2) ";
               format_alt = " $icon_swap $swap_used_percents.eng(w:2) ";
             }
+            { block = "docker"; }
             {
               block = "sound";
+              theme_overrides = {
+                warning_bg = "#${config.colorScheme.palette.base03}";
+              };
               click = [
                 {
                   button = "left";
