@@ -6,13 +6,9 @@
   username,
   nix-colors,
   pam-shim,
+  isNixOs,
   ...
 }:
-let
-  # Check if we are nixos.
-  # TODO(Kevin): Make this work for ci and building all configurations from any machine.
-  isNixOs = builtins.pathExists /etc/NIXOS;
-in
 {
   imports = [
     ./i3.nix

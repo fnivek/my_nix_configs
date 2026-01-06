@@ -83,6 +83,7 @@
                   username = "kdfrench";
                   inherit nix-colors;
                   inherit pam-shim;
+                  isNixOs = true;
                 };
               };
             }
@@ -109,6 +110,7 @@
             inherit username;
             inherit nix-colors;
             inherit pam-shim;
+            isNixOs = false;
           };
         };
     in
