@@ -128,7 +128,7 @@
   # You can update home Manager without changing this value. See
   # the home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "23.11";
+  home.stateVersion = "25.11";
 
   # Let home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -138,19 +138,6 @@
     gpg-agent = {
       enable = true;
       enableSshSupport = true;
-    };
-    xidlehook = {
-      enable = true;
-      timers = [
-        {
-          delay = 600;
-          command = "${lib.getExe' (config.lib.pamShim.replacePam pkgs.i3lock) "i3lock"} -c 222222";
-        }
-        {
-          delay = 900;
-          command = "systemctl suspend";
-        }
-      ];
     };
   };
 }

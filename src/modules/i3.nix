@@ -15,11 +15,13 @@ let
       clipboard = xclip;
       screenshot = maim;
       font = nerd-fonts.zed-mono;
+      notify = dunst;
     };
     lock_cmd = "${lib.getExe' user_pkgs.lock "i3lock"} -c 222222";
     # lock_cmd = "i3lock -c 222222";
     bar_menu_cmd = "${lib.getExe' user_pkgs.bar_menu "dmenu_run"}";
     screenshot_cmd = "${lib.getExe' user_pkgs.screenshot "maim"} -s | ${lib.getExe' user_pkgs.clipboard "xclip"} -selection clipboard -t image/png";
+    notify_cmd = "${lib.getExe' user_pkgs.notify "dunstify"}";
     font = {
       name = "ZedMono Nerd Font";
       style = "ExtraBold";
@@ -110,6 +112,33 @@ in
   # Install all packages used by i3 config in the user path.
   # This ensures that any configuration files that home-manager manages get generated.
   home.packages = builtins.attrValues pkg_tools.user_pkgs;
+
+  services = {
+    xidlehook = {
+      enable = true;
+      timers = [
+        {
+          # Warn will lock 1 m before lock.
+          delay = 540;
+          command = "${pkg_tools.notify_cmd} -r 123456789 -t 60000 -u normal IDLE \"Will lock soon\"";
+          canceller = "${pkg_tools.notify_cmd} -C 123456789";
+        }
+        {
+          # Lock after 10 m.
+          delay = 600;
+          command = "${pkg_tools.lock_cmd}";
+        }
+        {
+          # Suspend after 1 h.
+          delay = 3600;
+          command = "systemctl suspend";
+        }
+      ];
+    };
+    dunst = {
+      enable = true;
+    };
+  };
 
   xsession = {
     enable = true;
