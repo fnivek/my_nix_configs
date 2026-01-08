@@ -139,5 +139,18 @@
       enable = true;
       enableSshSupport = true;
     };
+    xidlehook = {
+      enable = true;
+      timers = [
+        {
+          delay = 600;
+          command = "${lib.getExe' (config.lib.pamShim.replacePam pkgs.i3lock) "i3lock"} -c 222222";
+        }
+        {
+          delay = 900;
+          command = "systemctl suspend";
+        }
+      ];
+    };
   };
 }

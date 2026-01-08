@@ -10,7 +10,6 @@ let
   pkg_tools = rec {
     # Packages for i3 config and user space.
     user_pkgs = with pkgs; {
-      inherit xss-lock;
       lock = config.lib.pamShim.replacePam i3lock;
       bar_menu = dmenu;
       clipboard = xclip;
@@ -18,7 +17,6 @@ let
       font = nerd-fonts.zed-mono;
     };
     lock_cmd = "${lib.getExe' user_pkgs.lock "i3lock"} -c 222222";
-    auto_lock_cmd = "${lib.getExe' user_pkgs.xss-lock "xss-lock"} --transfer-sleep-lock -- ${lock_cmd}";
     # lock_cmd = "i3lock -c 222222";
     bar_menu_cmd = "${lib.getExe' user_pkgs.bar_menu "dmenu_run"}";
     screenshot_cmd = "${lib.getExe' user_pkgs.screenshot "maim"} -s | ${lib.getExe' user_pkgs.clipboard "xclip"} -selection clipboard -t image/png";
@@ -394,11 +392,6 @@ in
 
         exec_always --no-startup-id "${focus_history_server_launch}"
         exec --no-startup-id "${toggle_touchpad}"
-
-        # Auto lock
-        exec --no-startup-id xset s on
-        exec --no-startup-id xset s 900 600
-        exec --no-startup-id ${pkg_tools.auto_lock_cmd}
       '';
     };
   };
