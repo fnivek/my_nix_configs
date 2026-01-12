@@ -38,6 +38,9 @@ echo $zp | sudo tee -a /etc/shells
 sudo chsh -s "$zp" "$USER"
 ```
 * reboot
+* [Install Docker](https://docs.docker.com/engine/install/ubuntu/)
+  * Docker requires root privleges and home-manager doesn't have that.
+* If it has an Nvidia gpu [Install nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
 
 ## Potential future issues
 
