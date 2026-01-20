@@ -261,33 +261,6 @@ in
           }
         );
 
-        window.commands = [
-          {
-            criteria = {
-              title = "Todoist";
-            };
-            command = "move workspace 1:1:Com";
-          }
-          {
-            criteria = {
-              title = "Gmail";
-            };
-            command = "move workspace 2:2:Com";
-          }
-          {
-            criteria = {
-              title = "Calendar";
-            };
-            command = "move workspace 3:3:Com";
-          }
-          {
-            criteria = {
-              title = "Music";
-            };
-            command = "move workspace 4:4:Com";
-          }
-        ];
-
         bars = [
           {
             colors = {
