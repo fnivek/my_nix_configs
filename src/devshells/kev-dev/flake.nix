@@ -40,6 +40,30 @@
 
       devShells = forEachSupportedSystem (
         { pkgs }:
+        let
+          py = pkgs.python3;
+          pyEnv = py.withPackages (ps: with ps; [
+            pytest
+            pytest-cov
+            pytest-mock
+
+            black
+            flake8
+            pylint
+            pycodestyle
+            ruff
+            pyflakes
+            yapf
+            autopep8
+            mccabe
+
+            python-lsp-server
+
+            sphinx
+            sphinx-autodoc-typehints
+            sphinx-rtd-theme
+          ]);
+        in
         {
           default = pkgs.mkShell {
             # So I know I'm in a KevDev shell.
@@ -58,6 +82,10 @@
               # Pull stuff from the internet.
               curl
               wget
+              # Python
+              py
+              pyEnv
+              poetry
               # Helix and its language servers.
               helix
               nixfmt-rfc-style
