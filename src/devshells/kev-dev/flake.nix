@@ -88,7 +88,7 @@
               poetry
               # Helix and its language servers.
               helix
-              nixfmt-rfc-style
+              nixfmt
               nil
               nixd
               vscode-langservers-extracted
