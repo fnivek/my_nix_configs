@@ -58,6 +58,7 @@
             mccabe
 
             python-lsp-server
+            jedi
 
             sphinx
             sphinx-autodoc-typehints
@@ -86,19 +87,28 @@
               py
               pyEnv
               poetry
+              ty
               # Helix and its language servers.
               helix
               nixfmt
               nil
               nixd
               vscode-langservers-extracted
+              vscode-json-languageserver
               yaml-language-server
               # Ansible is broken see https://github.com/ansible/vscode-ansible/issues/1144
               # ansible-language-server
               taplo
+              tombi
               bash-language-server
               clang
               clang-tools
+              docker-language-server
+              hadolint
+              dockerfmt
+              marksman
+              markdown-oxide
+              rumdl
               # Go task
               go-task
               # Misc
