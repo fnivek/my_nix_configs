@@ -5,7 +5,7 @@
   # Run `nix flake update` to pull in the latest.
   inputs = {
     flake-schemas.url = "https://flakehub.com/f/DeterminateSystems/flake-schemas/*";
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
   };
 
   outputs =
