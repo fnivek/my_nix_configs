@@ -9,6 +9,7 @@ _: {
         line-number = "relative";
         lsp.display-messages = true;
         rulers = [ 101 ];
+        file-picker.hidden = false;
       };
     };
   };
