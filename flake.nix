@@ -118,7 +118,6 @@
       nixosConfigurations = builtins.listToAttrs (
         builtins.map mkHost [
           "hagrid"
-          "luna"
           "hedwig"
         ]
       );
