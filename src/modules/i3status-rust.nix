@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 {
   programs.i3status-rust = {
     enable = true;
@@ -20,12 +20,6 @@
               theme_overrides = {
                 warning_bg = "#${config.colorScheme.palette.base03}";
               };
-              click = [
-                {
-                  button = "left";
-                  cmd = "pavucontrol";
-                }
-              ];
             }
           ]
           ++ lib.optional config.hostSettings.hasBattery { block = "battery"; }
@@ -39,4 +33,9 @@
       };
     };
   };
+  home.packages =
+    with pkgs;
+    [
+      pulseaudio
+    ];
 }
