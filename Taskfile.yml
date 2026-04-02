@@ -9,7 +9,7 @@ tasks:
       - task: build-all
     sources:
       - "flake.nix"
-      - "src/**/*.nix"
+      - "modules/**/*.nix"
     watch: true
     interval: 1s
 
@@ -128,7 +128,7 @@ tasks:
         cmd: nixfmt {{ .ITEM }}
     sources:
       - "flake.nix"
-      - "src/**/*.nix"
+      - "modules/**/*.nix"
 
   lint:
     desc: Check if all files meet standards.
@@ -137,7 +137,7 @@ tasks:
       - task: static-analysis
     sources:
       - "flake.nix"
-      - "src/**/*.nix"
+      - "modules/**/*.nix"
 
   nixfmt-check:
     desc: Check if all files are formatted correctly.
@@ -146,7 +146,7 @@ tasks:
         cmd: nix run nixpkgs#nixfmt -- -c {{ .ITEM }}
     sources:
       - "flake.nix"
-      - "src/**/*.nix"
+      - "modules/**/*.nix"
 
   static-analysis:
     desc: Check if all files meet statix analysis.
@@ -155,7 +155,7 @@ tasks:
         cmd: nix run nixpkgs#statix check {{ .ITEM }}
     sources:
       - "flake.nix"
-      - "src/**/*.nix"
+      - "modules/**/*.nix"
 
   dev-zshell:
     desc: Drop into a zsh with all dev dependencies.

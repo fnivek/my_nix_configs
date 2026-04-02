@@ -3,41 +3,19 @@
   pkgs-unstable,
   lib,
   config,
-  username,
-  nix-colors,
-  pam-shim,
-  isNixOs,
+  inputs,
   ...
 }:
 {
-  imports = [
-    ./i3.nix
-    ./i3status-rust.nix
-    ./zoxide.nix
-    ./zsh.nix
-    ./bash.nix
-    ./starship.nix
-    ./helix.nix
-    ./git.nix
-    ./gh.nix
-    ./direnv.nix
-    ./terminator.nix
-    nix-colors.homeManagerModules.default
-    pam-shim.homeModules.default
-  ];
-  # See https://github.com/nix-community/home-manager/issues/7027 for details.
-  pamShim.enable = if isNixOs then false else true;
-
   # Dark mode.
-  colorScheme = nix-colors.colorSchemes.catppuccin-mocha;
+  colorScheme = inputs.nix-colors.colorSchemes.catppuccin-mocha;
   # Light mode.
-  # colorScheme = nix-colors.colorSchemes.catppuccin-latte;
+  # colorScheme = inputs.nix-colors.colorSchemes.catppuccin-latte;
 
   targets.genericLinux.enable = true;
 
   home = {
-    inherit username;
-    homeDirectory = "/home/${username}";
+    stateVersion = "25.11";
     packages =
       with pkgs;
       [
@@ -57,7 +35,7 @@
         ripgrep # recursively searches directories for a regex pattern
         jq # A lightweight and flexible command-line JSON processor
         yq-go # yaml processer https://github.com/mikefarah/yq
-        eza # A modern replacement for ‘ls’
+        eza # A modern replacement for 'ls'
         fzf # A command-line fuzzy finder
         arandr
 
@@ -128,7 +106,6 @@
   # You can update home Manager without changing this value. See
   # the home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "25.11";
 
   # Let home Manager install and manage itself.
   programs.home-manager.enable = true;
