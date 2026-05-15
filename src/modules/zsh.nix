@@ -29,6 +29,9 @@
         # ctrl-right arrow
         bindkey "^[[1;5C" forward-word
       '';
+      goTaskCompletions = ''
+        eval "$(task --completion zsh)"
+      '';
     in
     {
       enable = true;
@@ -41,7 +44,12 @@
         taskg = "task -g";
       };
       initContent =
-        fzfKeybindings + historySearchKeybindings + completionStyle + fzfTab + moveWordKeybindings;
+        fzfKeybindings
+        + historySearchKeybindings
+        + completionStyle
+        + fzfTab
+        + moveWordKeybindings
+        + goTaskCompletions;
       history = {
         size = 10000;
         save = 10000;
