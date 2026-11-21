@@ -3,14 +3,14 @@ set -euo pipefail
 
 usage() {
   cat <<'EOF'
-kevdev-refresh — refresh the remote flake github:fnivek/kev_dev and reload direnv
+kevdev-refresh — refresh the remote flake github:fnivek/my_nix_configs and reload direnv
 
 Usage:
-  kevdev-refresh            Refresh lock for github:fnivek/kev_dev, then run `direnv reload`.
+  kevdev-refresh            Refresh lock for github:fnivek/my_nix_configs, then run `direnv reload`.
   kevdev-refresh -h|--help  Show this help.
 
 What it runs:
-  nix flake metadata github:fnivek/kev_dev --refresh > /dev/null && direnv reload
+  nix flake metadata github:fnivek/my_nix_configs --refresh > /dev/null && direnv reload
 
 Requirements:
   - nix and direnv available on PATH (direnv is included in this dev shell).
@@ -40,5 +40,5 @@ if ! command -v direnv > /dev/null 2>&1; then
   exit 127
 fi
 
-nix flake metadata github:fnivek/kev_dev --refresh > /dev/null
+nix flake metadata github:fnivek/my_nix_configs --refresh > /dev/null
 direnv reload
