@@ -1,5 +1,4 @@
 import re
-import i3ipc
 
 
 class App:

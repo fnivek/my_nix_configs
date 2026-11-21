@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import re
 from argparse import ArgumentParser
 from functools import reduce
 import i3ipc

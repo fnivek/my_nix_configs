@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 
-import re
 from argparse import ArgumentParser
-from functools import reduce
 import i3ipc
-from i3_focus.tools import App, Lists, Menu, Sockets
+from i3_focus.tools import Lists, Menu, Sockets
 
 
 def main():

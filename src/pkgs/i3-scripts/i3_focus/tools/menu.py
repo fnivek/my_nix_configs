@@ -1,4 +1,3 @@
-from collections import deque
 from subprocess import check_output
 from . import Lists, App
 
