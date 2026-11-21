@@ -166,6 +166,14 @@ tasks:
       - nix run --inputs-from . nixpkgs#ruff -- check src
       - nix run --inputs-from . nixpkgs#ruff -- format --check src
 
+  test-i3:
+    desc: Run the i3 focus history regression tests in a virtual X display.
+    cmds:
+      - >-
+        nix shell --inputs-from . nixpkgs#i3 nixpkgs#xvfb-run nixpkgs#xterm nixpkgs#python3
+        -c xvfb-run -a src/pkgs/i3-scripts/tests/history-server.sh
+        "$(nix build --no-link --print-out-paths .#i3-scripts)"
+
   dev-zshell:
     desc: Drop into a zsh with all dev dependencies.
     cmds:
