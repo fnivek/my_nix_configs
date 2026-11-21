@@ -10,12 +10,6 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
-    i3_scripts = {
-      url = "github:fnivek/i3_scripts";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
     nix-colors = {
       url = "github:misterio77/nix-colors";
     };
@@ -35,7 +29,6 @@
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
-      i3_scripts,
       nix-colors,
       pam-shim,
       ...
@@ -115,6 +108,8 @@
         };
     in
     {
+      packages.${system} = import ./src/pkgs/i3-scripts { inherit pkgs; };
+
       nixosConfigurations = builtins.listToAttrs (
         builtins.map mkHost [
           "hagrid"

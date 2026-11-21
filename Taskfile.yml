@@ -122,10 +122,11 @@ tasks:
       - task: switch
 
   format:
-    desc: Format all nix files.
+    desc: Format all nix and Python files.
     cmds:
       - for: sources
         cmd: nix run --inputs-from . nixpkgs#nixfmt -- {{ .ITEM }}
+      - nix run --inputs-from . nixpkgs#ruff -- format src
     sources:
       - "flake.nix"
       - "src/**/*.nix"
@@ -135,9 +136,11 @@ tasks:
     cmds:
       - task: nixfmt-check
       - task: static-analysis
+      - task: python-lint
     sources:
       - "flake.nix"
       - "src/**/*.nix"
+      - "src/**/*.py"
 
   nixfmt-check:
     desc: Check if all files are formatted correctly.
@@ -156,6 +159,25 @@ tasks:
     sources:
       - "flake.nix"
       - "src/**/*.nix"
+
+  python-lint:
+    desc: Check Python files with ruff's default rules and formatter.
+    cmds:
+      - nix run --inputs-from . nixpkgs#ruff -- check src
+      - nix run --inputs-from . nixpkgs#ruff -- format --check src
+
+  test-i3:
+    desc: Run the i3 scripts' regression tests (src/pkgs/i3-scripts/tests) in a virtual X display.
+    vars:
+      PACKAGE:
+        sh: nix build --no-link --print-out-paths .#i3-scripts
+      TESTS:
+        sh: ls src/pkgs/i3-scripts/tests/*.sh
+    cmds:
+      - for: {var: TESTS}
+        cmd: >-
+          nix shell --inputs-from . nixpkgs#i3 nixpkgs#xvfb-run nixpkgs#xterm nixpkgs#python3
+          -c xvfb-run -a {{ .ITEM }} {{ .PACKAGE }}
 
   dev-zshell:
     desc: Drop into a zsh with all dev dependencies.
