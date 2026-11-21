@@ -122,10 +122,11 @@ tasks:
       - task: switch
 
   format:
-    desc: Format all nix files.
+    desc: Format all nix and Python files.
     cmds:
       - for: sources
         cmd: nixfmt {{ .ITEM }}
+      - nix run --inputs-from . nixpkgs#ruff -- format src
     sources:
       - "flake.nix"
       - "src/**/*.nix"
@@ -135,9 +136,11 @@ tasks:
     cmds:
       - task: nixfmt-check
       - task: static-analysis
+      - task: python-lint
     sources:
       - "flake.nix"
       - "src/**/*.nix"
+      - "src/**/*.py"
 
   nixfmt-check:
     desc: Check if all files are formatted correctly.
@@ -156,6 +159,12 @@ tasks:
     sources:
       - "flake.nix"
       - "src/**/*.nix"
+
+  python-lint:
+    desc: Check Python files with ruff's default rules and formatter.
+    cmds:
+      - nix run --inputs-from . nixpkgs#ruff -- check src
+      - nix run --inputs-from . nixpkgs#ruff -- format --check src
 
   dev-zshell:
     desc: Drop into a zsh with all dev dependencies.
