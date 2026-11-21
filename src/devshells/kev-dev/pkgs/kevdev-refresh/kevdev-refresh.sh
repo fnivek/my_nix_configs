@@ -1,4 +1,5 @@
-# Intentionally no shebang: nix will add one via writeShellScriptBin
+# shellcheck shell=bash
+# Intentionally no shebang: writeShellApplication adds one.
 set -euo pipefail
 
 usage() {
