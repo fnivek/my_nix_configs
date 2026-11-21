@@ -14,7 +14,7 @@ class Sockets:
         while chunk := self._client.recv(4096):
             chunks.append(chunk)
         self._client.close()
-        return json.loads(b''.join(chunks).decode())
+        return json.loads(b"".join(chunks).decode())
 
     def _send_cmd(self, cmd):
         self._client.connect(self._socket_file)
@@ -27,7 +27,7 @@ class Sockets:
         self._client.close()
 
     def next(self):
-        self._send_cmd(b'next')
+        self._send_cmd(b"next")
 
     def last(self):
-        self._send_cmd(b'last')
+        self._send_cmd(b"last")

@@ -8,15 +8,21 @@ from i3_focus.tools import App, Lists, Menu, Sockets
 
 
 def main():
-    parser = ArgumentParser(prog='i3-app-focus.py',
-        description='''
+    parser = ArgumentParser(
+        prog="i3-app-focus.py",
+        description="""
             i3-app-focus.py is dmenu-based script for creating dynamic app switcher.
-            ''',
-    epilog='''
+            """,
+        epilog="""
         Additional arguments found after "--" will be passed to dmenu.
-        ''')
-    parser.add_argument('--menu', default='dmenu', help='The menu command to run (ex: --menu=rofi)')
-    parser.add_argument('--socket-file', default='/tmp/i3-app-focus.socket', help='Socket file path')
+        """,
+    )
+    parser.add_argument(
+        "--menu", default="dmenu", help="The menu command to run (ex: --menu=rofi)"
+    )
+    parser.add_argument(
+        "--socket-file", default="/tmp/i3-app-focus.socket", help="Socket file path"
+    )
     (args, menu_args) = parser.parse_known_args()
 
     sockets = Sockets(args.socket_file)
@@ -29,5 +35,5 @@ def main():
     menu.show_menu_container_info(containers_info_by_focused_app)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

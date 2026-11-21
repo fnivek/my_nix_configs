@@ -23,7 +23,8 @@ class Lists:
         focused_app = App(focused_info)
 
         focused_app_windows_by_class = list(
-            filter(lambda i: App(i).get_title() == focused_app.get_title(), infos))
+            filter(lambda i: App(i).get_title() == focused_app.get_title(), infos)
+        )
         return focused_app_windows_by_class
 
     @staticmethod
