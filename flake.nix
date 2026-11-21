@@ -113,8 +113,22 @@
             isNixOs = false;
           };
         };
+
+      vm = import ./src/vm { pkgs = pkgs-unstable; };
     in
     {
+      # Run the assistant in a VM: `nix run github:fnivek/my_nix_configs#start-vm`.
+      packages.${system} = {
+        inherit (vm)
+          start-vm
+          stop-vm
+          assistant-vm
+          vm-ssh
+          reset-vm
+          ;
+      };
+      devShells.${system}.vm = vm.shell;
+
       nixosConfigurations = builtins.listToAttrs (
         builtins.map mkHost [
           "hagrid"
