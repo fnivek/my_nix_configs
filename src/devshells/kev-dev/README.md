@@ -8,9 +8,18 @@ I followed [Effortless dev environments with Nix and direnv](https://determinate
 In additon I use [nix-direnv](https://github.com/nix-community/nix-direnv) an extension of direnv to improve performance with nix flakes.
 When you cd into the directory it automatically activates the deterministic environment.
 
+The shell lives in [my_nix_configs](https://github.com/fnivek/my_nix_configs) as `devShells.<system>.kev-dev`.
+Use it in a project's `.envrc`:
+
+```
+use flake github:fnivek/my_nix_configs#kev-dev
+```
+
+or once with `nix develop github:fnivek/my_nix_configs#kev-dev`.
+
 ## Environment
 ### Helix - modal editor
-Using the most up to date version in flakehub unstable nixpkgs.
+Using the version in the repo flake's `nixpkgs-unstable` input.
 Languages servers are installed for:
 * yaml
 * toml
