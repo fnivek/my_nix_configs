@@ -90,7 +90,7 @@ tasks:
   # var USER - required, the user to build.
   build-hm:
     cmds:
-      - nix run nixpkgs#home-manager -- build --flake .#{{.USER}}@{{.HOST}}
+      - nix run --inputs-from . home-manager -- build --flake .#{{.USER}}@{{.HOST}}
 
   update:
     desc: Updates all flake inputs.
@@ -125,7 +125,7 @@ tasks:
     desc: Format all nix files.
     cmds:
       - for: sources
-        cmd: nixfmt {{ .ITEM }}
+        cmd: nix run --inputs-from . nixpkgs#nixfmt -- {{ .ITEM }}
     sources:
       - "flake.nix"
       - "src/**/*.nix"
@@ -143,7 +143,7 @@ tasks:
     desc: Check if all files are formatted correctly.
     cmds:
       - for: sources
-        cmd: nix run nixpkgs#nixfmt -- -c {{ .ITEM }}
+        cmd: nix run --inputs-from . nixpkgs#nixfmt -- -c {{ .ITEM }}
     sources:
       - "flake.nix"
       - "src/**/*.nix"
@@ -152,7 +152,7 @@ tasks:
     desc: Check if all files meet statix analysis.
     cmds:
       - for: sources
-        cmd: nix run nixpkgs#statix check {{ .ITEM }}
+        cmd: nix run --inputs-from . nixpkgs#statix check {{ .ITEM }}
     sources:
       - "flake.nix"
       - "src/**/*.nix"
@@ -171,4 +171,4 @@ tasks:
       USER:
         sh: whoami
     cmds:
-      - nix run nixpkgs#home-manager -- news --flake .#{{.USER}}@{{.HOST}}
+      - nix run --inputs-from . home-manager -- news --flake .#{{.USER}}@{{.HOST}}
