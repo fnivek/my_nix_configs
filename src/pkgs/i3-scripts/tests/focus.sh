@@ -89,7 +89,19 @@ MENU
   echo "PASS: menu pick of a closed window is ignored"
 }
 
+# focus_window read the history with one 4 KB recv(), so a longer history (about 25 long titles) was cut off.
+check_reads_history_over_4kb() {
+  for i in $(seq 40); do
+    open_window "a-window-title-long-enough-to-grow-the-history-past-four-kilobytes-$i"
+  done
+  wait_for 20 history_has_title "a-window-title-long-enough-to-grow-the-history-past-four-kilobytes-40" ||
+    fail "focus_window did not read the whole history"
+  [ "$(history_titles | wc -l)" -ge 40 ] || fail "history holds fewer than 40 windows"
+  echo "PASS: focus_window reads a history over 4 KB"
+}
+
 start_i3 "$work"
 start_server
 check_survives_windows_that_close_at_once
 check_menu_pick_of_closed_window
+check_reads_history_over_4kb

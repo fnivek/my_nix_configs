@@ -9,9 +9,12 @@ class Sockets:
 
     def get_containers_history(self):
         self._client.connect(self._socket_file)
-        history_json = self._client.recv(4096).decode()
+        # The server closes the connection after the reply, which can exceed one recv().
+        chunks = []
+        while chunk := self._client.recv(4096):
+            chunks.append(chunk)
         self._client.close()
-        return json.loads(history_json)
+        return json.loads(b''.join(chunks).decode())
 
     def _send_cmd(self, cmd):
         self._client.connect(self._socket_file)

@@ -96,7 +96,7 @@ class FocusWatcher:
                                 "focused": con.focused
                             })
 
-                conn.send(json.dumps(info).encode())
+                conn.sendall(json.dumps(info).encode())
                 conn.close()
 
         selector.register(self.listening_socket, selectors.EVENT_READ, accept)
