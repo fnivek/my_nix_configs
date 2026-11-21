@@ -109,6 +109,12 @@
     in
     {
       packages.${system} = import ./src/pkgs/i3-scripts { inherit pkgs; };
+      # Kevin's base dev environment, e.g. `use flake github:fnivek/my_nix_configs#kev-dev`.
+      devShells = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (shellSystem: {
+        kev-dev =
+          (import ./src/devshells/kev-dev { pkgs = import nixpkgs-unstable { system = shellSystem; }; })
+          .shell;
+      });
 
       nixosConfigurations = builtins.listToAttrs (
         builtins.map mkHost [
