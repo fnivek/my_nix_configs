@@ -130,6 +130,9 @@
         })
       ) { ${system}.vm = vm.shell; };
 
+      # `nix flake check` builds every package and dev shell instead of only evaluating them.
+      checks.${system} = inputs.self.packages.${system} // inputs.self.devShells.${system};
+
       nixosConfigurations = builtins.listToAttrs (
         builtins.map mkHost [
           "hagrid"

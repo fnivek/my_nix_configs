@@ -166,6 +166,11 @@ tasks:
       - nix run --inputs-from . nixpkgs#ruff -- check src
       - nix run --inputs-from . nixpkgs#ruff -- format --check src
 
+  check:
+    desc: Build every package and dev shell, and evaluate every host (nix flake check).
+    cmds:
+      - nix flake check
+
   test-i3:
     desc: Run the i3 scripts' regression tests (src/pkgs/i3-scripts/tests) in a virtual X display.
     vars:
