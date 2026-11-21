@@ -1,0 +1,2 @@
+# Ruff settings for all Python in the repo. 100 columns, the width used across the repo.
+line-length = 100
