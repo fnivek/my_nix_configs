@@ -23,12 +23,12 @@
 
       start-vm = pkgs.writeShellApplication {
         name = "start-vm";
-        runtimeInputs = with pkgs; [ qemu cloud-utils curl coreutils gawk ];
+        runtimeInputs = with pkgs; [ qemu cloud-utils curl coreutils gawk jq ];
         text = common + ''
           RELEASE="''${UBUNTU_RELEASE:-noble}"   # noble = 24.04 LTS
-          DISK_SIZE="''${VM_DISK_SIZE:-20G}"
-          MEM="''${VM_MEMORY:-8192}"
-          CPUS="''${VM_CPUS:-2}"
+          DISK_SIZE="''${VM_DISK_SIZE:-150G}"
+          MEM="''${VM_MEMORY:-24576}"
+          CPUS="''${VM_CPUS:-4}"
           VM_PASSWORD="''${VM_PASSWORD:-ubuntu}"
 
           if vm_running; then
@@ -60,6 +60,15 @@
           # 2. Copy-on-write overlay so the base image stays pristine.
           if [ ! -f "$DISK" ]; then
             qemu-img create -q -f qcow2 -F qcow2 -b "$BASE" "$DISK" "$DISK_SIZE"
+          fi
+
+          # 2b. Grow an existing disk up to DISK_SIZE (never shrinks). cloud-init's
+          #     growpart and resizefs extend the root filesystem at the next boot.
+          want=$(numfmt --from=iec "$DISK_SIZE")
+          have=$(qemu-img info --output=json "$DISK" | jq '."virtual-size"')
+          if [ "$have" -lt "$want" ]; then
+            echo ">> Growing disk to $DISK_SIZE"
+            qemu-img resize -q "$DISK" "$DISK_SIZE"
           fi
 
           # 3. cloud-init seed: user "ubuntu" with a password, SSH password auth on.
