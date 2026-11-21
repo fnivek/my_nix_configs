@@ -115,6 +115,8 @@
         };
     in
     {
+      packages.${system} = import ./src/pkgs/i3-scripts { inherit pkgs; };
+
       nixosConfigurations = builtins.listToAttrs (
         builtins.map mkHost [
           "hagrid"
