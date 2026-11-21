@@ -128,12 +128,12 @@ in
           delay = 600;
           command = "${pkg_tools.lock_cmd}";
         }
-        {
-          # Suspend after 1 h.
-          delay = 3600;
-          command = "systemctl suspend";
-        }
-      ];
+      ]
+      ++ lib.optional config.hostSettings.autoSuspend {
+        # Suspend after 1 h.
+        delay = 3600;
+        command = "systemctl suspend";
+      };
     };
     dunst = {
       enable = true;

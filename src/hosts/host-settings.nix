@@ -14,6 +14,11 @@ let
         type = lib.types.bool;
         default = true;
       };
+      autoSuspend = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Suspend the machine after a long idle period.";
+      };
     };
   };
 in

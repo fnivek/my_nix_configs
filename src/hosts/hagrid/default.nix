@@ -73,7 +73,11 @@
     # Enable the OpenSSH daemon.
     # openssh.enable = true;
 
-    displayManager.gdm.enable = true;
+    displayManager.gdm = {
+      enable = true;
+      # Hagrid hosts the assistant VM, so the login screen must not suspend it.
+      autoSuspend = false;
+    };
     # Enable the GNOME Desktop Environment.
     desktopManager.gnome.enable = true;
 
