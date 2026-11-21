@@ -26,7 +26,7 @@
         runtimeInputs = with pkgs; [ qemu cloud-utils curl coreutils gawk jq ];
         text = common + ''
           RELEASE="''${UBUNTU_RELEASE:-noble}"   # noble = 24.04 LTS
-          DISK_SIZE="''${VM_DISK_SIZE:-150G}"
+          DISK_SIZE="''${VM_DISK_SIZE:-250G}"
           MEM="''${VM_MEMORY:-24576}"
           CPUS="''${VM_CPUS:-4}"
           VM_PASSWORD="''${VM_PASSWORD:-ubuntu}"
