@@ -70,6 +70,26 @@ check_survives_windows_that_close_at_once() {
   echo "PASS: survives windows that close at once"
 }
 
+# A window that closed while the menu was open made focus_window crash when the pick was made.
+check_menu_pick_of_closed_window() {
+  open_window "doomed"
+  local doomed=$last_window
+  wait_for 10 history_has_title "doomed" || fail "history did not record the window"
+  # Stands in for the menu: closes the chosen window and waits until i3 drops it, then answers with it.
+  cat >"$work/closing-menu" <<MENU
+#!/usr/bin/env bash
+choice=\$(grep ": doomed\$")
+kill $doomed
+while i3-msg -t get_tree | grep -q '"name":"doomed"'; do sleep 0.1; done
+echo "\$choice"
+MENU
+  chmod +x "$work/closing-menu"
+  timeout 20 "$package/bin/focus_window" --socket-file "$socket" --menu "$work/closing-menu" >"$work/menu.log" 2>&1 ||
+    fail "focus_window crashed on a window that closed: $(tail -1 "$work/menu.log")"
+  echo "PASS: menu pick of a closed window is ignored"
+}
+
 start_i3 "$work"
 start_server
 check_survives_windows_that_close_at_once
+check_menu_pick_of_closed_window
