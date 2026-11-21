@@ -167,12 +167,17 @@ tasks:
       - nix run --inputs-from . nixpkgs#ruff -- format --check src
 
   test-i3:
-    desc: Run the i3 focus history regression tests in a virtual X display.
+    desc: Run the i3 scripts' regression tests (src/pkgs/i3-scripts/tests) in a virtual X display.
+    vars:
+      PACKAGE:
+        sh: nix build --no-link --print-out-paths .#i3-scripts
+      TESTS:
+        sh: ls src/pkgs/i3-scripts/tests/*.sh
     cmds:
-      - >-
-        nix shell --inputs-from . nixpkgs#i3 nixpkgs#xvfb-run nixpkgs#xterm nixpkgs#python3
-        -c xvfb-run -a src/pkgs/i3-scripts/tests/history-server.sh
-        "$(nix build --no-link --print-out-paths .#i3-scripts)"
+      - for: {var: TESTS}
+        cmd: >-
+          nix shell --inputs-from . nixpkgs#i3 nixpkgs#xvfb-run nixpkgs#xterm nixpkgs#python3
+          -c xvfb-run -a {{ .ITEM }} {{ .PACKAGE }}
 
   dev-zshell:
     desc: Drop into a zsh with all dev dependencies.

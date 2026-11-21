@@ -12,4 +12,4 @@ $ ./result/bin/workspace --help
 ```
 
 ## Test
-`task test-i3` runs `tests/history-server.sh` against a real i3 in a virtual X display.
+`task test-i3` runs every script in `tests/` against a real i3 in a virtual X display.
