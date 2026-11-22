@@ -111,14 +111,27 @@
       kevDev =
         shellSystem:
         import ./src/devshells/kev-dev { pkgs = import nixpkgs-unstable { system = shellSystem; }; };
+
+      vm = import ./src/vm { pkgs = pkgs-unstable; };
     in
     {
-      packages.${system} = import ./src/pkgs/i3-scripts { inherit pkgs; };
+      packages.${system} = import ./src/pkgs/i3-scripts { inherit pkgs; } // {
+        # Run the assistant in a VM: `nix run github:fnivek/my_nix_configs#start-vm`.
+        inherit (vm)
+          start-vm
+          stop-vm
+          assistant-vm
+          vm-ssh
+          reset-vm
+          ;
+      };
 
       # Kevin's base dev environment, e.g. `use flake github:fnivek/my_nix_configs#kev-dev`.
-      devShells = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (shellSystem: {
-        kev-dev = (kevDev shellSystem).shell;
-      });
+      devShells = nixpkgs.lib.recursiveUpdate (nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ]
+        (shellSystem: {
+          kev-dev = (kevDev shellSystem).shell;
+        })
+      ) { ${system}.vm = vm.shell; };
 
       nixosConfigurations = builtins.listToAttrs (
         builtins.map mkHost [

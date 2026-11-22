@@ -10,6 +10,7 @@ This repo contains all of my configurations for all of the things I do.
 | `src/modules/` | Home-manager modules shared by every host |
 | `src/pkgs/i3-scripts/` | i3 helper scripts (workspace sets, focus history), see its README |
 | `src/devshells/kev-dev/` | Base dev shell for every machine, e.g. `nix develop github:fnivek/my_nix_configs#kev-dev`, see its README |
+| `src/vm/` | Commands to run the assistant in a VM, e.g. `nix run github:fnivek/my_nix_configs#start-vm`, see its README |
 
 ## Common tasks
 `task --list` shows every task. The everyday ones:
