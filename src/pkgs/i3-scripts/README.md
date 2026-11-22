@@ -10,3 +10,6 @@ Built by the repo's flake from `pyproject.toml` (see `default.nix`). From the re
 $ nix build .#i3-scripts
 $ ./result/bin/workspace --help
 ```
+
+## Test
+`task test-i3` runs every test in `tests/` (`focus.sh`, `workspace.sh`) against a real i3 in a virtual X display. Each test is the reproduction of a bug that was fixed. `tests/lib.sh` holds the shared helpers.
