@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Shared helpers for the i3 scripts' tests, sourced by each tests/*.sh.
 # Tests wait on state (a socket, a window in the history) instead of fixed sleeps, so a slow machine is slower,
 # not flaky.
