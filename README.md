@@ -8,6 +8,7 @@ This repo contains all of my configurations for all of the things I do.
 | `src/hosts/<host>/` | One machine. NixOS hosts have `default.nix`, every host has `settings.nix` |
 | `src/hosts/host-settings.nix` | The per-host switches that `settings.nix` sets |
 | `src/modules/` | Home-manager modules shared by every host |
+| `src/pkgs/i3-scripts/` | i3 helper scripts (workspace sets, focus history), see its README |
 
 ## Common tasks
 `task --list` shows every task. The everyday ones:
@@ -25,7 +26,7 @@ This repo contains all of my configurations for all of the things I do.
 * [ ] Make a script for one time setup
 * [ ] Setup dev shells and use nix develop --commmand for tasks and ci for locked versions of the tools
 * [ ] Setup dev shell templates for python, cpp, c, shell, nix, and other dev environments
-* [ ] Merge i3 scripts into this repo
+* [x] Merge i3 scripts into this repo
 * [ ] Consider using std
 * [ ] Setup a ci/cd pipeline
   * [ ] Setup weekly auto updates
