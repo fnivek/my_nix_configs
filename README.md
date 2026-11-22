@@ -1,6 +1,25 @@
 # Kevin's System Config
 This repo contains all of my configurations for all of the things I do.
 
+## Layout
+| Path | Holds |
+|---|---|
+| `flake.nix` | Entry point: every host, package and dev shell |
+| `src/hosts/<host>/` | One machine. NixOS hosts have `default.nix`, every host has `settings.nix` |
+| `src/hosts/host-settings.nix` | The per-host switches that `settings.nix` sets |
+| `src/modules/` | Home-manager modules shared by every host |
+
+## Common tasks
+`task --list` shows every task. The everyday ones:
+
+| Task | Does |
+|---|---|
+| `task switch` | Build and activate this machine's config |
+| `task build-all` | Build every host, as CI does |
+| `task check` | Evaluate every host and build every package and dev shell, as CI does |
+| `task lint` | Check formatting and static analysis, as CI does |
+| `task format` | Fix formatting |
+
 ## TODO
 * [ ] Check that `targets.genericLinux.enable = true;` for homeManager configurations, does not break anything that isn't generic linux such as NixOS.
 * [ ] Make a script for one time setup
