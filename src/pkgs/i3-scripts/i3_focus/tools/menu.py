@@ -10,8 +10,8 @@ class Menu:
         self._menu_args = menu_args
 
     def show_menu(self, items):
-        menu_input = bytes(str.join('\n', items), 'UTF-8')
-        menu_cmd = [self._menu] + ['-l', str(len(items))] + self._menu_args
+        menu_input = bytes(str.join("\n", items), "UTF-8")
+        menu_cmd = [self._menu] + ["-l", str(len(items))] + self._menu_args
         menu_result = check_output(menu_cmd, input=menu_input)
         return menu_result.decode().strip()
 
@@ -23,7 +23,7 @@ class Menu:
         con = tree.find_by_id(selected_app.get_con_id())
         # The window can close while the menu is open.
         if con is not None:
-            con.command('focus')
+            con.command("focus")
 
     def show_menu_container_info(self, containers_info):
         titles = self._get_titles_with_app_prefix(containers_info)
@@ -35,10 +35,10 @@ class Menu:
         con = tree.find_by_id(selected_info["id"])
         # The window can close while the menu is open.
         if con is not None:
-            con.command('focus')
+            con.command("focus")
 
     def _get_titles_with_app_prefix(self, containers_info):
-        return list(map(lambda i: App(i).get_title() + ': ' + i["window_title"], containers_info))
+        return list(map(lambda i: App(i).get_title() + ": " + i["window_title"], containers_info))
 
     def _add_uniqu_suffix(self, titles):
         counters = dict()
@@ -46,7 +46,7 @@ class Menu:
         for title in titles:
             counters[title] = counters[title] + 1 if title in counters else 1
             if counters[title] > 1:
-                title = f'{title} ({counters[title]})'
+                title = f"{title} ({counters[title]})"
 
             titles_with_suffix.append(title)
 

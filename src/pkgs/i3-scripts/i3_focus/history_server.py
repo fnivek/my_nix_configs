@@ -14,8 +14,10 @@ MAX_WIN_HISTORY = 50
 class FocusWatcher:
     def __init__(self):
         # Parse args
-        parser = ArgumentParser(prog='i3-app-focus.py', description='''''', epilog='''''')
-        parser.add_argument('--socket-file', default='/tmp/i3-app-focus.socket', help='Socket file path')
+        parser = ArgumentParser(prog="i3-app-focus.py", description="""""", epilog="""""")
+        parser.add_argument(
+            "--socket-file", default="/tmp/i3-app-focus.socket", help="Socket file path"
+        )
         (args, _) = parser.parse_known_args()
 
         self.i3 = i3ipc.Connection()
@@ -60,7 +62,9 @@ class FocusWatcher:
         with self.window_list_lock:
             if window_id in self.window_list:
                 self.window_list.remove(window_id)
-                self._current_window_in_history = min(self._current_window_in_history, len(self.window_list) - 1)
+                self._current_window_in_history = min(
+                    self._current_window_in_history, len(self.window_list) - 1
+                )
 
     def _launch_i3(self):
         self.i3.main()
@@ -76,9 +80,9 @@ class FocusWatcher:
                 request = conn.recv(4096).decode()
             except TimeoutError:
                 pass
-            if request == 'next':
+            if request == "next":
                 self.next()
-            if request == 'last':
+            if request == "last":
                 self.last()
             elif request is None:
                 tree = self.i3.get_tree()
@@ -87,14 +91,16 @@ class FocusWatcher:
                     for window_id in self.window_list:
                         con = tree.find_by_id(window_id)
                         if con:
-                            info.append({
-                                "id": con.id,
-                                "window": con.window,
-                                "window_title": con.window_title,
-                                "window_class": con.window_class,
-                                "window_role": con.window_role,
-                                "focused": con.focused
-                            })
+                            info.append(
+                                {
+                                    "id": con.id,
+                                    "window": con.window,
+                                    "window_title": con.window_title,
+                                    "window_class": con.window_class,
+                                    "window_role": con.window_role,
+                                    "focused": con.focused,
+                                }
+                            )
 
                 conn.sendall(json.dumps(info).encode())
                 conn.close()
@@ -108,14 +114,17 @@ class FocusWatcher:
 
     @staticmethod
     def _is_window(con):
-        return not con.nodes and con.type == "con" and (con.parent and con.parent.type != "dockarea"
-                                                        or True)
+        return (
+            not con.nodes
+            and con.type == "con"
+            and (con.parent and con.parent.type != "dockarea" or True)
+        )
 
     def _focus(self, window_id):
         """Focus a window from the history, skipping one that has closed since."""
         con = self.i3.get_tree().find_by_id(window_id)
         if con is not None:
-            con.command('focus')
+            con.command("focus")
 
     def next(self):
         if len(self.window_list) == 0:
@@ -128,7 +137,9 @@ class FocusWatcher:
         if len(self.window_list) == 0:
             return
         with self.window_list_lock:
-            self._current_window_in_history = min(self._current_window_in_history + 1, len(self.window_list) - 1)
+            self._current_window_in_history = min(
+                self._current_window_in_history + 1, len(self.window_list) - 1
+            )
             self._focus(self.window_list[self._current_window_in_history])
 
 
@@ -137,5 +148,5 @@ def main():
     focus_watcher.run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
