@@ -108,10 +108,13 @@ def main(workspace, move, follow):
         except ValueError:
             pass
 
-    # Save last workspace
-    _, num, name = to_name.split(':')
-    last_workspace[name] = num
-    write_last_workspace(last_workspace)
+    # Remember the position in the workspace set. Plain names such as i3's
+    # default "1" belong to no set.
+    parts = to_name.split(':')
+    if len(parts) == 3:
+        _, num, name = parts
+        last_workspace[name] = num
+        write_last_workspace(last_workspace)
 
     # Move
     if move:
