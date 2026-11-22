@@ -106,9 +106,19 @@
             isNixOs = false;
           };
         };
+
+      # Kevin's base dev environment and its smoke test, for one system.
+      kevDev =
+        shellSystem:
+        import ./src/devshells/kev-dev { pkgs = import nixpkgs-unstable { system = shellSystem; }; };
     in
     {
       packages.${system} = import ./src/pkgs/i3-scripts { inherit pkgs; };
+
+      # Kevin's base dev environment, e.g. `use flake github:fnivek/my_nix_configs#kev-dev`.
+      devShells = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (shellSystem: {
+        kev-dev = (kevDev shellSystem).shell;
+      });
 
       nixosConfigurations = builtins.listToAttrs (
         builtins.map mkHost [
@@ -129,6 +139,10 @@
 
       # `nix flake check` builds every package and dev shell the flake exposes, instead of only evaluating them.
       checks.${system} =
-        (inputs.self.packages.${system} or { }) // (inputs.self.devShells.${system} or { });
+        (inputs.self.packages.${system} or { })
+        // (inputs.self.devShells.${system} or { })
+        // {
+          kev-dev-tools = (kevDev system).check;
+        };
     };
 }
