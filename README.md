@@ -1,6 +1,17 @@
 # Kevin's System Config
 This repo contains all of my configurations for all of the things I do.
 
+## Common tasks
+`task --list` shows every task. The everyday ones:
+
+| Task | Does |
+|---|---|
+| `task switch` | Build and activate this machine's config |
+| `task build-all` | Build every host, as CI does |
+| `task check` | Evaluate every host and build every package and dev shell, as CI does |
+| `task lint` | Check formatting and static analysis, as CI does |
+| `task format` | Fix formatting |
+
 ## TODO
 * [ ] Check that `targets.genericLinux.enable = true;` for homeManager configurations, does not break anything that isn't generic linux such as NixOS.
 * [ ] Make a script for one time setup
