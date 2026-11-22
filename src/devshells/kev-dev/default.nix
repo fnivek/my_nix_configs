@@ -4,7 +4,7 @@
 let
   kevdev-refresh = pkgs.callPackage ./pkgs/kevdev-refresh { };
 in
-{
+rec {
   inherit kevdev-refresh;
   shell =
     let
@@ -88,4 +88,14 @@ in
         kevdev-refresh
       ];
     };
+
+  # Smoke test for `nix flake check`: the shell's main tools start. A build alone would not catch a broken wrapper.
+  check = pkgs.runCommand "kev-dev-tools" { inherit (shell) nativeBuildInputs buildInputs; } ''
+    hx --version
+    task --version
+    ruff --version
+    python -c "import pytest, black"
+    command -v kevdev-refresh
+    touch $out
+  '';
 }
