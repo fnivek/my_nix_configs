@@ -1,0 +1,72 @@
+# Weekly flake input update: update flake.lock, run the full CI on the result, and fast-forward
+# main to it only when every job passes. If main moved meanwhile, the push is refused and the next
+# run tries again. A PR that changes this file runs it as a dry run that never merges.
+name: update
+
+on:
+  schedule:
+    - cron: "0 9 * * 1" # Mondays 09:00 UTC
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - .github/workflows/update.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: flake-update
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ steps.update.outputs.branch }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: cachix/install-nix-action@75c75c31ebece974e48ebc36b4ad125bd97bd97b # v31.11.3
+      - name: update flake.lock
+        id: update
+        env:
+          BRANCH: auto/flake-update-${{ github.run_id }}
+        run: |
+          nix run --inputs-from . nixpkgs#go-task -- update
+          if git diff --quiet flake.lock; then
+            echo "flake.lock is already current"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$BRANCH"
+          git commit -q -am "UPDATE: Update flake inputs $(date -u +%m/%d/%y)"
+          git push origin "$BRANCH"
+          echo "branch=$BRANCH" >>"$GITHUB_OUTPUT"
+
+  ci:
+    needs: update
+    if: needs.update.outputs.branch != ''
+    uses: ./.github/workflows/ci.yml
+    with:
+      ref: ${{ needs.update.outputs.branch }}
+
+  merge:
+    needs: [update, ci]
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.update.outputs.branch }}
+      - name: fast-forward main
+        run: git push origin HEAD:main
+
+  clean-up:
+    needs: [update, ci, merge]
+    if: always() && needs.update.outputs.branch != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: delete the update branch
+        env:
+          BRANCH: ${{ needs.update.outputs.branch }}
+        run: git push origin --delete "$BRANCH"

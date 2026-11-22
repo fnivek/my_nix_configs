@@ -159,7 +159,8 @@ tasks:
     desc: Updates all flake inputs.
     summary: |
       Updates every flake input to its latest revision and rewrites flake.lock. Check the
-      result with `git diff flake.lock` and `task build-all`.
+      result with `git diff flake.lock` and `task build-all`. CI does this every Monday and
+      merges into main when every check passes (.github/workflows/update.yml).
 
       Usage:
         task update

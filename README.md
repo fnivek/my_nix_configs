@@ -24,6 +24,9 @@ This repo contains all of my configurations for all of the things I do.
 | `task lint` | Check formatting and static analysis of Nix, Python, shell scripts and workflows, as CI does |
 | `task format` | Fix formatting |
 
+Every Monday CI updates flake.lock, runs every check on it, and merges it into main when all
+pass (`.github/workflows/update.yml`). A run that fails leaves main as it was.
+
 ## TODO
 * [ ] Check that `targets.genericLinux.enable = true;` for homeManager configurations, does not break anything that isn't generic linux such as NixOS.
 * [ ] Make a script for one time setup
@@ -32,7 +35,7 @@ This repo contains all of my configurations for all of the things I do.
 * [x] Merge i3 scripts into this repo
 * [ ] Consider using std
 * [ ] Setup a ci/cd pipeline
-  * [ ] Setup weekly auto updates
+  * [x] Setup weekly auto updates
 * [ ] Figure out why i3 status bar has sigmas instead of my pretty format on WKS62
 * [ ] Consolidate the apparmour chatgpt section of the readme
 * [ ] Switch to flake parts
