@@ -13,7 +13,7 @@ This repo contains all of my configurations for all of the things I do.
 | `src/vm/` | Commands to run the assistant in a VM, e.g. `nix run github:fnivek/my_nix_configs#start-vm`, see its README |
 
 ## Common tasks
-`task --list` shows every task. The everyday ones:
+`task --list` shows every task, and `task --summary <task>` its details and usage. The everyday ones:
 
 | Task | Does |
 |---|---|
