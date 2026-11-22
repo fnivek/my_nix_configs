@@ -92,6 +92,11 @@ tasks:
     cmds:
       - nix run --inputs-from . home-manager -- build --flake .#{{.USER}}@{{.HOST}}
 
+  check:
+    desc: Evaluate every host and build every package and dev shell (nix flake check).
+    cmds:
+      - nix flake check
+
   update:
     desc: Updates all flake inputs.
     cmds:
