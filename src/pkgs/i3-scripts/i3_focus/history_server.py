@@ -39,7 +39,8 @@ class FocusWatcher:
     def _on_window_focus(self, i3conn, event):
         window_id = event.container.id
         con = self.i3.get_tree().find_by_id(window_id)
-        if not self._is_window(con):
+        # The window can close before the tree is fetched.
+        if con is None or not self._is_window(con):
             return
 
         with self.window_list_lock:
@@ -110,21 +111,25 @@ class FocusWatcher:
         return not con.nodes and con.type == "con" and (con.parent and con.parent.type != "dockarea"
                                                         or True)
 
+    def _focus(self, window_id):
+        """Focus a window from the history, skipping one that has closed since."""
+        con = self.i3.get_tree().find_by_id(window_id)
+        if con is not None:
+            con.command('focus')
+
     def next(self):
         if len(self.window_list) == 0:
             return
         with self.window_list_lock:
             self._current_window_in_history = max(self._current_window_in_history - 1, 0)
-            con = self.i3.get_tree().find_by_id(self.window_list[self._current_window_in_history])
-            con.command('focus')
+            self._focus(self.window_list[self._current_window_in_history])
 
     def last(self):
         if len(self.window_list) == 0:
             return
         with self.window_list_lock:
             self._current_window_in_history = min(self._current_window_in_history + 1, len(self.window_list) - 1)
-            con = self.i3.get_tree().find_by_id(self.window_list[self._current_window_in_history])
-            con.command('focus')
+            self._focus(self.window_list[self._current_window_in_history])
 
 
 def main():

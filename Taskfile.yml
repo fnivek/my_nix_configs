@@ -97,6 +97,19 @@ tasks:
     cmds:
       - nix flake check
 
+  test-i3:
+    desc: Run the i3 scripts' regression tests (src/pkgs/i3-scripts/tests) in a virtual X display.
+    vars:
+      PACKAGE:
+        sh: nix build --no-link --print-out-paths .#i3-scripts
+      TESTS:
+        sh: ls src/pkgs/i3-scripts/tests/*.sh | grep -v /lib.sh
+    cmds:
+      - for: {var: TESTS}
+        cmd: >-
+          nix shell --inputs-from . nixpkgs#i3 nixpkgs#xvfb-run nixpkgs#xterm
+          -c xvfb-run -a {{ .ITEM }} {{ .PACKAGE }}
+
   update:
     desc: Updates all flake inputs.
     cmds:
