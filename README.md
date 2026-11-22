@@ -19,7 +19,7 @@ This repo contains all of my configurations for all of the things I do.
 | `task build-all` | Build every host, as CI does |
 | `task check` | Evaluate every host and build every package and dev shell, as CI does |
 | `task test-i3` | Run the i3 scripts' regression tests in a virtual display, as CI does |
-| `task lint` | Check formatting and static analysis, as CI does |
+| `task lint` | Check formatting and static analysis of Nix, shell scripts and workflows, as CI does |
 | `task format` | Fix formatting |
 
 ## TODO

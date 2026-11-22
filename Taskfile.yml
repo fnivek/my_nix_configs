@@ -153,9 +153,31 @@ tasks:
     cmds:
       - task: nixfmt-check
       - task: static-analysis
+      - task: shell-lint
+      - task: workflow-lint
     sources:
       - "flake.nix"
       - "src/**/*.nix"
+      - "src/**/*.sh"
+      - ".github/workflows/*.yml"
+
+  shell-lint:
+    desc: Check every shell script in the repo with shellcheck.
+    cmds:
+      - nix run --inputs-from . nixpkgs#shellcheck -- -x $(git ls-files '*.sh')
+
+  workflow-lint:
+    desc: Check the GitHub workflows with actionlint, and that every action is pinned by commit.
+    cmds:
+      - nix run --inputs-from . nixpkgs#actionlint -- .github/workflows/*.yml
+      # A tag can move to different code, a commit hash cannot.
+      - cmd: |
+          unpinned=$(grep -nE 'uses: [^.][^@]*@[^0-9a-f ]' .github/workflows/*.yml || true)
+          if [ -n "$unpinned" ]; then
+            echo "$unpinned"
+            echo "pin these actions by commit hash (uses: owner/action@<sha> # vX.Y.Z)"
+            exit 1
+          fi
 
   nixfmt-check:
     desc: Check if all files are formatted correctly.
