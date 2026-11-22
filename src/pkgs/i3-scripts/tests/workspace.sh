@@ -4,6 +4,7 @@
 # usage: xvfb-run -a tests/workspace.sh <i3-scripts package>
 # needs on PATH: i3, i3-msg. `task test-i3` provides them.
 set -euo pipefail
+# shellcheck source-path=SCRIPTDIR source=lib.sh
 . "$(dirname "$0")/lib.sh"
 
 package=$1
