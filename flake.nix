@@ -131,5 +131,9 @@
           username = "kdfrench";
         };
       };
+
+      # `nix flake check` builds every package and dev shell the flake exposes, instead of only evaluating them.
+      checks.${system} =
+        (inputs.self.packages.${system} or { }) // (inputs.self.devShells.${system} or { });
     };
 }

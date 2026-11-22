@@ -1,0 +1,46 @@
+# Runs the same Taskfile commands used locally, so a green run here means
+# `nix run --inputs-from . nixpkgs#go-task -- <task>` passes on your machine too.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: cachix/install-nix-action@75c75c31ebece974e48ebc36b4ad125bd97bd97b # v31.11.3
+      - name: lint
+        run: nix run --inputs-from . nixpkgs#go-task -- lint
+
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: cachix/install-nix-action@75c75c31ebece974e48ebc36b4ad125bd97bd97b # v31.11.3
+      - name: check
+        run: nix run --inputs-from . nixpkgs#go-task -- check
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - build-kevinfrench-MSS01-T4
+          - build-kdfrench-MSS01-WKS62.motivss.local
+          - build-kdfrench-hagrid
+          - build-kdfrench-hedwig
+    steps:
+      # NixOS closures (nvidia, GNOME) are larger than a stock runner's free disk.
+      - name: free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          df -h /
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: cachix/install-nix-action@75c75c31ebece974e48ebc36b4ad125bd97bd97b # v31.11.3
+      - name: build
+        run: nix run --inputs-from . nixpkgs#go-task -- ${{ matrix.target }}
