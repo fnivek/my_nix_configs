@@ -12,6 +12,13 @@ let
       i3ipc
       click
     ];
+    # Unit tests in tests/test_*.py run during the build. tests/*.sh need a display: `task test-i3`.
+    nativeCheckInputs = [ pkgs.python3Packages.unittestCheckHook ];
+    unittestFlags = [
+      "-s"
+      "tests"
+      "-v"
+    ];
     pythonImportsCheck = [
       "i3_scripts"
       "i3_focus"

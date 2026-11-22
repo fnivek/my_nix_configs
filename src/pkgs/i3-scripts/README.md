@@ -13,3 +13,4 @@ $ ./result/bin/workspace --help
 
 ## Test
 `task test-i3` runs every test script in `tests/` against a real i3 in a virtual X display. Each test reproduces a fixed bug: it fails on the code before the fix and passes after. `tests/lib.sh` holds the shared helpers.
+Unit tests (`tests/test_*.py`) run during the package build, so every build and CI run them.
