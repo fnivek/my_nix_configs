@@ -3,6 +3,12 @@ version: '3'
 tasks:
   watch:
     desc: Run all checks whenever a change occurs.
+    summary: |
+      Watches flake.nix and src/**/*.nix. On every change it clears the screen, then runs
+      `task lint` and `task build-all`.
+
+      Usage:
+        task watch    # leave it running beside the editor
     cmds:
       - clear
       - task: lint
@@ -18,6 +24,13 @@ tasks:
   # home manager or nixos.
   switch:
     desc: Rebuild and switch your configurations.
+    summary: |
+      Builds this machine's configuration and activates it. Picks home-manager or NixOS from
+      `whoami` and `hostname` (the switch-<user>-<host> tasks). NixOS hosts run
+      `sudo nixos-rebuild switch`.
+
+      Usage:
+        task switch
     vars:
       HOST:
         sh: hostname
@@ -54,6 +67,13 @@ tasks:
   # home manager or nixos.
   build:
     desc: Build the your host configuration but don't activate or add to boot.
+    summary: |
+      Builds this machine's configuration without activating it or adding a boot entry. Picks
+      the target from `whoami` and `hostname`.
+
+      Usage:
+        task build
+        task build-kdfrench-hagrid    # one specific host, from any machine
     vars:
       HOST:
         sh: hostname
@@ -71,6 +91,12 @@ tasks:
   # Build for every system user combo.
   build-all:
     desc: Build all configurations.
+    summary: |
+      Builds all four configurations (two home-manager, two NixOS), as CI does. The NixOS
+      closures need several GB of disk.
+
+      Usage:
+        task build-all
     cmds:
       - task: build-kevinfrench-MSS01-T4
       - task: build-kdfrench-MSS01-WKS62.motivss.local
@@ -94,11 +120,30 @@ tasks:
 
   check:
     desc: Evaluate every host and build every package and dev shell (nix flake check).
+    summary: |
+      Runs `nix flake check`: evaluates every host, and builds every package, every dev shell
+      and every other entry in the flake's `checks` output. Package builds run their unit tests.
+      CI runs it on every PR.
+
+      Usage:
+        task check
+        nix build .#checks.x86_64-linux.<name>    # one check
     cmds:
       - nix flake check
 
   test-i3:
     desc: Run the i3 scripts' regression tests (src/pkgs/i3-scripts/tests) in a virtual X display.
+    summary: |
+      Builds the i3-scripts package, then runs each tests/*.sh against a real i3 in a virtual X
+      display (Xvfb). Each test reproduces a fixed bug. The unit tests (tests/test_*.py) run in the
+      package build instead, see `task check`.
+
+      Usage:
+        task test-i3
+        # one test against an already built package:
+        pkg=$(nix build --no-link --print-out-paths .#i3-scripts)
+        nix shell --inputs-from . nixpkgs#i3 nixpkgs#xvfb-run nixpkgs#xterm \
+          -c xvfb-run -a src/pkgs/i3-scripts/tests/focus.sh "$pkg"
     vars:
       PACKAGE:
         sh: nix build --no-link --print-out-paths .#i3-scripts
@@ -112,21 +157,45 @@ tasks:
 
   update:
     desc: Updates all flake inputs.
+    summary: |
+      Updates every flake input to its latest revision and rewrites flake.lock. Check the
+      result with `git diff flake.lock` and `task build-all`.
+
+      Usage:
+        task update
+        nix flake update nixpkgs    # one input only
     cmds:
       - nix flake update
 
   garbage-collect:
     desc: Removes unused nix/store paths.
+    summary: |
+      Deletes store paths that no profile or GC root uses (`nix-collect-garbage`). Old
+      generations are kept, see delete-generations-older-than-*.
+
+      Usage:
+        task garbage-collect
     cmds:
       - nix-collect-garbage
 
   list-generations:
     desc: List nix-os generations.
+    summary: |
+      Lists the NixOS system generations with their dates. NixOS only, needs sudo.
+
+      Usage:
+        task list-generations
     cmds:
       - sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
 
   delete-generations-older-than-*:
     desc: Delete nix-os generations older than argument.
+    summary: |
+      Deletes NixOS system generations older than the age in the task name, in any form nix-env
+      accepts (30d, 14d). Run `task garbage-collect` afterwards to free the space. Needs sudo.
+
+      Usage:
+        task delete-generations-older-than-30d
     vars:
       BEFORE: "{{index .MATCH 0}}"
     cmds:
@@ -134,6 +203,12 @@ tasks:
 
   make-boot-space:
     desc: Removes old generations garbage collects and switches to clear out boot.
+    summary: |
+      Frees /boot when it is full: deletes generations older than 30 days, garbage-collects,
+      then switches so the bootloader drops the old entries.
+
+      Usage:
+        task make-boot-space
     cmds:
       - task: delete-generations-older-than-30d
       - task: garbage-collect
@@ -141,6 +216,12 @@ tasks:
 
   format:
     desc: Format all nix and Python files.
+    summary: |
+      Formats every Nix file with nixfmt and every Python file under src/ with ruff, in place,
+      at 100 columns.
+
+      Usage:
+        task format
     cmds:
       - for: sources
         cmd: nix run --inputs-from . nixpkgs#nixfmt -- {{ .ITEM }}
@@ -151,6 +232,14 @@ tasks:
 
   lint:
     desc: Check if all files meet standards.
+    summary: |
+      Runs every style check CI runs: nixfmt-check, static-analysis (statix), shell-lint
+      (shellcheck), workflow-lint (actionlint) and python-lint (ruff). Skipped when no source
+      changed since the last pass, unless forced.
+
+      Usage:
+        task lint
+        task --force lint
     cmds:
       - task: nixfmt-check
       - task: static-analysis
@@ -166,11 +255,24 @@ tasks:
 
   shell-lint:
     desc: Check every shell script in the repo with shellcheck.
+    summary: |
+      Runs shellcheck on every *.sh file tracked by git, following sourced files (-x).
+
+      Usage:
+        task shell-lint
     cmds:
       - nix run --inputs-from . nixpkgs#shellcheck -- -x $(git ls-files '*.sh')
 
   workflow-lint:
     desc: Check the GitHub workflows with actionlint, and that every action is pinned by commit.
+    summary: |
+      Runs actionlint on .github/workflows/*.yml (workflow syntax, expressions, job and step
+      references, runner labels), then fails if any action is pinned by a tag instead of a commit
+      hash. A tag can move to different code, a commit hash cannot. Dependabot keeps the pins
+      current.
+
+      Usage:
+        task workflow-lint
     cmds:
       - nix run --inputs-from . nixpkgs#actionlint -- .github/workflows/*.yml
       # A tag can move to different code, a commit hash cannot.
@@ -184,6 +286,12 @@ tasks:
 
   nixfmt-check:
     desc: Check if all files are formatted correctly.
+    summary: |
+      Checks that every Nix file is formatted by nixfmt (100 columns) without changing it.
+      `task format` fixes what it reports.
+
+      Usage:
+        task nixfmt-check
     cmds:
       - for: sources
         cmd: nix run --inputs-from . nixpkgs#nixfmt -- -c {{ .ITEM }}
@@ -193,6 +301,11 @@ tasks:
 
   static-analysis:
     desc: Check if all files meet statix analysis.
+    summary: |
+      Runs statix on every Nix file to flag anti-patterns and suggest simpler forms.
+
+      Usage:
+        task static-analysis
     cmds:
       - for: sources
         cmd: nix run --inputs-from . nixpkgs#statix check {{ .ITEM }}
@@ -202,18 +315,36 @@ tasks:
 
   python-lint:
     desc: Check Python files with ruff's default rules and formatter.
+    summary: |
+      Runs ruff's lint rules and its format check on src/, with ruff.toml's settings (100
+      columns). `task format` fixes formatting.
+
+      Usage:
+        task python-lint
+        nix run --inputs-from . nixpkgs#ruff -- check --fix src    # apply the safe fixes
     cmds:
       - nix run --inputs-from . nixpkgs#ruff -- check src
       - nix run --inputs-from . nixpkgs#ruff -- format --check src
 
   dev-zshell:
     desc: Drop into a zsh with all dev dependencies.
+    summary: |
+      Opens zsh inside the devbox environment from devbox.json. Needs devbox installed.
+
+      Usage:
+        task dev-zshell
     cmds:
       - devbox run zsh
     interactive: true
 
   hm-news:
     desc: Read home managers news items.
+    summary: |
+      Shows home-manager's news for this machine's configuration (user and host from `whoami`
+      and `hostname`).
+
+      Usage:
+        task hm-news
     vars:
       HOST:
         sh: hostname
